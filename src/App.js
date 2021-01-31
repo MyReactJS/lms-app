@@ -8,6 +8,7 @@ import DashboardC from './components/dashboard.js';
 import DashboardE from './components/dashboardE.js';
 import CreateService from './components/createService.js';
 import UpdateService from './components/UpdateService.js';
+import DashBoardS from './components/dashboards/students/DashBoardS.js';
 import FilterCourseTable from './components/coursepage/FilterCourseTable.js';
 import Header from './components/common/Header.js';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -24,21 +25,19 @@ class App extends React.Component {
                 <nav className="site-nav">
                     <ul className="mainnav" >
                         <li ><a href="/">Home</a></li>
-                        <li  ><a href="/course"><span className="glyphicon glyphicon-book"></span> Courses</a></li>
-                        <li ><a href="/Account"><span className="glyphicon glyphicon-user"></span> Profile</a></li>
-                        <li ><a href="/support">Support</a></li>
+                        <li ><a href="/dashboard"><span className="glyphicon glyphicon-user"></span>DashBoard</a></li>
+                        <li  ><a href="/course"><span className="glyphicon glyphicon-book"></span>Courses</a></li>
+                        <li ><a href="/Account"><span className="glyphicon glyphicon-user"></span>Profile</a></li>
                         <li ><a href="/about">About</a></li>
                     </ul>
                 </nav>
                 <div className='App-body'>
                     <BrowserRouter>
                         <Route path="/" exact component={() => <Login />} />
+                        <Route path="/dashboard" exact component={() => <DashBoardS />} />
                         <Route path="/course" exact component={() => <FilterCourseTable/>} />
                         <Route path="/registration" component={Registration} />
-                        <Route path="/dashboardC" exact component={() => <DashboardC />} />
-                        <Route path="/dashboardE" exact component={() => <DashboardE />} />
-                        <Route path="/CreateService" exact component={() => <CreateService />} />
-                        <Route path="/UpdateService" exact component={() => <UpdateService />} />
+                       
                     </BrowserRouter>
                 </div>
             </div>

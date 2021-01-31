@@ -1,0 +1,37 @@
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "dob": "01/23/1990",
+  "email": "a@b.com",
+  "addresslist": [
+    {
+      "type": "primary",
+      "addressline1": "21 2nd Street",
+      "addressline2": "21 2nd Street",
+      "city": "New York",
+      "state": "NY",
+      "pincode": 10021,
+      "country": ""
+    },
+    {
+      "type": "primary",
+      "addressline1": "21 2nd Street",
+      "addressline2": "21 2nd Street",
+      "city": "New York",
+      "state": "NY",
+      "pincode": 10021,
+      "country": ""
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "type": "mobile",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "office",
+      "number": "212 555-1234"
+    }
+
+  ]
+}

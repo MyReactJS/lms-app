@@ -43,12 +43,13 @@ class CourseTable extends React.Component
             
             rows.push(<CourseRow course={course}/>);
         });
+
         var recCount = rows.length;
         //alert("row count: " + recCount);
         return (
             <div className="row">
                 <div className="container-fluid decor_bg" >
-                    <div className="panel panel-primary col-md-12">
+                    <div className="panel panel-primary">
                         <div className="container-fluid panel-heading"><h4>Search Results</h4></div>
                         <div className="panel-body">
                             <h2> {recCount} course(s) found </h2>

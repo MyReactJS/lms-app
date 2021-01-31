@@ -83,7 +83,7 @@ class CourseSearch extends React.Component {
             <div id="content">               
                     <div className="row">
                     <div className="container-fluid decor_bg" >
-                            <div className="panel panel-primary col-md-12">
+                            <div className="panel panel-primary">
                             <div className="container-fluid panel-heading"><h4>COURSES</h4></div>
                             <div className="panel-body">
 
