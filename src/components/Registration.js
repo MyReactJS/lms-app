@@ -124,7 +124,7 @@ class Registration extends React.Component {
                                  <div className="panel panel-primary">
                                      <div className="panel-heading"><h4>SIGN UP</h4></div>
                                      <div className="panel-body">
-                                         <form role="form" onSubmit={this.handleSubmit}>
+                                         <form  onSubmit={this.handleSubmit}>
 
                                              <div className="form-group">
                                                  <input type="radio" value="admin"

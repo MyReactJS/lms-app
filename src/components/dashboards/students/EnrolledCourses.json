@@ -1,0 +1,114 @@
+[
+  {
+    "sessionId": 55,
+    "courseId": 55,
+    "category": "Management",
+    "name": "Marketing Research",
+    "credits": 4,
+    "start_date": "03-01-2021",
+    "end_date": "18-03-2021",
+      "status": "In Progress"
+  },
+  {
+    "sessionId": 56,
+    "courseId": 56,
+    "category": "Management",
+    "name": "Management of Information System",
+    "credits": 1,
+    "start_date": "03-02-2020",
+    "end_date": "05-01-2021",
+    "status": "Completed"
+  },
+  {
+    "sessionId": 57,
+    "courseId": 57,
+    "category": "Management",
+    "name": "Organization Effectiveness and Change",
+    "credits": 7,
+    "start_date": "13-02-2021",
+    "end_date": "14-06-2021",
+    "status": "Not Started"
+  },
+  {
+    "sessionId": 58,
+    "courseId": 58,
+    "category": "Management",
+    "name": "Strategic Management",
+    "credits": 5,
+    "start_date": "12-12-2020",
+    "end_date": "28-01-2021",
+      "status": "Completed"
+  },
+  {
+    "sessionId": 59,
+    "courseId": 59,
+    "category": "Management",
+    "name": "International Business Environment",
+    "credits": 3,
+    "start_date": "11-01-2021",
+    "end_date": "14-03-2021",
+      "status": "In Progress"
+  },
+  {
+    "sessionId": 60,
+    "courseId": 60,
+    "category": "Technology",
+    "name": "Python basics",
+    "credits": 2,
+    "start_date": "29-03-2021",
+    "end_date": "07-05-2021",
+    "status": "Not Started"
+  },
+  {
+    "sessionId": 61,
+    "courseId": 61,
+    "category": "Technology",
+    "name": "Web Development",
+    "credits": 2,
+    "start_date": "10-05-2021",
+    "end_date": "18-07-2021",
+    "status": "Not Started"
+  },
+  {
+    "sessionId": 62,
+    "courseId": 62,
+    "category": "Technology",
+    "name": "Angular JS",
+    "credits": 6,
+    "start_date": "14-12-2020",
+    "end_date": "02-02-2021",
+    "status": "Completed"
+  },
+  {
+    "sessionId": 63,
+    "courseId": 63,
+    "category": "Technology",
+    "name": "Reactor JS",
+    "credits": 4,
+    "start_date": "06-04-2021",
+    "end_date": "31-05-2021",
+    "status": "Not Started"
+  },
+  {
+    "sessionId": 64,
+    "courseId": 64,
+    "category": "Technology",
+    "name": "Machine Learning",
+    "credits": 4,
+    "start_date": "29-12-2020",
+    "end_date": "03-03-2021",
+    "status": "In Progress"
+  },
+  {
+    "sessionId": 65,
+    "courseId": 65,
+    "category": "Technology",
+    "name": "Deep Learning",
+    "credits": 5,
+    "start_date": "19-04-2021",
+    "end_date": "08-07-2021",
+    "status": "Not Started"
+
+  }
+
+]

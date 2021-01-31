@@ -15,76 +15,40 @@ import CourseTable from './CourseTable.js';
 class CourseSearch extends React.Component {
     constructor(props) {
         super(props);
+       
+        this.credits = [1,2,3,4,5,6,7,8,9,10];
         this.coursename = '';
         this.coursecategory = '';
-        this.coursecredits = '';
-        this.startdate = '';
-        this.enddate = '';
-        this.credits = [1,2,3,4,5,6,7,8,9,10];
-        this.handleCourseNameChange = this.handleCourseNameChange.bind(this);
-        this.handleCourseCategoryChange = this.handleCourseCategoryChange.bind(this);
-        this.handleCourseCreditsChange = this.handleCourseCreditsChange.bind(this);
-        this.handleStartDateChange = this.handleStartDateChange.bind(this);
-        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+        this.credits = '';
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         
     }
     handleOnSubmit(event)
     {
-        
+        console.log("form submission");
+        console.log("coursecategory: " + this.state.coursecategory);       
+        console.log("coursecredits: " + this.state.coursecredits);        
+        console.log("startdate: " + this.state.coursestartdate);        
+        console.log("enddate: " + this.state.courseenddate);        
+        this.props.setCourseNameFilter(this.coursename);
+        this.props.setCourseCategoryFilter(this.coursecategory);
+        this.props.setCourseCreditsFilter(this.coursecredits);
+        this.props.setCourseStartDateFilter(this.coursestartdate);
+        this.props.setCourseEndDateFilter(this.state.courseenddate);        
         this.props.setRefreshResult(true);
 
-
-    }
-    handleStartDateChange(sdate)
-    {
-        this.startdate = sdate;
-        this.props.setCourseStartDateFilter(this.startdate); 
     }
 
-    handleEndDateChange(sdate) 
-    {
-        this.enddate = sdate; 
-        this.props.setCourseEndDateFilter(this.enddate);
-    }
-     handleCourseNameChange (event) 
-    {
-
-         this.coursename = event.target.value;
-
-         this.props.setCourseNameFilter(this.coursename);
-
-    }
-    handleCourseCategoryChange(event)
-    {
-        this.coursecategory = event.target.value;
-
-        this.props.setCourseCategoryFilter(this.coursecategory);
-
-    }
-    handleCourseCreditsChange(event)
-    {
-        this.coursecredits = event.target.value;
-        this.props.setCreditFilter(this.coursecredits);
-    }
-    
-    
-
-
-
-    
     render() {
         const categorynames = [];
         categories.map((category) => categorynames.push(category.name));
             
-     
-       
         return (
             <div id="content">               
                     <div className="row">
                     <div className="container-fluid decor_bg" >
                             <div className="panel panel-primary col-md-12">
-                            <div className="container-fluid panel-heading"><h4>COURSES</h4></div>
+                            <div className="container-fluid panel-heading"><h4>Course Search</h4></div>
                             <div className="panel-body">
 
 
@@ -97,7 +61,7 @@ class CourseSearch extends React.Component {
                                             <Form.Label htmlFor="coursename">Course Name:</Form.Label>
                                             
                                             <Form.Control  type="text" id="coursename" name="coursename"
-                                                    placeholder="React JS" onBlur={this.handleCourseNameChange} />
+                                                    placeholder="React JS" />
                                                 
                                             </Form.Group>
 
@@ -107,7 +71,7 @@ class CourseSearch extends React.Component {
 
                                             <Form.Label  htmlFor="coursecategory">Course Category: </Form.Label>
                                             
-                                            <Form.Control id="coursecategory" name="coursecategory" as="select" onChange={this.handleCourseCategoryChange}>
+                                            <Form.Control id="coursecategory" name="coursecategory" as="select" >
                                                 <option></option>
                                                 {categorynames.map((category) =>
                                                     <option>{category}</option>
@@ -120,7 +84,7 @@ class CourseSearch extends React.Component {
 
                                             <Form.Label  htmlFor="coursecredits">Course Credits: </Form.Label>
                                             
-                                            <Form.Control id="coursecredits" name="coursecredits" onChange={this.handleCourseCreditsChange} as="select">
+                                            <Form.Control id="coursecredits" name="coursecredits"  as="select">
                                                 <option></option>
                                                 {this.credits.map((credit) =>
                                                     <option>{credit}</option>
@@ -133,15 +97,21 @@ class CourseSearch extends React.Component {
                                     <Form.Row>
                                         <Col xs="auto">
                                             <Form.Label htmlFor="coursestartdate">Course StartDate:</Form.Label>
-                                            <DatePicker selected={this.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker  name="coursestartdate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                         <Col xs="auto">
                                             <Form.Label htmlFor="courseenddate">Course EndDate:</Form.Label>
-                                            <DatePicker selected={this.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker value={new Date()} name="courseenddate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                        
                                     </Form.Row>
-                                   
+                                    <Form.Row>
+                                        <Col>
+                                            <Button onClick={this.handleOnSubmit} variant="primary" className="col-md-6" type="submit">Search</Button>
+                                        </Col>
+                                        <Col>
+                                            <Button variant="secondary" className=" col-md-6" type="cacel">Cancel</Button>
+                                        </Col></Form.Row>
                                 </Form>
 
                                    
