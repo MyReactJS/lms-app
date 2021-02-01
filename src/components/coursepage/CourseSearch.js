@@ -18,8 +18,9 @@ class CourseSearch extends React.Component {
         this.coursename = '';
         this.coursecategory = '';
         this.coursecredits = '';
-        this.startdate = '';
-        this.enddate = '';
+        this.state = {
+            startdate : '',enddate : ''
+        };
         this.credits = [1,2,3,4,5,6,7,8,9,10];
         this.handleCourseNameChange = this.handleCourseNameChange.bind(this);
         this.handleCourseCategoryChange = this.handleCourseCategoryChange.bind(this);
@@ -32,9 +33,13 @@ class CourseSearch extends React.Component {
     handleOnSubmit(event)
     {
         
+        //alert('form submission click');
         this.props.setCourseNameFilter(this.coursename);
         this.props.setCourseCategoryFilter(this.coursecategory);
         this.props.setCreditFilter(this.coursecredits);
+        this.props.setCourseStartDateFilter(this.state.startdate); 
+        this.props.setCourseEndDateFilter(this.state.enddate);
+        //alert('form submission end');
 
         event.preventDefault();
         event.stopPropagation();
@@ -42,21 +47,20 @@ class CourseSearch extends React.Component {
     }
     handleStartDateChange(sdate)
     {
-        this.startdate = sdate;
-        this.props.setCourseStartDateFilter(this.startdate); 
+        this.setState({ startdate: sdate });
+        
     }
 
     handleEndDateChange(sdate) 
     {
-        this.enddate = sdate; 
-        this.props.setCourseEndDateFilter(this.enddate);
+        this.setState({ enddate: sdate });
+        
        
     }
      handleCourseNameChange (event) 
     {
 
          this.coursename = event.target.value;
-
          event.preventDefault();
 
     }
@@ -139,11 +143,11 @@ class CourseSearch extends React.Component {
                                     <Form.Row>
                                         <Col xs="auto">
                                             <Form.Label htmlFor="coursestartdate">Course StartDate:</Form.Label>
-                                            <DatePicker selected={this.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                         <Col xs="auto">
                                             <Form.Label htmlFor="courseenddate">Course EndDate:</Form.Label>
-                                            <DatePicker selected={this.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                        
                                     </Form.Row>

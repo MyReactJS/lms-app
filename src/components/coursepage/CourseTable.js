@@ -14,8 +14,9 @@ class CourseTable extends React.Component
         var courseNameFilter = this.props.courseNameFilter;
         var courseCategoryFilter = this.props.courseCategoryFilter;
         var courseCreditsFilter = this.props.courseCreditsFilter;
-        var courseStartDateFilter = this.props.courseStartDateFilter=='' ? '' :new Date(this.props.courseStartDateFilter);
-        var courseEndDateFilter = this.props.courseEndDateFilter==''?'':new Date(this.props.courseEndDateFilter);
+        var courseStartDateFilter = this.props.courseStartDateFilter=='' ? '' :this.props.courseStartDateFilter;
+        var courseEndDateFilter = this.props.courseEndDateFilter == '' ? '' : this.props.courseEndDateFilter;
+       
         console.log("courseNameFilter: " + courseNameFilter);
         console.log("courseCategoryFilter: " + courseCategoryFilter);
         console.log("courseCreditsFilter: " + courseCreditsFilter);
@@ -24,10 +25,12 @@ class CourseTable extends React.Component
         
         courses.forEach((course) =>
         {
-            if (courseStartDateFilter == ''  && courseEndDateFilter == '') {
+            let coursestartdate = new Date(course.start_date);
+            let courseenddate = new Date(course.end_date);
+            if (courseStartDateFilter == '' && courseEndDateFilter == '') {
 
-                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+               // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+               // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
                     return;
                 if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
@@ -42,7 +45,7 @@ class CourseTable extends React.Component
                 console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (courseStartDateFilter !== '' && courseEndDateFilter !== ''
-                    && course.start_date >= courseStartDateFilter && course.end_date >= courseEndDateFilter)
+                    && coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow course={course} />);
             }
            
