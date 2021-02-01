@@ -4,48 +4,54 @@ import CourseRow from './CourseRow.js';
 import courses from './courses.json';
 class CourseTable extends React.Component
 {
-    constructor(props)
-    {
-        super(props);
-       
-    }
+
 
 
     render() {
-        const rows = [];
-        //this.setState({ "courseNameFilter": this.props.courseNameFilter });
-        //this.setState({ "courseCategoryFilter": this.props.courseCategoryFilter });
-        //this.setState({ "courseCreditsFilter": this.props.courseCreditsFilter });
-        //this.setState({ "courseStartDateFilter": this.props.courseStartDateFilter });
-        //this.setState({ "courseEndDateFilter": this.props.courseEndDateFilter });
+        var rows = [];
+   
        
         var courseNameFilter = this.props.courseNameFilter;
         var courseCategoryFilter = this.props.courseCategoryFilter;
         var courseCreditsFilter = this.props.courseCreditsFilter;
-        var courseStartDateFilter = this.props.courseStartDateFilter;
-        var courseEndDateFilter = this.props.courseEndDateFilter;
+        var courseStartDateFilter = this.props.courseStartDateFilter=='' ? '' :new Date(this.props.courseStartDateFilter);
+        var courseEndDateFilter = this.props.courseEndDateFilter==''?'':new Date(this.props.courseEndDateFilter);
         console.log("courseNameFilter: " + courseNameFilter);
         console.log("courseCategoryFilter: " + courseCategoryFilter);
         console.log("courseCreditsFilter: " + courseCreditsFilter);
         console.log("courseStartDateFilter: " + courseStartDateFilter);
         console.log("courseEndDateFilter: " + courseEndDateFilter);
-        //alert(courseCreditsFilter);
+        
         courses.forEach((course) =>
         {
+            if (courseStartDateFilter == ''  && courseEndDateFilter == '') {
+
+                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
+                    return;
+                if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
+                    return;
+
+                if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
+                    return;
+                rows.push(<CourseRow course={course} />);
+            }
+            else
+            {
+                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                if (courseStartDateFilter !== '' && courseEndDateFilter !== ''
+                    && course.start_date >= courseStartDateFilter && course.end_date >= courseEndDateFilter)
+                    rows.push(<CourseRow course={course} />);
+            }
+           
+             
             
-            if (course.name.indexOf(courseNameFilter) === -1) //if name filter applied
-               return;
-            if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
-                return;
-            
-            if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
-                return;
-            
-            rows.push(<CourseRow course={course}/>);
         });
 
         var recCount = rows.length;
-        //alert("row count: " + recCount);
+        
         return (
             <div className="row">
                 <div className="container-fluid decor_bg" >
@@ -60,7 +66,8 @@ class CourseTable extends React.Component
                                         <th scope="col">Course Id</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">StartDate</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">End Date</th>
                                         <th scope="col">Duration</th>
                                         <th scope="col">Credits</th>
                                         <th scope="col">Remaining Seats</th>

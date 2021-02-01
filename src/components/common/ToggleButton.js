@@ -35,6 +35,7 @@ class ToggleButton extends React.Component {
             isToggleOn: !state.isToggleOn
 
         }));
+        event.stopPropagation();
         event.preventDefault();
     }
     

@@ -32,8 +32,12 @@ class CourseSearch extends React.Component {
     handleOnSubmit(event)
     {
         
-        this.props.setRefreshResult(true);
+        this.props.setCourseNameFilter(this.coursename);
+        this.props.setCourseCategoryFilter(this.coursecategory);
+        this.props.setCreditFilter(this.coursecredits);
 
+        event.preventDefault();
+        event.stopPropagation();
 
     }
     handleStartDateChange(sdate)
@@ -46,26 +50,28 @@ class CourseSearch extends React.Component {
     {
         this.enddate = sdate; 
         this.props.setCourseEndDateFilter(this.enddate);
+       
     }
      handleCourseNameChange (event) 
     {
 
          this.coursename = event.target.value;
 
-         this.props.setCourseNameFilter(this.coursename);
+         event.preventDefault();
 
     }
     handleCourseCategoryChange(event)
     {
         this.coursecategory = event.target.value;
 
-        this.props.setCourseCategoryFilter(this.coursecategory);
+        
+        event.preventDefault();
 
     }
     handleCourseCreditsChange(event)
     {
         this.coursecredits = event.target.value;
-        this.props.setCreditFilter(this.coursecredits);
+        event.preventDefault();
     }
     
     
@@ -141,7 +147,13 @@ class CourseSearch extends React.Component {
                                         </Col>
                                        
                                     </Form.Row>
-                                   
+                                    <Form.Row>
+                                        <Col>
+                                            <Button onClick={this.handleOnSubmit} variant="primary" className="col-md-6" type="submit">Search</Button>
+                                        </Col>
+                                        <Col>
+                                            <Button variant="secondary" className=" col-md-6" type="cacel">Cancel</Button>
+                                        </Col></Form.Row>
                                 </Form>
 
                                    

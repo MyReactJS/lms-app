@@ -7,13 +7,13 @@ import CourseTable from './CourseTable.js';
 class FilterCourseTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { category: '', credits: '', name: '', startdate: '', enddate: '', refreshResult:true}
+        this.state = { category: '', credits: '', name: '', startdate: '', enddate: ''}
         this.setCreditFilter = this.setCreditFilter.bind(this);
         this.setCourseNameFilter = this.setCourseNameFilter.bind(this);
         this.setCourseCategoryFilter = this.setCourseCategoryFilter.bind(this);
         this.setStartDateRangeFilter = this.setStartDateRangeFilter.bind(this);
         this.setEndDateRangeFilter = this.setEndDateRangeFilter.bind(this);
-        this.setRefreshResult = this.setRefreshResult.bind(this);
+       
     }
   
     setCreditFilter(value)
@@ -22,14 +22,7 @@ class FilterCourseTable extends React.Component {
         this.setState({ credits: value });
        
     }
-    setRefreshResult(value)
-    {
-       
-        this.setState({ refreshResult: value });
-        
-        console.log("refreshResult in filtertable: " + value);
 
-    }
     setCourseNameFilter(value) {
         this.setState({ name: value });
         //alert("name: " + value);
@@ -55,10 +48,10 @@ class FilterCourseTable extends React.Component {
 
                     <CourseSearch setCourseNameFilter={this.setCourseNameFilter} setCourseCategoryFilter={this.setCourseCategoryFilter}
                         setCreditFilter={this.setCreditFilter} setCourseStartDateFilter={this.setStartDateRangeFilter}
-                        setCourseEndDateFilter={this.setEndDateRangeFilter} refreshResult={this.state.refreshResult} setRefreshResult={this.setRefreshResult} />
+                        setCourseEndDateFilter={this.setEndDateRangeFilter} />
                     <CourseTable courseNameFilter={this.state.name} courseCategoryFilter={this.state.category}
                         courseCreditsFilter={this.state.credits} courseStartDateFilter={this.state.startdate}
-                        courseEndDateFilter={this.state.enddate} courses={this.props.courses} refreshResult={this.state.refreshResult} setRefreshResult={this.setRefreshResult} />;
+                        courseEndDateFilter={this.state.enddate} courses={this.props.courses} />;
                 </div>
             );
         
