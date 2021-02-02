@@ -8,7 +8,7 @@ import Registration from "./components/Registration";
 
 import DashBoardS from './components/dashboards/students/DashBoardS.js';
 import FilterCourseTable from './components/coursepage/FilterCourseTable.js';
-
+import CourseEnrollConfirmModel from './components/coursepage/CourseEnrollConfirmModel.js';
 //import Header from './components/common/Header.js';
 import 'bootstrap/dist/css/bootstrap.css';
 class App extends React.Component {
@@ -32,11 +32,9 @@ class App extends React.Component {
                     <ul className="mainnav" >
                         <li ><a href="/">Home</a></li>
                         <li ><a href="/dashboard">DashBoard</a></li>
-                     
-                       
                         <li ><a href="/course">Courses</a></li>
-                        <li ><a href="/About Us">About Us</a></li>
-                        <li ><a href="/About Us">Log Out</a></li>
+                        <li ><a href="/aboutus">About Us</a></li>
+                        <li ><a href="/logout">Log Out</a></li>
                     </ul>
                 </nav>
                 <div className='App-body'>
@@ -46,7 +44,7 @@ class App extends React.Component {
                             <Route path="/dashboard" exact component={() => <DashBoardS />} />
                             <Route path="/course" exact component={() => <FilterCourseTable />} />
                             <Route path="/registration" exact component={() => <Registration setUserAuthenticationStatus={this.setUserAuthenticationStatus}/>} />                           
-                                </switch>
+                        </switch>
                     </BrowserRouter>
                 </div>
             </div>

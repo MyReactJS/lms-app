@@ -18,6 +18,9 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-    .form-row.col.child, .col.child {
+    .form-row.col.child {
         align-self: center;
     }
+.col.child {
+    align-self: center;
+}

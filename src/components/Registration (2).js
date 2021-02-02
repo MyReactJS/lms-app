@@ -97,7 +97,7 @@ class Registration extends React.Component {
         setUserSession(1, this.state.name, this.state.role, addr, this.state.email, this.state.phone);
         this.props.setUserAuthenticationStatus(true);
        // alert("After Registration:" + );
-        this.props.history.push('/appUser');        
+        this.props.history.push('/dashboardS');        
         e.preventDefault();
         e.stopPropagation();
 

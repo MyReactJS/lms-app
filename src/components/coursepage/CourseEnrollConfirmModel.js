@@ -1,38 +1,44 @@
 
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import Modal from 'react-bootstrap/Modal';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalDialog from 'react-bootstrap/ModalDialog';
+import Button from 'react-bootstrap/Button';
 class CourseEnrollConfirmModel extends React.Component {
     constructor(props)
     {
         super(props)
-        this.handleClick = this.handleClick.bind(handleClick);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
     handleClick(event)
     {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    handleClose(event) {
 
     }
     render() {
         return (
-            <div className="modal" tabindex="-1" role="dialog">
-                <div className="modal-dialog" role="document">
-                    <div claclassNamess="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <p>Confirm Your Enrollment on {this.props.coursename}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" onClick={this.handleClick}  className="btn btn-primary">Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal.Dialog>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal title</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <p>Modal body text goes here.</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary">Close</Button>
+                    <Button variant="primary">Save changes</Button>
+                </Modal.Footer>
+            </Modal.Dialog>
         );
     }
 }

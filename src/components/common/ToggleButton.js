@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 //ReactDOM.render(<ToggleButton />, document.getElementById('root'));
 //
 //
+import CourseEnrollConfirmModel from './../coursepage/CourseEnrollConfirmModel.js';
 class ToggleButton extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +36,9 @@ class ToggleButton extends React.Component {
             isToggleOn: !state.isToggleOn
 
         }));
+        
+
+        
         event.stopPropagation();
         event.preventDefault();
     }
@@ -47,14 +51,16 @@ class ToggleButton extends React.Component {
                 Enroll</button>;
         }
         else {
-            button = <button type="button"  onClick={this.handleClick} className="btn btn-primary btn-block" disabled={this.props.disabled}>
+            button = <button type="button" onClick={this.handleClick} className="btn btn-primary btn-block" disabled={this.props.disabled}>
                 {this.state.isToggleOn ? this.state.ToggleOnLabel : this.state.ToggleOffLabel}</button>;
 
-         }
+        }
 
         return (
-            //<button type="button" href="#" className="btn btn-link">Enroll</button>
-            button
+            
+              
+                    button
+            
         );
     }
 }
