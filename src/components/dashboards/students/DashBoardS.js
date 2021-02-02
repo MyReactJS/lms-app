@@ -23,4 +23,7 @@ class DashBoardS extends React.Component {
         );
     }
 }
-export default DashBoardS;
+
+
+
+export default  DashBoardS;

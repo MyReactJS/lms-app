@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import CourseSearch from './CourseSearch.js';
 import CourseTable from './CourseTable.js';
 
-
+import { withRouter } from "react-router-dom";
 class FilterCourseTable extends React.Component {
     constructor(props) {
         super(props);
@@ -57,4 +57,4 @@ class FilterCourseTable extends React.Component {
         
     }
 }
-export default FilterCourseTable;
+export default withRouter(FilterCourseTable);

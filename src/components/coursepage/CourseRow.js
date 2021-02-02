@@ -1,8 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import ToggleButton from '../common/ToggleButton.js';
-import CourseDetailsPage from './CourseDetailsPage.js';
+//import CourseDetailsPage from './CourseDetailsPage.js';
 import Button from 'react-bootstrap/Button'
+import './CourseRow.css';
 class CourseRow extends React.Component {
 
     constructor(props) {
@@ -11,12 +12,15 @@ class CourseRow extends React.Component {
             remainingseats: this.props.course.rem_seats
         };
 
-
+        this.onCouseLinkClick = this.onCouseLinkClick.bind(this);
         this.setRemainingSeats = this.setRemainingSeats.bind(this);
     }
     setRemainingSeats(rem_seats) {
 
         this.setState({ remainingseats: rem_seats });
+    }
+    onCouseLinkClick(value) {
+        this.props.history.push('/coursedetailspage');
     }
     render() {
         const course = this.props.course;
@@ -28,12 +32,12 @@ class CourseRow extends React.Component {
         if (course.rem_seats == 0 || (courseEndDate < todayDate))
             disabled = true;
         return (
-            <tr className="table-light" disabled={course.rem_seats === 0 ? true : false}>
-                <td >{course.sessionId}</td>
+            <tr id={this.props.id} className="table-light" disabled={course.rem_seats === 0 ? true : false}>
+               
                 <td >{course.courseId}</td>
                 <td >{course.category}</td>
                 <td>
-                    <Button href="#" variant="link" disabled={disabled}>{course.name}</Button> </td>
+                    <Button size="lg"  block onClick={this.onCouseLinkClick} variant="link">{course.name}</Button> </td>
                 <td>{course.start_date}</td>
                 <td>{course.end_date}</td>
                 <td>{course.duration}</td>

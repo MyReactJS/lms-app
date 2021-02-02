@@ -6,7 +6,7 @@ class CourseDetailsPage extends React.Component
     render() {
         return
         (
-            <h2>{this.props.coursename} </h2>
+            <div> </div>
             );
     }
 }

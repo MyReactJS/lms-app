@@ -1,0 +1,23 @@
+.form-control {
+    font-size: 1.5rem;
+}
+.col-form-label-lg,.form-row.col.form-label{
+    font-size: 1.25rem;
+}
+.form-row.col {
+    margin-right: 20px;
+}
+.form-control-lg {
+    font-size: 1.5rem;
+}
+
+.btn {
+    font-size: 1.5rem;
+}
+.form-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+    .form-row.col.child, .col.child {
+        align-self: center;
+    }

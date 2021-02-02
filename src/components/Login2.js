@@ -4,7 +4,7 @@ import { setUserSession } from './Common';
 import './Login.css';
 import { FormErrors } from './FormErrors';
 import axios from 'axios';
-import { setUserAuthenticationStatus } from './Common';
+//import { setUserAuthenticationStatus } from './Common';
 
 import { getUserAuthenticationStatus } from "./Common.js";
 
@@ -82,48 +82,13 @@ class Login extends React.Component {
             "role": this.state.UserType
         }
 
-        axios.post(apiBaseUrl + 'login', payload)
-            .then(function (response) {
-
-                self.setState({ users: response.data });
-                setUserSession(response.data[0].id, response.data[0].name, response.data[0].type, response.data[0].address,
-                    response.data[0].email, response.data[0].phonenum);
-                
-                if (response.status === 200) {
-                    console.log("Login successfull");
-
-                    if (payload.role === "student") {
-                        self.props.history.push('/dashboardS');
-                    }
-                    else if (payload.role === "faculty") {
-                            self.props.history.push('/dashboardF');
-                        }
-                        else if (payload.role === "admin") {
-                                self.props.history.push('/dashboardA');
-                            }
-                            else if (payload.role === "parent") {
-                                    self.props.history.push('/dashboardP');
-                                }
-
-                }
-                else if (response.data.code === 204) {
-                    console.log("emailid and pwd  do not match");
-                    alert("emailid and pwd  do not match")
-                }
-                else {
-                    console.log("User does not exists");
-                    alert("User does not exist");
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        setUserAuthenticationStatus(true);
+        this.props.setUserAuthenticationStatus(true);
         setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
             payload.email, "1234567890");
-        alert("After Login:" + getUserAuthenticationStatus());
+        //alert("After Login:" + getUserAuthenticationStatus());
         this.props.history.push('/dashboard');  
         e.preventDefault();
+        e.stopPropagation();
 
     }
 
@@ -134,11 +99,7 @@ class Login extends React.Component {
                     <form className="demoForm" onSubmit={this.handleSubmit}>
                         <div >
 
-                            <input type="radio" value="admin"
-                                checked={this.state.UserType === "admin"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Admin">Admin</label>
-
+                            
                             <input type="radio" value="faculty" checked={this.state.UserType === "faculty"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Faculty">Faculty</label>
@@ -150,10 +111,6 @@ class Login extends React.Component {
 
 
 
-                            <input type="radio" value="parent"
-                                checked={this.state.UserType === "parent"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Parent">Parent</label>
                         </div>
 
 
@@ -174,6 +131,7 @@ class Login extends React.Component {
                        
                         <input type='submit' value='Login' disabled={!this.state.formValid} />
 
+                        <a className="newRegistration-link" onClick={this.handleClick}>New User? Register Now</a>
 
                         <div className='error-message' >
                             <FormErrors formErrors={this.state.formErrors} />
@@ -182,14 +140,7 @@ class Login extends React.Component {
                     </form>
                 </div>
 
-                <div className="register-menu">
-                    <form className="demoForm" onSubmit={this.handleClick}>
-                        <label htmlFor="Registration">New User? Register Now</label>
-                        <br />
-                        <input type='submit' value='Register' />
-                    </form>
-                </div>
-
+              
 
             </div>
         )

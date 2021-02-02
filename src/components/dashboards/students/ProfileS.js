@@ -4,16 +4,26 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import { getUser } from './../../Common.js';
+import './ProfileS.css';
 class ProfileS extends React.Component
 {
    
 
     render() {
-        const fname = profile.firstName;
-        const lname = profile.lastName;
+        //const fname = profile.firstName;
+        //const lname = profile.lastName;
+        //const email = profile.email;
+        //const name = fname + ' ' + lname;
+        //const phonenum = profile.phoneNumbers[0].number;
+        const profile = getUser();
+        //const fname = profile.firstName;
+        //const lname = profile.lastName;
         const email = profile.email;
-        const name = fname + ' ' + lname;
-        const phonenum = profile.phoneNumbers[0].number;
+        const name = profile.name;
+        const phonenum = profile.phonenum;
+
+
         return (
             <div className="row">
                 <div className="container-fluid decor_bg" >
@@ -27,7 +37,7 @@ class ProfileS extends React.Component
                                             <Form.Group as={Row} controlId="name">
                                             <Form.Label column="lg">Student Name</Form.Label>
                                             <Col>
-                                                <Form.Control className="border-0" type="text" value={name} disabled placeholder="firstname" />
+                                                <Form.Control className="border-0" font-size="xx-large" type="text" value={name} disabled />
                                             </Col>
                                              </Form.Group>
                                         </Col>
@@ -76,4 +86,6 @@ class ProfileS extends React.Component
             );
      }
 }
-export default ProfileS;
+
+
+export default  ProfileS;

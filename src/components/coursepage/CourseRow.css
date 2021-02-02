@@ -1,0 +1,9 @@
+td, th {
+    font-size: small;
+    font-weight: bold;
+}
+
+    td > button {
+        font-size: small;
+        font-weight: bold;
+    }

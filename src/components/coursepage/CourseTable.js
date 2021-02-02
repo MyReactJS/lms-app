@@ -46,7 +46,7 @@ class CourseTable extends React.Component
                 console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (courseStartDateFilter !== '' && courseEndDateFilter !== ''
                     && coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow course={course} />);
+                    rows.push(<CourseRow id={course.sessionId} course={course} />);
             }
            
              
@@ -64,14 +64,14 @@ class CourseTable extends React.Component
                             <h2> {recCount} course(s) found </h2>
                             <table className="table table-bordered table-hover">
                                 <thead >
-                                    <tr className="bg-primary">
-                                        <th scope="col">Session Id</th>
+                                    <tr id='courserow' className="bg-primary">
+                                       
                                         <th scope="col">Course Id</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Start Date</th>
                                         <th scope="col">End Date</th>
-                                        <th scope="col">Duration</th>
+                                        <th scope="col">Duration (days)</th>
                                         <th scope="col">Credits</th>
                                         <th scope="col">Remaining Seats</th>
                                         <th scope="col">Enroll/Cancel</th>

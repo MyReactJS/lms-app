@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, BrowserRouter } from "react-router-dom";
-import './App.css';
+import './AppGuest.css';
 import Login from './components/Login.js';
 import Registration from "./components/Registration";
-
+import AppUser from "./AppUser.js";
 //import { getUserAuthenticationStatus } from "./components/Common.js";
 
 import DashBoardS from './components/dashboards/students/DashBoardS.js';
@@ -28,25 +28,15 @@ class App extends React.Component {
         return (
             <div className="container">
                 <h1 className='App-header title'>Learning Management System </h1>                
-                <nav className="site-nav">
-                    <ul className="mainnav" >
-                        <li ><a href="/">Home</a></li>
-                        <li ><a href="/dashboard">DashBoard</a></li>
-                     
-                       
-                        <li ><a href="/course">Courses</a></li>
-                        <li ><a href="/About Us">About Us</a></li>
-                        <li ><a href="/About Us">Log Out</a></li>
-                    </ul>
-                </nav>
+                
                 <div className='App-body'>
                     <BrowserRouter>
                         <switch>
                             <Route path="/" exact component={() => <Login setUserAuthenticationStatus={this.setUserAuthenticationStatus}/>} />                    
-                            <Route path="/dashboard" exact component={() => <DashBoardS />} />
-                            <Route path="/course" exact component={() => <FilterCourseTable />} />
                             <Route path="/registration" exact component={() => <Registration setUserAuthenticationStatus={this.setUserAuthenticationStatus}/>} />                           
-                                </switch>
+                            <Route path="/appUser" exact component={() => <AppUser />} />
+
+                        </switch>
                     </BrowserRouter>
                 </div>
             </div>
