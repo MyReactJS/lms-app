@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import ToggleButton from '../common/ToggleButton.js';
+import Modal from 'react-bootstrap/Modal'
 //import CourseDetailsPage from './CourseDetailsPage.js';
 import Button from 'react-bootstrap/Button'
 import './CourseRow.css';
@@ -12,7 +14,7 @@ class CourseRow extends React.Component {
             remainingseats: this.props.course.rem_seats
         };
 
-        this.onCouseLinkClick = this.onCouseLinkClick.bind(this);
+        this.onCourseLinkClick = this.onCourseLinkClick.bind(this);
         this.setRemainingSeats = this.setRemainingSeats.bind(this);
     }
     setRemainingSeats(rem_seats) {
@@ -20,9 +22,11 @@ class CourseRow extends React.Component {
         this.setState({ remainingseats: rem_seats });
         
     }
-    onCouseLinkClick(value) {
-        this.props.history.push('/coursedetailspage');
+    onCourseLinkClick() {
+        alert(this.props.course.name);
+        //this.props.history.push('/coursedetails');
     }
+
     render() {
         const course = this.props.course;
         var todayDate = new Date();
@@ -33,7 +37,7 @@ class CourseRow extends React.Component {
 
         let toggleOnLabel = "Enroll";
         let toggleOffLabel = "UnEnroll";
-        console.log(courseEndDate < todayDate);
+        //console.log(courseEndDate < todayDate);
         
         if (this.props.disabled==true)
         {
@@ -44,14 +48,18 @@ class CourseRow extends React.Component {
       
         else if (course.rem_seats == 0 || ( courseStartDate <todayDate))
             disabled = true;
-        console.log("toggleOnLabel:" + toggleOnLabel);
+        //console.log("toggleOnLabel:" + toggleOnLabel);
         return (
             <tr id={this.props.id} className="table-light" disabled={course.rem_seats === 0 ? true : false}>
                 <td >{course.courseId}</td>
                 <td >{course.sessionId}</td>
                 <td >{course.category}</td>
                 <td>
-                    <Button size="lg"  block onClick={this.onCouseLinkClick} variant="link">{course.name}</Button> </td>
+
+                    <Button size="lg" onClick={this.onCourseLinkClick}
+                        block variant = "link" > { course.name }</Button>
+                  
+                </td>
                 <td>{course.start_date}</td>
                 <td>{course.end_date}</td>
                 <td>{course.duration}</td>
@@ -63,6 +71,43 @@ class CourseRow extends React.Component {
             </tr>
         )
     }
+}
+function Example() {
+    const [smShow, setSmShow] = useState(false);
+    const [lgShow, setLgShow] = useState(false);
+
+    return (
+        <>
+            <Button onClick={() => setSmShow(true)}>Small modal</Button>{' '}
+            <Button onClick={() => setLgShow(true)}>Large modal</Button>
+            <Modal
+                size="sm"
+                show={smShow}
+                onHide={() => setSmShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        Small Modal
+          </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>...</Modal.Body>
+            </Modal>
+            <Modal
+                size="lg"
+                show={lgShow}
+                onHide={() => setLgShow(false)}
+                aria-labelledby="example-modal-sizes-title-lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-lg">
+                        Large Modal
+          </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>...</Modal.Body>
+            </Modal>
+        </>
+    );
 }
 
 export default CourseRow;

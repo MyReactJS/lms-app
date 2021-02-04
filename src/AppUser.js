@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, BrowserRouter } from "react-router-dom";
-
+import CourseDetailsPage from './components/coursepage/CourseDetailsPage.js';
 import AppGuest from './AppGuest.js';
 import './AppUser.css';
 //import { getUserAuthenticationStatus } from "./components/Common.js";
@@ -39,7 +39,7 @@ class AppUser extends React.Component {
                             <Route path="/dashboard" exact component={() => <DashBoardS />} />
                             <Route path="/course" exact component={() => <FilterCourseTable />} />
                             <Route path="/logout" exact component={() => <AppGuest />}/>
-                        
+                            <Route path="/coursedetails" exact component={() => <CourseDetailsPage />} />
                         </switch>
                     </BrowserRouter>
                 </div>
