@@ -10,7 +10,7 @@ const DashboardLayout = ({ children, ...rest }) => {
                 <nav className="site-nav">
                     <ul className="mainnav" >
 
-                        <li ><a href="/dashboard">DashBoard</a></li>
+                        <li ><a href="/dashboardS">DashBoard</a></li>
                         <li ><a href="/course">Courses</a></li>
                         <li ><a href="/aboutus">About Us</a></li>
                         <li ><a href="/logout">Log Out</a></li>

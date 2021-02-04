@@ -26,7 +26,7 @@ class AppUser extends React.Component {
                 <nav className="site-nav">
                     <ul className="mainnav" >
                         
-                        <li ><a href="/dashboard">DashBoard</a></li>
+                        <li ><a href="/dashboardS">DashBoard</a></li>
                         <li ><a href="/course">Courses</a></li>
                         <li ><a href="/aboutus">About Us</a></li>
                         <li ><a href="/logout">Log Out</a></li>
@@ -36,7 +36,7 @@ class AppUser extends React.Component {
                     <BrowserRouter>
                         <switch>
                             <Route path="/" exact component={() => <DashBoardS />} />
-                            <Route path="/dashboard" exact component={() => <DashBoardS />} />
+                            <Route path="/dashboardS" exact component={() => <DashBoardS />} />
                             <Route path="/course" exact component={() => <FilterCourseTable />} />
                             <Route path="/logout" exact component={() => <AppGuest />}/>
                             <Route path="/coursedetails" exact component={() => <CourseDetailsPage />} />

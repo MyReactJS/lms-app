@@ -88,7 +88,12 @@ class Login extends React.Component {
             setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
                 payload.email, "1234567890");
             alert("After Login:" + getUserAuthenticationStatus());
-            this.props.history.push('/dashboard');
+            alert(this.state.UserType);
+            if (this.state.UserType=='student')
+                this.props.history.push('/dashboardS');
+            else
+                this.props.history.push('/dashboardF');
+
         }
         e.preventDefault();
 

@@ -1,0 +1,16 @@
+td, th {
+    font-size: small;
+    font-weight: bold;
+}
+
+ td > button {
+        font-size: small;
+        font-weight: bold;
+    }
+
+h2.noCourse 
+{
+    color: #ff0000; 
+
+    text-align: center;
+}

@@ -9,7 +9,7 @@ import Registration from "./components/Registration";
 import { Redirect } from 'react-router-dom';
 import Contact from './components/common/Contact.js';
 //import { getUserAuthenticationStatus } from "./components/Common.js";
-
+import DashBoardF from './components/dashboards/faculty/DashBoardF.js';
 import DashBoardS from './components/dashboards/students/DashBoardS.js';
 import FilterCourseTable from './components/coursepage/FilterCourseTable.js';
 class AppMain extends React.Component {
@@ -27,7 +27,8 @@ class AppMain extends React.Component {
                     </Route>
                     <LoginLayoutRoute path="/login" component={Login} />
                     <LoginLayoutRoute path="/registration" component={Registration} />
-                    <DashboardRoute path="/dashboard" component={DashBoardS} />
+                    <DashboardRoute path="/dashboardF" component={DashBoardF} />
+                    <DashboardRoute path="/dashboardS" component={DashBoardS} />
                     <DashboardRoute path="/course" component={FilterCourseTable} />
                     <LoginLayoutRoute path="/logout" component={Login} />
                     <DashboardRoute path="/aboutus" component={Contact} />
