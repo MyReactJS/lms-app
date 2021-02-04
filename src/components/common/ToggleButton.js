@@ -7,45 +7,48 @@ import CourseEnrollConfirmModel from './../coursepage/CourseEnrollConfirmModel.j
 class ToggleButton extends React.Component {
     constructor(props) {
         super(props);
+        console.log("inside toggleOnLabel:" + this.props.toggleOnLabel);
         this.state = {
             isToggleOn: true,
+           
             ToggleOnLabel: this.props.toggleOnLabel,
-            ToggleOffLabel: this.props.toggleOffLabel,
-            remainingseats: this.props.remainingseats
+            ToggleOffLabel: this.props.toggleOffLabel
         };
-       
+      
+
         this.handleClick = this.handleClick.bind(this);
       
     }
+  
     handleClick(event) {
-        
+        console.log("before:" + this.props.remainingseats);
         //alert(event.target.value);
-        if (this.state.isToggleOn ) {
-            this.setState({
-                remainingseats: this.state.remainingseats + 1
-            });    
+       
+        if (this.state.isToggleOn) {
+            this.props.setRemainingSeats(this.props.remainingseats - 1);
+               
         }
         else {
-            this.setState({
-                remainingseats: this.state.remainingseats - 1
-            });
+            
+            this.props.setRemainingSeats(this.props.remainingseats + 1);  
            
         }
-        this.props.setRemainingSeats(this.state.remainingseats);        
         this.setState(state => ({
             isToggleOn: !state.isToggleOn
 
         }));
-        
-
-        
+        console.log("After:" + this.props.remainingseats);
         event.stopPropagation();
         event.preventDefault();
     }
     
     render() {
         let button = null;
-        if (this.props.disabled) {
+        console.log("inside render: " + this.state.ToggleOnLabel);
+        if (this.props.enrolled)
+            button = <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
+                Enrolled</button>;
+        else if (this.props.disabled) {
 
             button = <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
                 Enroll</button>;

@@ -98,15 +98,17 @@ class CourseSearch extends React.Component {
 
                                             <Form.Label column="lg" lg={1} htmlFor="coursename">Course Name:</Form.Label>
                                             <Col>
-                                            <Form.Control lg={3}type="text" id="coursename" name="coursename"
+                                            <Form.Control className="d-flex justify-content-center"  lg={3}type="text" id="coursename" name="coursename"
                                                     placeholder="React JS" onBlur={this.handleCourseNameChange} />
                                             </Col>    
                                         
                                       
-                                                <Form.Label column="lg" lg={1} htmlFor="coursecategory">Course Category: </Form.Label>
                                         <Col as="div">
-                                                              
-                                            <Form.Control size="lg"  lg={3}  id="coursecategory" name="coursecategory" as="select" onChange={this.handleCourseCategoryChange}>
+                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursecategory">Course Category: </Form.Label>
+                                        </Col>
+                                        <Col className="d-flex justify-content-center" >
+
+                                            <Form.Control className="d-flex justify-content-center" size="lg"  lg={3}  id="coursecategory" name="coursecategory" as="select" onChange={this.handleCourseCategoryChange}>
                                                 <option></option>
                                                 {categorynames.map((category) =>
                                                     <option>{category}</option>
@@ -116,27 +118,28 @@ class CourseSearch extends React.Component {
                                                
                                            </Col>
                                            
-                                                <Form.Label column="lg" lg={1}  htmlFor="coursecredits">Course Credits: </Form.Label>
                                             <Col>
-                                            <center>
-                                                <Form.Control size="lg" lg={3} id="coursecredits" name="coursecredits" onChange={this.handleCourseCreditsChange} as="select">
+                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursecredits">Course Credits: </Form.Label>
+                                        </Col>
+                                        <Col className="d-flex justify-content-center" >
+                                                <Form.Control className="d-flex justify-content-center" size="lg" lg={2} id="coursecredits" name="coursecredits" onChange={this.handleCourseCreditsChange} as="select">
                                                 <option></option>
                                                 {this.credits.map((credit) =>
                                                     <option>{credit}</option>
                                                 )}
                                                 </Form.Control>
-                                                </center>
+                                                
                                             </Col>
                                        
                                     </Form.Row>
                                     <Form.Row>
                                         <Col>
-                                            <Form.Label column="lg" lg={1} htmlFor="coursestartdate">Course StartDate:</Form.Label>
+                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursestartdate">Course StartDate:&nbsp;&nbsp;&nbsp;&nbsp;</Form.Label>
                                             <DatePicker selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                         <Col>
-                                            <Form.Label column="lg" lg={1} htmlFor="courseenddate">Course EndDate:</Form.Label>
-                                            <DatePicker selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
+                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="courseenddate">Course EndDate: &nbsp;&nbsp;&nbsp;&nbsp; </Form.Label>
+                                            <DatePicker className="d-flex justify-content-center" className="d-flex justify-content-center"selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                        
                                     </Form.Row>

@@ -28,12 +28,11 @@ export const removeUserSession = () => {
 // set the token and user from the session storage
 export const setUserSession = (id, name, type,address, email, phonenum) => {
     sessionStorage.setItem('id', id);
-    sessionStorage.setItem('user', JSON.stringify(name));
-    sessionStorage.setItem('usertype', JSON.stringify(type));
-
-    sessionStorage.setItem('useraddress', JSON.stringify(address));
-    sessionStorage.setItem('useremail', JSON.stringify(email));
-    sessionStorage.setItem('phonenum', JSON.stringify(phonenum));
+    sessionStorage.setItem('user', name);
+    sessionStorage.setItem('usertype', type);
+    sessionStorage.setItem('useraddress', address);
+    sessionStorage.setItem('useremail', email);
+    sessionStorage.setItem('phonenum', phonenum);
 
 
 }

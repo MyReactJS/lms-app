@@ -9,7 +9,7 @@ class EnrolledCourseRow extends React.Component {
 
         return (
             <tr className="table-light" disabled={course.rem_seats === 0 ? true : false}>
-                <td >{course.sessionId}</td>
+              
                 <td >{course.courseId}</td>
                 <td >{course.category}</td>
                 <td>{course.name}</td>

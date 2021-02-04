@@ -5,7 +5,7 @@ const DashboardLayout = ({ children, ...rest }) => {
     return (
         
         <div className="container">
-            <h1 className='App-header title'>Learning Management System </h1>   
+            <h1 className='App-header title'>&nbsp;&nbsp; &nbsp;&nbsp;  Learning Management System </h1>   
 
                 <nav className="site-nav">
                     <ul className="mainnav" >

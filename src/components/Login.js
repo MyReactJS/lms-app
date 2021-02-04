@@ -27,8 +27,9 @@ class Login extends React.Component {
     handleUserInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({ [name]: value },
-            () => { this.validateField(name, value) });
+        this.setState({ [name]: value });
+
+        //    () => { this.validateField(name, value) });
     }
 
     onValueChange = (e) => {
@@ -37,28 +38,23 @@ class Login extends React.Component {
         })
     }
 
-    validateField(fieldName, value) {
+    validateField() {
         let fieldValidationErrors = this.state.formErrors;
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
 
-        switch (fieldName) {
-            case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i);
-                fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-                break;
-            case 'password':
-                passwordValid = value.length >= 6;
-                fieldValidationErrors.password = passwordValid ? '' : ' is too short';
-                break;
-            default:
-                break;
-        }
+        
+        emailValid = this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        passwordValid = this.state.password.length >= 6;
+        fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+                
         this.setState({
             formErrors: fieldValidationErrors,
             emailValid: emailValid,
             passwordValid: passwordValid
         }, this.validateForm);
+        //.then(n => { console.log(this.state.formValid) });
     }
 
     validateForm() {
@@ -74,55 +70,26 @@ class Login extends React.Component {
         e.preventDefault();
     }
     handleSubmit = (e) => {
-        var apiBaseUrl = "http://localhost:8000/api/authentication/";
-        var self = this;
         var payload = {
             "email": this.state.email,
             "password": this.state.password,
             "role": this.state.UserType
         }
 
-        axios.post(apiBaseUrl + 'login', payload)
-            .then(function (response) {
-
-                self.setState({ users: response.data });
-                setUserSession(response.data[0].id, response.data[0].name, response.data[0].type, response.data[0].address,
-                    response.data[0].email, response.data[0].phonenum);
-                
-                if (response.status === 200) {
-                    console.log("Login successfull");
-
-                    if (payload.role === "student") {
-                        self.props.history.push('/dashboardS');
-                    }
-                    else if (payload.role === "faculty") {
-                            self.props.history.push('/dashboardF');
-                        }
-                        else if (payload.role === "admin") {
-                                self.props.history.push('/dashboardA');
-                            }
-                            else if (payload.role === "parent") {
-                                    self.props.history.push('/dashboardP');
-                                }
-
-                }
-                else if (response.data.code === 204) {
-                    console.log("emailid and pwd  do not match");
-                    alert("emailid and pwd  do not match")
-                }
-                else {
-                    console.log("User does not exists");
-                    alert("User does not exist");
-                }
+        axios.get('data/login.json')
+            .then((res) => {
+                console.log(res.data);
+            }).catch((err) => {
+                console.log(err);
             })
-            .catch(function (error) {
-                console.log(error);
-            });
-        setUserAuthenticationStatus(true);
-        setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
-            payload.email, "1234567890");
-        alert("After Login:" + getUserAuthenticationStatus());
-        this.props.history.push('/dashboard');  
+        this.validateField();
+        if (this.state.formValid == true) {
+            setUserAuthenticationStatus(true);
+            setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
+                payload.email, "1234567890");
+            alert("After Login:" + getUserAuthenticationStatus());
+            this.props.history.push('/dashboard');
+        }
         e.preventDefault();
 
     }
@@ -134,11 +101,7 @@ class Login extends React.Component {
                     <form className="demoForm" onSubmit={this.handleSubmit}>
                         <div >
 
-                            <input type="radio" value="admin"
-                                checked={this.state.UserType === "admin"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Admin">Admin</label>
-
+                           
                             <input type="radio" value="faculty" checked={this.state.UserType === "faculty"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Faculty">Faculty</label>
@@ -150,10 +113,7 @@ class Login extends React.Component {
 
 
 
-                            <input type="radio" value="parent"
-                                checked={this.state.UserType === "parent"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Parent">Parent</label>
+                           
                         </div>
 
 
@@ -172,13 +132,13 @@ class Login extends React.Component {
                         </div>
 
                        
-                        <input type='submit' value='Login' disabled={!this.state.formValid} />
-
-
-                        <div className='error-message' >
+                        <input type='submit' value='Login'  />
+                        {!this.state.formValid  ?
+                            <div className='error-message' >
                             <FormErrors formErrors={this.state.formErrors} />
-                        </div>
+                        </div>: null}
 
+                       
                     </form>
                 </div>
 

@@ -115,19 +115,15 @@ class Registration extends React.Component {
                                          <form  onSubmit={this.handleSubmit}>
 
                                              <div className="form-group">
-                                                 <input type="radio" value="admin"
-                                                     checked={this.state.role === "admin"}
-                                                     onChange={this.handleChange} />
-                                                 <label htmlFor="Admin">Admin</label>
+                                                 
                                                  <input type="radio" value="faculty" checked={this.state.role === "faculty"}
                                                      onChange={this.handleChange} />
                                                  <label htmlFor="Faculty">Faculty</label>
+
                                                  <input type="radio" value="student" checked={this.state.role === "student"}
                                                      onChange={this.handleChange} />
                                                  <label htmlFor="Student">Student</label>
-                                                 <input type="radio" value="parent" checked={this.state.role === "parent"}
-                                                     onChange={this.handleChange} />
-                                                 <label htmlFor="Parent">Parent</label>
+                                                
                                              </div>
                                              <div className="form-group">
                                                  <input

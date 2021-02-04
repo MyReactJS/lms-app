@@ -2,15 +2,20 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import CourseRow from './CourseRow.js';
 import courses from './courses.json';
+import enrolledcourses from './../dashboards/students/EnrolledCourses.json';
+import axios from 'axios';
+import { useEffect } from 'react';
 class CourseTable extends React.Component
 {
-
-
-
+    
     render() {
         var rows = [];
-   
-       
+        var enrolledcourses_sessionids = [];
+        enrolledcourses.forEach((course) => {
+            enrolledcourses_sessionids.push(course.sessionId);
+
+        });
+
         var courseNameFilter = this.props.courseNameFilter;
         var courseCategoryFilter = this.props.courseCategoryFilter;
         var courseCreditsFilter = this.props.courseCreditsFilter;
@@ -22,15 +27,15 @@ class CourseTable extends React.Component
         console.log("courseCreditsFilter: " + courseCreditsFilter);
         console.log("courseStartDateFilter: " + courseStartDateFilter);
         console.log("courseEndDateFilter: " + courseEndDateFilter);
-        
-        courses.forEach((course) =>
-        {
+        console.log(enrolledcourses_sessionids);
+        courses.forEach((course) => {
+            console.log(course.sessionId +"=" + enrolledcourses_sessionids.includes(course.sessionId));
             let coursestartdate = new Date(course.start_date);
             let courseenddate = new Date(course.end_date);
             if (courseStartDateFilter == '' && courseEndDateFilter == '') {
 
-               // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-               // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
                     return;
                 if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
@@ -38,15 +43,29 @@ class CourseTable extends React.Component
 
                 if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
                     return;
-                rows.push(<CourseRow course={course} />);
+                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                    id={course.sessionId} course={course} />);
             }
-            else
-            {
+            else if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
                 console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-                if (courseStartDateFilter !== '' && courseEndDateFilter !== ''
-                    && coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow id={course.sessionId} course={course} />);
+                if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                        id={course.sessionId} course={course} />);
+            }
+            else if (courseStartDateFilter !== '') {
+                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                if (coursestartdate >= courseStartDateFilter)
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                        id={course.sessionId} course={course} />);
+            }
+            else if (courseEndDateFilter !== '') {
+                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                if ( courseenddate <= courseEndDateFilter)
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                        id={course.sessionId} course={course} />);
             }
            
              
@@ -62,24 +81,28 @@ class CourseTable extends React.Component
                         <div className="container-fluid panel-heading"><h4>Search Results</h4></div>
                         <div className="panel-body">
                             <h2> {recCount} course(s) found </h2>
-                            <table className="table table-bordered table-hover">
-                                <thead >
-                                    <tr id='courserow' className="bg-primary">
-                                       
-                                        <th scope="col">Course Id</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Start Date</th>
-                                        <th scope="col">End Date</th>
-                                        <th scope="col">Duration (days)</th>
-                                        <th scope="col">Credits</th>
-                                        <th scope="col">Remaining Seats</th>
-                                        <th scope="col">Enroll/Cancel</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {rows}
-                                </tbody></table>
+                            {recCount == 0 ?
+                                null :
+
+                                <table className="table table-bordered table-hover">
+                                    <thead >
+                                        <tr id='courserow' className="bg-primary">
+                                            <th scope="col">Course Id</th>
+                                            <th scope="col">Session Id</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Start Date</th>
+                                            <th scope="col">End Date</th>
+                                            <th scope="col">Duration (days)</th>
+                                            <th scope="col">Credits</th>
+                                            <th scope="col">Remaining Seats</th>
+                                            <th scope="col">Enroll/Cancel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {rows}
+                                    </tbody></table>
+                            }
                         </div>
                     </div></div></div>
         );

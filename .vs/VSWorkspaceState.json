@@ -1,13 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules",
+    "\\public",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\coursepage",
-    "\\src\\components\\dashboards",
-    "\\src\\components\\dashboards\\students"
+    "\\src\\components\\common",
+    "\\src\\components\\dashboards"
   ],
-  "SelectedNode": "\\src\\components\\dashboards\\students\\profile.json",
+  "SelectedNode": "\\src\\components\\common\\fetchJSON.js",
   "PreviewInSolutionExplorer": false
 }

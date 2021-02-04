@@ -98,13 +98,7 @@ class Login extends React.Component {
                     else if (payload.role === "faculty") {
                             self.props.history.push('/dashboardF');
                         }
-                        else if (payload.role === "admin") {
-                                self.props.history.push('/dashboardA');
-                            }
-                            else if (payload.role === "parent") {
-                                    self.props.history.push('/dashboardP');
-                                }
-
+                       
                 }
                 else if (response.data.code === 204) {
                     console.log("emailid and pwd  do not match");
@@ -134,11 +128,7 @@ class Login extends React.Component {
                     <form className="demoForm" onSubmit={this.handleSubmit}>
                         <div >
 
-                            <input type="radio" value="admin"
-                                checked={this.state.UserType === "admin"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Admin">Admin</label>
-
+                           
                             <input type="radio" value="faculty" checked={this.state.UserType === "faculty"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Faculty">Faculty</label>
@@ -150,10 +140,7 @@ class Login extends React.Component {
 
 
 
-                            <input type="radio" value="parent"
-                                checked={this.state.UserType === "parent"}
-                                onChange={this.onValueChange} />
-                            <label htmlFor="Parent">Parent</label>
+                           
                         </div>
 
 

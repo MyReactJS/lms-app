@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-const LoginLayout = ({ children }) => (
+const HomeLayout = ({ children }) => (
     <div className="container">
         <h1 className='App-header title'>&nbsp;&nbsp; &nbsp;&nbsp; Learning Management System </h1>
-        
+
         <div className='App-body'>
 
-        
+
             {children}
-            </div>
+        </div>
     </div>
 );
 
-const LoginLayoutRoute = ({ component: Component, ...rest }) => {
+const HomeLayoutRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest} render={matchProps => (
-            <LoginLayout>
+            <HomeLayout>
                 <Component {...matchProps} />
-            </LoginLayout>
+            </HomeLayout>
         )} />
     )
 };
 
-export default LoginLayoutRoute; 
+export default HomeLayoutRoute; 

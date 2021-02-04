@@ -7,7 +7,7 @@
     "credits": 4,
     "start_date": "03-01-2021",
     "end_date": "18-03-2021",
-    "status": "In Progress"
+      "status": "In Progress"
   },
   {
     "sessionId": 56,
@@ -37,7 +37,7 @@
     "credits": 5,
     "start_date": "12-12-2020",
     "end_date": "28-01-2021",
-    "status": "Completed"
+      "status": "Completed"
   },
   {
     "sessionId": 59,
@@ -47,7 +47,7 @@
     "credits": 3,
     "start_date": "11-01-2021",
     "end_date": "14-03-2021",
-    "status": "In Progress"
+      "status": "In Progress"
   },
   {
     "sessionId": 60,
@@ -110,4 +110,5 @@
     "status": "Not Started"
 
   }
+
 ]
