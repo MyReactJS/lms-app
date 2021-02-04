@@ -10,8 +10,8 @@ class DashBoardF extends React.Component {
         }
         this.setTotalClasses = this.setTotalClasses.bind(this);
     }
-    setTotalClasses(t_credits) {
-        this.setState({ tot_credits: t_credits });
+    setTotalClasses(tot_classes) {
+        this.setState({ tot_classes: tot_classes });
     }
     render() {
         return (
