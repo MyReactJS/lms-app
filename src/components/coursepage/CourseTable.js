@@ -22,14 +22,14 @@ class CourseTable extends React.Component
         var courseStartDateFilter = this.props.courseStartDateFilter=='' ? '' :this.props.courseStartDateFilter;
         var courseEndDateFilter = this.props.courseEndDateFilter == '' ? '' : this.props.courseEndDateFilter;
        
-        console.log("courseNameFilter: " + courseNameFilter);
+       /* console.log("courseNameFilter: " + courseNameFilter);
         console.log("courseCategoryFilter: " + courseCategoryFilter);
         console.log("courseCreditsFilter: " + courseCreditsFilter);
         console.log("courseStartDateFilter: " + courseStartDateFilter);
         console.log("courseEndDateFilter: " + courseEndDateFilter);
-        console.log(enrolledcourses_sessionids);
+        console.log(enrolledcourses_sessionids);*/
         courses.forEach((course) => {
-            console.log(course.sessionId +"=" + enrolledcourses_sessionids.includes(course.sessionId));
+            //console.log(course.sessionId +"=" + enrolledcourses_sessionids.includes(course.sessionId));
             let coursestartdate = new Date(course.start_date);
             let courseenddate = new Date(course.end_date);
             if (courseStartDateFilter == '' && courseEndDateFilter == '') {
@@ -47,22 +47,22 @@ class CourseTable extends React.Component
                     id={course.sessionId} course={course} />);
             }
             else if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
-                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
                         id={course.sessionId} course={course} />);
             }
             else if (courseStartDateFilter !== '') {
-                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter)
                     rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
                         id={course.sessionId} course={course} />);
             }
             else if (courseEndDateFilter !== '') {
-                console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
+                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if ( courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
                         id={course.sessionId} course={course} />);
