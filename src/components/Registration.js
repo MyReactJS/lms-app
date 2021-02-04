@@ -103,7 +103,7 @@ class Registration extends React.Component {
 
     }
 
-    render() {*
+    render() {
              return (
                  <div id="content">
                      <div className="container-fluid decor_bg" >
