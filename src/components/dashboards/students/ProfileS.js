@@ -37,7 +37,7 @@ class ProfileS extends React.Component
                                             <Form.Group as={Row} controlId="name">
                                             <Form.Label column="lg">Student Name</Form.Label>
                                             <Col>
-                                                <Form.Control className="border-0" font-size="xx-large" type="text" value={name} disabled />
+                                                <Form.Control className="border-0 inputbox" font-size="xx-large" type="text" value={name} disabled />
                                             </Col>
                                              </Form.Group>
                                         </Col>

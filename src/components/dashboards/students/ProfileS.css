@@ -2,3 +2,8 @@ Form.Control
 {
     font-size:xx-large;
 }
+.form-control:disabled, .form-control[readonly] {
+    background-color: unset;
+    border: none;
+    outline-width: 0;
+}

@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css'
+import { getUser } from './components/Common.js';
 const DashboardLayout = ({ children, ...rest }) => {
+    const profile = getUser();
+    //const fname = profile.firstName;
+    //const lname = profile.lastName;
+    const usertype = profile.type;
+   
     return (
         
         <div className="container">
@@ -10,7 +16,12 @@ const DashboardLayout = ({ children, ...rest }) => {
                 <nav className="site-nav">
                     <ul className="mainnav" >
 
+                    {
+                        usertype == 'student' ?
                         <li ><a href="/dashboardS">DashBoard</a></li>
+                        :
+                            <li ><a href="/dashboardF">DashBoard</a></li>
+                    }
                         <li ><a href="/course">Courses</a></li>
                         <li ><a href="/aboutus">About Us</a></li>
                         <li ><a href="/logout">Log Out</a></li>
