@@ -8,7 +8,7 @@ import CourseEnrollConfirmModel from './../coursepage/CourseEnrollConfirmModel.j
 class ToggleButton extends React.Component {
     constructor(props) {
         super(props);
-        console.log("inside toggleOnLabel:" + this.props.toggleOnLabel);
+       // console.log("inside toggleOnLabel:" + this.props.toggleOnLabel);
         this.state = {
             isToggleOn: true,
             modalshow: false,
@@ -63,7 +63,7 @@ class ToggleButton extends React.Component {
     
     render() {
         let button = null;
-        console.log("inside render: " + this.state.ToggleOnLabel);
+        //console.log("inside render: " + this.state.ToggleOnLabel);
         if (this.props.enrolled)
 
             

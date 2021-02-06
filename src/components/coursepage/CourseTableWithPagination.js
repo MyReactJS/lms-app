@@ -16,7 +16,7 @@ class CourseTableWithPagination extends React.Component
             pageBound: 3
         };
        
-            console.log(this.props.courses);
+            //console.log(this.props.courses);
        
         this.handleClick = this.handleClick.bind(this);
         this.btnDecrementClick = this.btnDecrementClick.bind(this);
@@ -27,8 +27,7 @@ class CourseTableWithPagination extends React.Component
         this.setPrevAndNextBtnClass = this.setPrevAndNextBtnClass.bind(this);
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.courses.length != this.props.courses.length)
-        {
+        if (prevProps.courses.length != this.props.courses.length) {
             this.setState({
 
 
@@ -40,9 +39,16 @@ class CourseTableWithPagination extends React.Component
                 isNextBtnActive: '',
                 pageBound: 3
             });
-		}
-        $("ul li.active").removeClass('active');
-        $('ul li#' + this.state.currentPage).addClass('active');
+            $("ul li.active").removeClass('active');
+            $('ul li#' + this.state.currentPage).addClass('active');
+        
+            //this.setPrevAndNextBtnClass(this.state.currentPage)
+        }
+        else {
+            $("ul li.active").removeClass('active');
+            $('ul li#' + this.state.currentPage).addClass('active');
+           // this.setPrevAndNextBtnClass(this.state.currentPage)
+        }
     }
     handleClick(event) {
         let listid = Number(event.target.id);
@@ -54,18 +60,29 @@ class CourseTableWithPagination extends React.Component
         this.setPrevAndNextBtnClass(listid);
     }
     setPrevAndNextBtnClass(listid) {
-        let totalPage = Math.ceil(this.props.courses.length / this.props.coursesPerPage);
+       // console.log("listid: " + listid);
+        let totalPage = Math.ceil(this.props.courses.length / this.state.rowsPerPage);
         this.setState({ isNextBtnActive: 'disabled' });
         this.setState({ isPrevBtnActive: 'disabled' });
+        //console.log('totalPage > 1 + ' + (totalPage > 1));
         if (totalPage === listid && totalPage > 1) {
             this.setState({ isPrevBtnActive: '' });
+          //  console.log('isPrevBtnActive: ' + this.state.isPrevBtnActive);
+            //console.log('isNextBtnActive: ' + this.state.isNextBtnActive);
         }
         else if (listid === 1 && totalPage > 1) {
+
             this.setState({ isNextBtnActive: '' });
+            //console.log('isPrevBtnActive: ' + this.state.isPrevBtnActive);
+
+            //console.log('isNextBtnActive: ' + this.state.isNextBtnActive);
         }
         else if (totalPage > 1) {
             this.setState({ isNextBtnActive: '' });
             this.setState({ isPrevBtnActive: '' });
+            //console.log('isPrevBtnActive: ' + this.state.isPrevBtnActive);
+            //console.log('isNextBtnActive: ' + this.state.isNextBtnActive);
+
         }
     }
     btnIncrementClick() {
@@ -104,7 +121,7 @@ class CourseTableWithPagination extends React.Component
         if (this.props.courses == null)
             return null;
         var recCount =  this.props.courses.length;
-        const {  currentPage, rowsPerPage, upperPageBound, lowerPageBound, isPrevBtnActive, isNextBtnActive } = this.state;
+        var {  currentPage, rowsPerPage, upperPageBound, lowerPageBound, isPrevBtnActive, isNextBtnActive } = this.state;
         // Logic for displaying current rowss
         const indexOfLastRow = currentPage * rowsPerPage;
         const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -141,14 +158,14 @@ class CourseTableWithPagination extends React.Component
             pageDecrementBtn = <li className=''><a href='#' onClick={this.btnDecrementClick}> &hellip; </a></li>
         }
         let renderPrevBtn = null;
-        if (isPrevBtnActive === 'disabled') {
+        if (isPrevBtnActive == 'disabled') {
             renderPrevBtn = <li className={isPrevBtnActive}><span id="btnPrev"> Prev </span></li>
         }
         else {
             renderPrevBtn = <li className={isPrevBtnActive}><a href='#' id="btnPrev" onClick={this.btnPrevClick}> Prev </a></li>
         }
         let renderNextBtn = null;
-        if (isNextBtnActive === 'disabled') {
+        if (isNextBtnActive == 'disabled') {
             renderNextBtn = <li className={isNextBtnActive}><span id="btnNext"> Next </span></li>
         }
         else {
