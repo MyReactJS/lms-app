@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import './App.css'
+import './DashboardLayout.css'
 import { getUser } from './components/Common.js';
 const DashboardLayout = ({ children, ...rest }) => {
     const profile = getUser();

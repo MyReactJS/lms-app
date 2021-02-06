@@ -1,14 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { setUserSession } from './Common';
-
+import MyCarousel from './common/Carousel.js';
 import { FormErrors } from './FormErrors';
 import axios from 'axios';
 import { setUserAuthenticationStatus } from './Common';
 import ModalComponent from './common/ModalComponent.js';
 import { getUserAuthenticationStatus } from "./Common.js";
-
-class Login extends React.Component {
+import './HomePage.css';
+class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -125,17 +125,22 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className="container">
+           
+               
+                
+                  
+                <div className='App-body'>
+            <div className="loginContainer">
                 <div className="login-menu">
                     <form className="demoForm" onSubmit={this.handleSubmit}>
                         <div >
 
                            
-                            <input type="radio" value="faculty" checked={this.state.UserType === "faculty"}
+                            <input type="radio"  value="faculty" checked={this.state.UserType === "faculty"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Faculty">Faculty</label>
 
-                            <input type="radio" value="student"
+                            <input type="radio"   value="student"
                                 checked={this.state.UserType === "student"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Student">Student</label>
@@ -150,7 +155,7 @@ class Login extends React.Component {
                         </div>
 
                         <div >
-                            <input type="password" name="password"
+                            <input type="password" required name="password"
                                 placeholder="Password"
                                 value={this.state.password}
                                 onChange={this.handleUserInput} />
@@ -170,22 +175,22 @@ class Login extends React.Component {
                                 onClick={this.handleConfirmModalClose}
                                 onHide={this.handleConfirmModalClose} />
                         }
-                            
+
+                        <div >
+                            <label>   New User?  <a href='#' onClick={this.handleClick}>Register Now </a> </label>
+                           
+                           
+                        </div>
+
                     </form>
                 </div>
 
-                <div className="register-menu">
-                    <form className="demoForm" onSubmit={this.handleClick}>
-                        <label htmlFor="Registration">New User? Register Now</label>
-                        <br />
-                        <input type='submit' value='Register' />
-                    </form>
-                </div>
-
-
-            </div>
+               
+                    </div>
+</div>
+          
         )
     }
 
 }
-export default withRouter(Login);
+export default withRouter(HomePage);

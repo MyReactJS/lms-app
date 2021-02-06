@@ -68,18 +68,18 @@ class ToggleButton extends React.Component {
 
             
                 button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
-                    Enrolled</button>;
+                    Enrolled</button>
             </div>
         else if (this.props.disabled) {
 
             
             button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
-                    Enroll</button>;
+                    Enroll</button>
             </div>
         }
         else {
             button = <div> <button type="button" onClick={this.handleClick} className="btn btn-primary btn-block" disabled={this.props.disabled}>
-                {this.state.isToggleOn ? this.state.ToggleOnLabel : this.state.ToggleOffLabel}</button>;
+                {this.state.isToggleOn ? this.state.ToggleOnLabel : this.state.ToggleOffLabel}</button>
             <ModalComponent
                 show={this.state.modalshow}
                 title={this.state.modaltitle}

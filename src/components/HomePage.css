@@ -5,25 +5,40 @@
     grid-row-gap: 0.5em;
 }
 
+.App-header {
+    grid-column: 1 / 10;
+    grid-row: 1;
+    min-height: 50px;
+    margin: 0;
+    color: white;
+    text-align: left;
+    background-color: #05144f;
+}
+
+
+.App-body {
+    grid-column: 2/2;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    justify-content: left;
+}
+
+.App-footer {
+    grid-column: 1 /3;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    color: rgb(14, 13, 13);
+    background-color: #05144f;
+    ;
+}
+
 .loginContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.register-menu {
-    padding: 20px;
-    margin: 20px;
-    border-style: ridge;
-    flex-grow: 2;
-}
-
-.leftBody {
-    width: 30%;
-    padding: 3%;
-    border-radius: 5px;
-    background-color: white;
-    margin-left: 30px;
 }
 
 .forgot-password-style {
@@ -48,7 +63,7 @@
 }
 
 input[type="password"], input[type="email"], input[type="text"] {
-    border: 1px solid #a1a3a3;
+    border: 1px ssolid #a1a3a3;
     border-radius: 4px;
     box-shadow: 0 1px #fff;
     box-sizing: border-box;

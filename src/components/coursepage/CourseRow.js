@@ -77,7 +77,14 @@ class CourseRow extends React.Component {
 
                     <Button size="lg" onClick={this.onCourseLinkClick}
                          variant = "link" > { course.name }</Button>
-                  
+                   <ModalComponent
+                show={this.state.modalshow}
+                title={this.state.modaltitle}
+                body={this.state.modalbody}
+
+                onClick={this.handleConfirmModalClose}
+                   onHide={this.handleConfirmModalClose} />
+              
                
                 </td>      
 

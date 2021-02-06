@@ -1,12 +1,12 @@
 import React from 'react';
-import './Registration.css'
+
 import { FormErrors } from './FormErrors';
 import { withRouter } from "react-router-dom";
 import { setUserSession } from './Common.js';
 //import { setUserAuthenticationStatus } from './Common.js';
-
+import Container from 'react-bootstrap/Container'
 //import { getUserAuthenticationStatus } from "./Common.js";
-
+import './Registration.css';
 class Registration extends React.Component {
 
     constructor(props) {
@@ -111,9 +111,11 @@ class Registration extends React.Component {
     }
 
     render() {
-             return (
-                 <div id="content">
-                     <div className="container-fluid decor_bg" >
+        return (
+               
+                 
+            <Container fluid>
+                <div className=" decor_bg" >
                          <div className="row">
                              <div className="col-md-10">
                                  <div className="panel panel-primary">
@@ -169,7 +171,9 @@ class Registration extends React.Component {
                             </div>
                        
                     </form>
-                                </div></div></div></div></div> </div>
+                            </div></div></div></div></div>
+            </Container>
+
             );
         
         
