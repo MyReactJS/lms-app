@@ -13,10 +13,9 @@ export const FormErrors = ({ formErrors }) =>
             if (formErrors[fieldName].length > 0) {
                 return (
                    <React.Fragment>
-                     
+                     <br/>
                         <h4 key={i}>
                             {fieldName} {formErrors[fieldName]}  </h4>
-                        <div />
                     </React.Fragment>
 
                 )
@@ -24,4 +23,5 @@ export const FormErrors = ({ formErrors }) =>
                 return '';
             }
         })}
+
     </div>

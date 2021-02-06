@@ -163,7 +163,7 @@ class Registration extends React.Component {
                                              </div>
                                              <button type='submit' value='Submit' class="btn btn-primary btn-lg col-md-4" disabled={!this.state.formValid}> Submit </button>
                                              <button type='cancel' value='Cancel' class="btn  btn-secondary btn-lg col-md-offset-2 col-md-4"> Cancel </button>
-
+                            <br/>
                             <div className='error-message' >
                                 <FormErrors formErrors={this.state.formErrors} />
                             </div>
