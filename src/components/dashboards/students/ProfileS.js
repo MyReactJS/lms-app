@@ -21,7 +21,7 @@ class ProfileS extends React.Component
         //const lname = profile.lastName;
         const email = profile.email;
         const name = profile.name;
-        const phonenum = profile.phonenum;
+        const phonenum = profile.phonenum.substring( 0, 3) + "- " + profile.phonenum.substring( 3, 6) + "- " + profile.phonenum.substring( 6);
 
 
         return (
