@@ -1,36 +1,25 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import CourseSearch from './CourseSearch.js';
-import CourseTable from './CourseTable.js';
-
+import CourseFilter from './CourseFilter.js';
 import { withRouter } from "react-router-dom";
+import CourseTableWithPagination from './CourseTableWithPagination.js';
+
 class FilterCourseTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { category: '', credits: '', name: '', startdate: '', enddate: ''}
-        this.setCreditFilter = this.setCreditFilter.bind(this);
-        this.setCourseNameFilter = this.setCourseNameFilter.bind(this);
-        this.setCourseCategoryFilter = this.setCourseCategoryFilter.bind(this);
+        this.state = { rows:[], startdate: '', enddate: ''}
         this.setStartDateRangeFilter = this.setStartDateRangeFilter.bind(this);
         this.setEndDateRangeFilter = this.setEndDateRangeFilter.bind(this);
-       
+        this.setResultRows = this.setResultRows.bind(this);
     }
   
-    setCreditFilter(value)
-    {
-       
-        this.setState({ credits: value });
-       
-    }
+    setResultRows(r) {
+        this.setState({ rows: r }, () => {
+            console.log("setResultRows =" + this.state.rows.length);
+     //       alert("setResultRows: " + this.state.rows.length);
 
-    setCourseNameFilter(value) {
-        this.setState({ name: value });
-        //alert("name: " + value);
-
-    }
-    setCourseCategoryFilter(value) {
-        this.setState({ category: value });
-        //alert("category: " + value);
+        });
     }
     setStartDateRangeFilter(sdate) {
         this.setState({ startdate: sdate });
@@ -46,12 +35,9 @@ class FilterCourseTable extends React.Component {
             return (
                 <div>
 
-                    <CourseSearch setCourseNameFilter={this.setCourseNameFilter} setCourseCategoryFilter={this.setCourseCategoryFilter}
-                        setCreditFilter={this.setCreditFilter} setCourseStartDateFilter={this.setStartDateRangeFilter}
-                        setCourseEndDateFilter={this.setEndDateRangeFilter} />
-                    <CourseTable courseNameFilter={this.state.name} courseCategoryFilter={this.state.category}
-                        courseCreditsFilter={this.state.credits} courseStartDateFilter={this.state.startdate}
-                        courseEndDateFilter={this.state.enddate} courses={this.props.courses} />;
+                    <CourseSearch setCourseStartDateFilter={this.setStartDateRangeFilter}
+                        setCourseEndDateFilter={this.setEndDateRangeFilter} setResultRows={this.setResultRows} />
+                    <CourseTableWithPagination courses={this.state.rows} currentPage={1}/>;
                 </div>
             );
         

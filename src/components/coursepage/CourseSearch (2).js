@@ -1,7 +1,5 @@
 import React from 'react';
 import categories from './coursecategories.json';
-import courses from './courses.json';
-import enrolledcourses from './../dashboards/students/EnrolledCourses.json';
 import 'bootstrap/dist/css/bootstrap.css';
 import DatePicker from "react-datepicker";
 import Form from 'react-bootstrap/Form';
@@ -9,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import './CourseSearch.css';
-import CourseRow from './CourseRow.js';
 class CourseSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -30,69 +27,15 @@ class CourseSearch extends React.Component {
     }
     handleOnSubmit(event)
     {
-        //alert("onsubmit-start");
-        var rows = [];
-        var enrolledcourses_sessionids = [];
-        enrolledcourses.forEach((course) => {
-            enrolledcourses_sessionids.push(course.sessionId);
+        
+        //alert('form submission click');
+        this.props.setCourseNameFilter(this.coursename);
+        this.props.setCourseCategoryFilter(this.coursecategory);
+        this.props.setCreditFilter(this.coursecredits);
+        this.props.setCourseStartDateFilter(this.state.startdate); 
+        this.props.setCourseEndDateFilter(this.state.enddate);
+        //alert('form submission end');
 
-        });
-
-        var courseNameFilter = this.coursename;
-        var courseCategoryFilter = this.coursecategory;
-        var courseCreditsFilter = this.coursecredits;
-        var courseStartDateFilter = this.state.startdate == '' ? '' : this.state.startdate;
-        var courseEndDateFilter = this.state.enddate == '' ? '' : this.state.enddate;
-       // alert(courseNameFilter)
-        courses.forEach((course) =>
-        {
-            let coursestartdate = new Date(course.start_date);
-            let courseenddate = new Date(course.end_date);
-
-            // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-            // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-            if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
-                return;
-            if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
-                return;
-
-            if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
-                return;
-            if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-                if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                        id={course.sessionId} course={course} />);
-            }
-            else if (courseStartDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-                if (coursestartdate >= courseStartDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                        id={course.sessionId} course={course} />);
-            }
-            else if (courseEndDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-                if (courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                        id={course.sessionId} course={course} />);
-            }
-            else {
-                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                    id={course.sessionId} course={course} />);
-            }
-
-
-        }
-        );
-       // alert("onsubmit-end");
-
-        //alert(rows.length);
-       // this.setState({ rows: rows });
-    //    alert(rows);
-        this.props.setResultRows(rows);
         event.preventDefault();
         event.stopPropagation();
 
