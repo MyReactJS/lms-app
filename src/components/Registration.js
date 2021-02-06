@@ -145,7 +145,7 @@ class Registration extends React.Component {
                                              </div>
                                              <div className="form-group">
                                                  <input type="password" className="form-control" placeholder="Enter Password *" name="password" value={this.state.password}
-                                                     onChange={this.handleUserInput} required />
+                                                     onChange={this.handleUserInput} required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
                                              </div>
                                              <div className="form-group">
                                                  <input type="text" className="form-control" placeholder="Enter Address" name="address" value={this.state.address}
