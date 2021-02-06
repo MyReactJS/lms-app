@@ -37,7 +37,7 @@ class FilterCourseTable extends React.Component {
 
                     <CourseSearch setCourseStartDateFilter={this.setStartDateRangeFilter}
                         setCourseEndDateFilter={this.setEndDateRangeFilter} setResultRows={this.setResultRows} />
-                    <CourseTableWithPagination courses={this.state.rows} currentPage={1}/>;
+                    <CourseTableWithPagination courses={this.state.rows} />;
                 </div>
             );
         

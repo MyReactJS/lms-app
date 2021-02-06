@@ -7,7 +7,7 @@ class CourseTableWithPagination extends React.Component
         this.state = {
             
            
-            currentPage: this.props.currentPage,
+            currentPage: 1,
             rowsPerPage: 10,
             upperPageBound: 3,
             lowerPageBound: 0,
@@ -26,7 +26,21 @@ class CourseTableWithPagination extends React.Component
         // this.componentDidMount = this.componentDidMount.bind(this);
         this.setPrevAndNextBtnClass = this.setPrevAndNextBtnClass.bind(this);
     }
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.courses.length != this.props.courses.length)
+        {
+            this.setState({
+
+
+                currentPage: 1,
+                rowsPerPage: 10,
+                upperPageBound: 3,
+                lowerPageBound: 0,
+                isPrevBtnActive: 'disabled',
+                isNextBtnActive: '',
+                pageBound: 3
+            });
+		}
         $("ul li.active").removeClass('active');
         $('ul li#' + this.state.currentPage).addClass('active');
     }
@@ -89,7 +103,7 @@ class CourseTableWithPagination extends React.Component
     render() {
         if (this.props.courses == null)
             return null;
-        var recCount = this.props.courses == null ? 0 : this.props.courses.length;
+        var recCount =  this.props.courses.length;
         const {  currentPage, rowsPerPage, upperPageBound, lowerPageBound, isPrevBtnActive, isNextBtnActive } = this.state;
         // Logic for displaying current rowss
         const indexOfLastRow = currentPage * rowsPerPage;
