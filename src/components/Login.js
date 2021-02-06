@@ -5,7 +5,7 @@ import './Login.css';
 import { FormErrors } from './FormErrors';
 import axios from 'axios';
 import { setUserAuthenticationStatus } from './Common';
-
+import ModalComponent from './common/ModalComponent.js';
 import { getUserAuthenticationStatus } from "./Common.js";
 
 class Login extends React.Component {
@@ -21,6 +21,9 @@ class Login extends React.Component {
             emailValid: false,
             passwordValid: false,
             formValid: false,
+            modalshow: false,
+            modaltitle: '',
+             modalbody: ''
         }
     }
 
@@ -54,11 +57,11 @@ class Login extends React.Component {
             emailValid: emailValid,
             passwordValid: passwordValid
         }, this.validateForm);
-        //.then(n => { console.log(this.state.formValid) });
+ 
     }
 
     validateForm() {
-        this.setState({ formValid: this.state.emailValid && this.state.passwordValid });
+        this.setState({ formValid: this.state.emailValid && this.state.passwordValid },() => { console.log(this.state.formValid) });
     }
 
     errorClass(error) {
@@ -83,21 +86,42 @@ class Login extends React.Component {
                 console.log(err);
             })
         this.validateField();
-        if (this.state.formValid == true) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.state.formValid == true)
+        {
             setUserAuthenticationStatus(true);
             setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
                 payload.email, "1234567890");
-            alert("After Login:" + getUserAuthenticationStatus());
-            alert(this.state.UserType);
-            if (this.state.UserType=='student')
-                this.props.history.push('/dashboardS');
-            else
-                this.props.history.push('/dashboardF');
+           
+            this.setState({
+                modalshow: true,
+                modaltitle: 'Login',
+                modalbody: 'Login Successful !!!',
+
+            });
+
+          //  alert("modal open");
+
+           
 
         }
-        e.preventDefault();
-
+        
     }
+   
+    handleConfirmModalClose = (fromModal) => {
+        //alert(fromModal.msg);
+
+        this.setState({
+            modalshow: false
+        });
+       // alert("modal close");
+        if (this.state.UserType == 'student')
+            this.props.history.push('/dashboardS');
+        else
+            this.props.history.push('/dashboardF');
+    };
 
     render() {
         return (
@@ -115,11 +139,7 @@ class Login extends React.Component {
                                 checked={this.state.UserType === "student"}
                                 onChange={this.onValueChange} />
                             <label htmlFor="Student">Student</label>
-
-
-
-                           
-                        </div>
+                         </div>
 
 
                         <div >
@@ -138,10 +158,19 @@ class Login extends React.Component {
 
                        
                         <input type='submit' value='Login'  />
+                       
                         {!this.state.formValid  ?
                             <div className='error-message' >
                             <FormErrors formErrors={this.state.formErrors} />
-                        </div>: null}
+                            </div> : 
+                            <ModalComponent
+                                show={this.state.modalshow}
+                                title={this.state.modaltitle}
+                                body={this.state.modalbody}
+
+                                onClick={this.handleConfirmModalClose}
+                                onHide={this.handleConfirmModalClose} />
+                        }
 
                        
                     </form>

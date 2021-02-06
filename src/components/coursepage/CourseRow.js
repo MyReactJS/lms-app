@@ -6,12 +6,17 @@ import Modal from 'react-bootstrap/Modal'
 //import CourseDetailsPage from './CourseDetailsPage.js';
 import Button from 'react-bootstrap/Button'
 import './CourseRow.css';
+import ModalComponent from './../common/ModalComponent.js';
+
 class CourseRow extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            remainingseats: this.props.course.rem_seats
+            remainingseats: this.props.course.rem_seats,
+            modalshow: false,
+            modaltitle: '',
+            modalbody: ''
         };
 
         this.onCourseLinkClick = this.onCourseLinkClick.bind(this);
@@ -23,9 +28,23 @@ class CourseRow extends React.Component {
         
     }
     onCourseLinkClick() {
-        alert(this.props.course.name);
         //this.props.history.push('/coursedetails');
+
+        this.setState({
+            modalshow: true,
+            modaltitle: 'Course Details',
+            modalbody:  this.props.course.name ,
+
+        });
     }
+    handleConfirmModalClose = (fromModal) => {
+        //alert(fromModal.msg);
+
+        this.setState({
+            modalshow: false
+        });
+        
+    };
 
     render() {
         const course = this.props.course;
@@ -57,9 +76,11 @@ class CourseRow extends React.Component {
                 <td>
 
                     <Button size="lg" onClick={this.onCourseLinkClick}
-                        block variant = "link" > { course.name }</Button>
+                         variant = "link" > { course.name }</Button>
                   
-                </td>
+               
+                </td>      
+
                 <td>{course.start_date}</td>
                 <td>{course.end_date}</td>
                 <td>{course.duration}</td>
@@ -72,42 +93,6 @@ class CourseRow extends React.Component {
         )
     }
 }
-function Example() {
-    const [smShow, setSmShow] = useState(false);
-    const [lgShow, setLgShow] = useState(false);
 
-    return (
-        <>
-            <Button onClick={() => setSmShow(true)}>Small modal</Button>{' '}
-            <Button onClick={() => setLgShow(true)}>Large modal</Button>
-            <Modal
-                size="sm"
-                show={smShow}
-                onHide={() => setSmShow(false)}
-                aria-labelledby="example-modal-sizes-title-sm"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-sm">
-                        Small Modal
-          </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>...</Modal.Body>
-            </Modal>
-            <Modal
-                size="lg"
-                show={lgShow}
-                onHide={() => setLgShow(false)}
-                aria-labelledby="example-modal-sizes-title-lg"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                        Large Modal
-          </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>...</Modal.Body>
-            </Modal>
-        </>
-    );
-}
 
 export default CourseRow;
