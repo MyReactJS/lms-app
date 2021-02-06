@@ -38,7 +38,7 @@ class ToggleButton extends React.Component {
             this.setState({
                 modalshow: true,
                 modaltitle: 'Enrollment',
-                modalbody: 'Enrolled',
+                modalbody: 'Enrolled' ,
 
             });
         }
@@ -78,7 +78,7 @@ class ToggleButton extends React.Component {
             </div>
         }
         else {
-            button = <div> <button type="button" onClick={this.handleClick} className="btn btn-primary btn-block" disabled={this.props.disabled}>
+            button = <div> <button type="button" onClick={this.handleClick} className={this.state.isToggleOn ? "btn btn-primary btn-block" : "btn btn-success btn-block"} disabled={this.props.disabled}>
                 {this.state.isToggleOn ? this.state.ToggleOnLabel : this.state.ToggleOffLabel}</button>
             <ModalComponent
                 show={this.state.modalshow}

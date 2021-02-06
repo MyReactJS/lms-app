@@ -7,6 +7,8 @@ import axios from 'axios';
 import { setUserAuthenticationStatus } from './Common';
 import ModalComponent from './common/ModalComponent.js';
 import { getUserAuthenticationStatus } from "./Common.js";
+import Button from 'react-bootstrap/Button';
+
 import './HomePage.css';
 class HomePage extends React.Component {
     constructor(props) {
@@ -92,7 +94,7 @@ class HomePage extends React.Component {
         if (this.state.formValid == true)
         {
             setUserAuthenticationStatus(true);
-            setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
+            setUserSession(12, "Rajeswari Subramanian", "01/01/1990",payload.role, "Chennai",
                 payload.email, "1234567890");
            
             this.setState({
@@ -161,26 +163,26 @@ class HomePage extends React.Component {
                                 onChange={this.handleUserInput} />
                         </div>
 
+                        <Button onClick={this.handleOnSubmit} variant="primary" className="btn-class col-md-6" type="submit">Login</Button>
+                        
                        
-                        <input type='submit' value='Login'  />
-                       
-                        {!this.state.formValid  ?
-                            <div className='error-message' >
-                            <FormErrors formErrors={this.state.formErrors} />
-                            </div> : 
-                            <ModalComponent
-                                show={this.state.modalshow}
-                                title={this.state.modaltitle}
-                                body={this.state.modalbody}
-                                onClick={this.handleConfirmModalClose}
-                                onHide={this.handleConfirmModalClose} />
-                        }
-
+                        
                         <div >
                             <label>   New User?  <a href='#' onClick={this.handleClick}>Register Now </a> </label>
                            
                            
                         </div>
+                            {!this.state.formValid ?
+                                <div className='error-message' >
+                                    <FormErrors formErrors={this.state.formErrors} />
+                                </div> :
+                                <ModalComponent
+                                    show={this.state.modalshow}
+                                    title={this.state.modaltitle}
+                                    body={this.state.modalbody}
+                                    onClick={this.handleConfirmModalClose}
+                                    onHide={this.handleConfirmModalClose} />
+                            }
 
                     </form>
                 </div>

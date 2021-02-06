@@ -57,19 +57,19 @@ class CourseRow extends React.Component {
         let toggleOnLabel = "Enroll";
         let toggleOffLabel = "UnEnroll";
         //console.log(courseEndDate < todayDate);
-        
-        if (this.props.disabled==true)
-        {
-            
+
+        if (this.props.disabled == true) {
+
             disabled = true;
             enrolled = true;
         }
-      
-        else if (course.rem_seats == 0 || ( courseStartDate <todayDate))
+
+        else if (course.rem_seats == 0 || (courseStartDate < todayDate))
             disabled = true;
         //console.log("toggleOnLabel:" + toggleOnLabel);
         return (
-            <tr id={this.props.id} className="table-light" disabled={course.rem_seats === 0 ? true : false}>
+            <tr id={this.props.id} className={disabled==true?"table-secondary":"table-light"
+    } disabled={disabled ? true : false}>
                 <td >{course.courseId}</td>
                 <td >{course.sessionId}</td>
                 <td >{course.category}</td>

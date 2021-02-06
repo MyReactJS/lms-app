@@ -32,8 +32,7 @@ class CourseTable extends React.Component
             //console.log(course.sessionId +"=" + enrolledcourses_sessionids.includes(course.sessionId));
             let coursestartdate = new Date(course.start_date);
             let courseenddate = new Date(course.end_date);
-            if (courseStartDateFilter == '' && courseEndDateFilter == '') {
-
+            
                 // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
@@ -43,10 +42,8 @@ class CourseTable extends React.Component
 
                 if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
                     return;
-                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                    id={course.sessionId} course={course} />);
-            }
-            else if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
+               
+            if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
@@ -63,11 +60,14 @@ class CourseTable extends React.Component
             else if (courseEndDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-                if ( courseenddate <= courseEndDateFilter)
+                if (courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
                         id={course.sessionId} course={course} />);
             }
-           
+            else {
+                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                    id={course.sessionId} course={course} />);
+            }
              
             
         });

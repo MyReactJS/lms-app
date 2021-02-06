@@ -37,7 +37,7 @@ class ProfileS extends React.Component
                                             <Form.Group as={Row} controlId="name">
                                             <Form.Label column="lg">Student Name</Form.Label>
                                             <Col>
-                                                <Form.Control className="border-0 inputbox" font-size="xx-large" type="text" value={name} disabled />
+                                                <Form.Control className="profile-data"  font-size="xx-large" type="text" value={name}  />
                                             </Col>
                                              </Form.Group>
                                         </Col>
@@ -48,7 +48,7 @@ class ProfileS extends React.Component
                                                     Total Credit(s)
                                                 </Form.Label>
                                                 <Col>
-                                                <Form.Control type="text" disabled placeholder="" value={this.props.tot_credits} />
+                                                <Form.Control className="profile-data" type="text"  placeholder="" value={this.props.tot_credits} />
                                                 </Col>
                                             </Form.Group>
                                         </Col>
@@ -60,7 +60,7 @@ class ProfileS extends React.Component
                                                 Email
                                             </Form.Label>
                                             <Col>
-                                                <Form.Control value={email} disabled type="email" placeholder="Email" />
+                                                <Form.Control className="profile-data"  value={email}  type="email" placeholder="Email" />
                                             </Col>
                                         </Form.Group>
                                     </Col>
@@ -71,7 +71,7 @@ class ProfileS extends React.Component
                                                 Phone Number
                                                 </Form.Label>
                                             <Col>
-                                                <Form.Control type="text"  readOnly size="lg" value={phonenum} />
+                                                <Form.Control className="profile-data"  type="text"   size="lg" value={phonenum} />
                                             </Col>
                                         </Form.Group>
                                     </Col>

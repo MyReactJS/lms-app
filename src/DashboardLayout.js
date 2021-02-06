@@ -23,7 +23,7 @@ const DashboardLayout = ({ children, ...rest }) => {
                             <li ><a href="/dashboardF">DashBoard</a></li>
                     }
                         <li ><a href="/course">Courses</a></li>
-                        <li ><a href="/aboutus">About Us</a></li>
+                      
                         <li ><a href="/logout">Log Out</a></li>
 
                     </ul>

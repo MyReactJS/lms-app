@@ -2,8 +2,15 @@ Form.Control
 {
     font-size:xx-large;
 }
-.form-control:disabled, .form-control[readonly] {
-    background-color: unset;
+.profile-data {
+    background-color: white;
     border: none;
     outline-width: 0;
+    font-size: medium;
+}
+.form-control:disabled, .form-control[readonly] {
+    background-color: white;
+    border: none;
+    outline-width: 0;
+    font-size: medium;
 }

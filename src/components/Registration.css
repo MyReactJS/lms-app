@@ -14,6 +14,58 @@
     background-color: #05144f;
 }
 
+.btn-class {
+    width: 240px;
+    height: 35px;
+    display: block;
+    font-family: Arial, "Helvetica", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 1px 1px 0px #37a69b;
+    padding-top: 6px;
+    margin: 29px 0 0 29px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: inset 0px 1px 0px #0094ff, 0px 5px 0px 0px #0094ff, 0px 10px 5px #999;
+}
+.label-style {
+    
+    text-align: left;
+    padding-top: 5px;
+}
+.btn-class-sec {
+    width: 240px;
+    height: 35px;
+    display: block;
+    font-family: Arial, "Helvetica", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 1px 1px 0px #37a69b;
+    padding-top: 6px;
+    margin: 29px 0 0 29px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: inset 0px 1px 0px #999, 0px 5px 0px 0px #999, 0px 10px 5px #999;
+}
+
 .App-body {
     grid-column: 1;
     grid-row: 2 / 3;

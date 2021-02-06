@@ -145,10 +145,10 @@ class CourseSearch extends React.Component {
                                     </Form.Row>
                                     <Form.Row>
                                         <Col>
-                                            <Button onClick={this.handleOnSubmit} variant="primary" className="col-md-6" type="submit">Search</Button>
+                                            <Button  onClick={this.handleOnSubmit} variant="primary" className="btn-class col-md-6" type="submit">Search</Button>
                                         </Col>
                                         <Col>
-                                            <Button variant="secondary" className=" col-md-6" type="cancel">Cancel</Button>
+                                            <Button variant="secondary" className="btn-class-sec  col-md-6" type="cancel">Cancel</Button>
                                         </Col></Form.Row>
                                 </Form>
 

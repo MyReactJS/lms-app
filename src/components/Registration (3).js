@@ -3,8 +3,6 @@ import React from 'react';
 import { FormErrors } from './FormErrors';
 import { withRouter } from "react-router-dom";
 import { setUserSession } from './Common.js';
-import DatePicker from "react-datepicker";
-
 //import { setUserAuthenticationStatus } from './Common.js';
 import Container from 'react-bootstrap/Container'
 //import { getUserAuthenticationStatus } from "./Common.js";
@@ -30,17 +28,11 @@ class Registration extends React.Component {
             phonevalid: false,
             formValid: false,
         }
-        this.handleDOBChange = this.handleDOBChange.bind(this);
-        this.handleSignClick = this.handleSignClick.bind(this);
     }
     handleChange = (e) => {
         this.setState({
             role: e.target.value
         })
-    }
-    handleSignClick(e) {
-        this.props.history.push('/login');
-        e.preventDefault();
     }
 
     validateField(fieldName, value) {
@@ -92,7 +84,6 @@ class Registration extends React.Component {
        //    var self = this;
         var user = {
             "name": this.state.name,
-            "dob":this.state.dob,
             "email": this.state.email,
             "password": this.state.password,
             "phone": this.state.phone,
@@ -103,7 +94,7 @@ class Registration extends React.Component {
         }
         var addr = this.state.address + ' ' + this.state.city + ' ' + this.state.pincode;
         console.log(user);   
-        setUserSession(1, this.state.name,this.state.dob, this.state.role, addr, this.state.email, this.state.phone);
+        setUserSession(1, this.state.name, this.state.role, addr, this.state.email, this.state.phone);
         //this.props.setUserAuthenticationStatus(true);
        // alert("After Registration:" + );
         //alert(this.state.role);
@@ -118,9 +109,7 @@ class Registration extends React.Component {
         e.stopPropagation();
 
     }
-    handleDOBChange(dob) {
-        this.setState({ dob: dob });
-    }
+
     render() {
         return (
                
@@ -128,12 +117,12 @@ class Registration extends React.Component {
             <Container fluid>
                 <div className=" decor_bg" >
                          <div className="row">
-                             <div className="container-fluid col-md-6">
+                             <div className="col-md-10">
                                  <div className="panel panel-primary">
                                      <div className="panel-heading"><h4>SIGN UP</h4></div>
                                      <div className="panel-body">
                                          <form  onSubmit={this.handleSubmit}>
-                                        
+
                                              <div className="form-group">
                                                  
                                                  <input type="radio" value="faculty" checked={this.state.role === "faculty"}
@@ -144,23 +133,15 @@ class Registration extends React.Component {
                                                      onChange={this.handleChange} />
                                                  <label htmlFor="Student">Student</label>
                                                 
-                                        </div>
-                                        
+                                             </div>
                                              <div className="form-group">
-                                            
-                                            <input
-                                                     type="text" className="form-control" placeholder="Enter your name *" name="name" id="name"
-                                                value={this.state.name} onChange={this.handleUserInput} required />
-                                            
-                                        </div>
-                                        <div className="form-group">
-                                            <DatePicker required className="d-flex justify-content-center" placeholderText="Enter Date of Birth *" selected={this.state.dob} onChange={this.handleDOBChange} name="dob" dateFormat="MM/dd/yyyy" />
-                                        </div>
+                                                 <input
+                                                     type="text" className="form-control" placeholder="Enter your name *" name="name"
+                                                     value={this.state.name} onChange={this.handleUserInput} required />
+                                             </div>
                                              <div className="form-group">
-                                           
-                                            <input type="text" className="form-control" placeholder="Enter email *" id='email' name="email" value={this.state.email}
-                                                onChange={this.handleUserInput} required />
-                                            
+                                                 <input type="text" className="form-control" placeholder="Enter email *" name="email" value={this.state.email}
+                                                     onChange={this.handleUserInput} required />
                                              </div>
                                              <div className="form-group">
                                                  <input type="password" className="form-control" placeholder="Enter Password *" name="password" value={this.state.password}
@@ -182,27 +163,19 @@ class Registration extends React.Component {
                                              <div className="form-group">
                                                  <input type="text" className="form-control" placeholder="Enter Phonenumber * " name="phone" value={this.state.phone}
                                                      onChange={this.handleUserInput} required />
-                                            </div>
-                                            
+                                             </div>
                                         <div className="form-group">
-                                                
-                                                    <button type='submit' value='Submit' class="btn btn-class btn-primary btn-lg col-md-4" disabled={!this.state.formValid}> Submit </button>
+                                            <button type='submit' value='Submit' class="btn btn-class btn-primary btn-lg col-md-4" disabled={!this.state.formValid}> Submit </button>
                                             <button type='cancel' value='Cancel' class="btn  btn-class-sec btn-secondary btn-lg col-md-offset-2 col-md-4"> Cancel </button>
-                                                   
+
                                         </div>
-                                    
-                                          
                                        
                                             <div className='error-message' >
                                                <FormErrors formErrors={this.state.formErrors} />
                                             </div>
                                        
                        
-                                    </form>
-
-                                    <label className='label-style'>Regiestered User?  <a href='#' onClick={this.handleSignClick}>Sign in </a> </label>
-
-
+                    </form>
                             </div></div></div></div></div>
             </Container>
 
