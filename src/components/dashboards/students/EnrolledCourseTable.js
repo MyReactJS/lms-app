@@ -1,7 +1,8 @@
 import React from 'react';
 import enrolledCourses from './EnrolledCourses.json';
-import './EnrolledCourseTable.css';
+
 import EnrolledCourseRow from './EnrolledCourseRow.js';
+import './EnrolledCourseTable.css';
 class EnrolledCourseTable extends React.Component {
     constructor(props) {
         super(props);
