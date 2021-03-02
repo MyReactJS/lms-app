@@ -1,5 +1,5 @@
 import React from 'react';
-import enrolledCourses from './EnrolledCourses.json';
+//import enrolledCourses from './EnrolledCourses.json';
 import axios from "axios";
 import EnrolledCourseRow from './EnrolledCourseRow.js';
 import './EnrolledCourseTable.css';
@@ -9,19 +9,14 @@ class EnrolledCourseTable extends React.Component {
         super(props);
        
         this.tot_credits = 0;
-        this.state = {
-            enrolled_courses: []
-        };
-        enrolledCourses.forEach((course) => {
-            
-            this.tot_credits = this.tot_credits + course.credits;
-        });
+        this.enrolled_courses= [];
+        
+        
         this.props.setTotalCredits(this.tot_credits);
+       
     }
-
-    componentDidMount() {
-
-
+    fetchdata()
+    {
         var local_courses = [];
         const profile = getUser();
         var userid = profile.id
@@ -38,7 +33,7 @@ class EnrolledCourseTable extends React.Component {
                     //console.log("rem_seats:" + coursesession.rem_seats);
                     //console.log("start_date:" + coursesession.start_date);
                     //console.log("start_date:" +  coursesession.end_date);
-                    var local_course = new Map();                    
+                    var local_course = new Map();
                     axios.get("/api/core/sessions/?id=" + enrolledsession.course)
                         .then(res2 => {
                             //console.log(res2.data);
@@ -54,7 +49,7 @@ class EnrolledCourseTable extends React.Component {
                                 local_course.set('status', 'Completed');
                             else if (local_course.get('start_date') < todayDate) //start date in past
                                 local_course.set('status', 'In Progress');
-                            else 
+                            else
                                 local_course.set('status', 'Not Started');
                             axios.get("/api/core/courses/" + courseid + "/")
                                 .then(res3 => {
@@ -64,9 +59,9 @@ class EnrolledCourseTable extends React.Component {
                                     local_course.set('duration', course.duration);
                                     local_course.set('name', course.name);
                                     axios.get("/api/core/category/" + course_category_id + "/")
-                                        .then(res4 => {                                           
-                                            const course_category = res4.data.name                                            
-                                            local_course.set('category', course_category);                                            
+                                        .then(res4 => {
+                                            const course_category = res4.data.name
+                                            local_course.set('category', course_category);
                                             local_courses.push(local_course);
 
                                         })
@@ -78,18 +73,30 @@ class EnrolledCourseTable extends React.Component {
                             console.log(err);
                         });
                 })
-                
+                this.enrolled_courses=local_courses;
+                console.log(this.enrolled_courses);
+                this.enrolled_courses.forEach((course) => {
+
+                    this.tot_credits = this.tot_credits + course.credits;
+                });
             })
             .catch(err => {
                 console.log(err);
             });
-        console.log(local_courses);
-        this.setState({ enrolled_courses: local_courses }, () => { console.log(this.state.enrolled_courses) });
+    }
+    componentDidMount () {
+
+        this.fetchdata();
+        
+       
 
     }
     render() {
+        
         const rows = [];
-        this.state.enrolled_courses.map((course) => {
+        console.log('rows.length:' + this.enrolled_courses.length);
+
+        this.enrolled_courses.map((course) => {
             console.log(course);
             rows.push(<EnrolledCourseRow course={course} />);
         });

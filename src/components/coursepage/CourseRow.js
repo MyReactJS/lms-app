@@ -108,7 +108,7 @@ class CourseRow extends React.Component {
                 <td>{course.get('credits')}</td>
                 <td>{this.state.remainingseats} </td>
                 <td> <ToggleButton disabled={disabled} enrolled={enrolled} toggleOnLabel={toggleOnLabel}
-                    toggleOffLabel={toggleOffLabel} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>
+                    toggleOffLabel={toggleOffLabel} sessionid={course.get('sessionId')} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>
                 
             </tr>
         )
