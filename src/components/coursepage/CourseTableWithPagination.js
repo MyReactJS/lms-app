@@ -177,10 +177,23 @@ class CourseTableWithPagination extends React.Component
                     <div className="panel panel-primary">
                         <div className="container-fluid panel-heading"><h4>Search Results</h4></div>
                         <div className="panel-body">
-                            <h2> {recCount} course(s) found </h2>
+                           
                             {recCount == 0 ?
-                                null :
+                                 <div className="col-lg-5"> <h2> {recCount} course(s) found </h2> </div>
+                                 :
                                 <div>
+                                    <div className="row">
+                                        <div className="col-lg-5"> <h2> {recCount} course(s) found </h2> </div>
+                                    <div className="col-lg-7 text-right">
+                                    <ul id="page-numbers" className="pagination">
+                                            {renderPrevBtn}
+                                            {pageDecrementBtn}
+                                            {renderPageNumbers}
+                                            {pageIncrementBtn}
+                                            {renderNextBtn}
+                                        </ul>
+                                        </div>
+                                        </div>
                                     <table className="table table-bordered table-hover">
                                         <thead >
                                             <tr id='courserow' className="bg-primary">
@@ -200,13 +213,7 @@ class CourseTableWithPagination extends React.Component
                                             {renderRows}
                                         </tbody>
                                     </table>
-                                    <ul id="page-numbers" className="pagination">
-                                        {renderPrevBtn}
-                                        {pageDecrementBtn}
-                                        {renderPageNumbers}
-                                        {pageIncrementBtn}
-                                        {renderNextBtn}
-                                    </ul>
+                                    
 
                                 </div>
                             }

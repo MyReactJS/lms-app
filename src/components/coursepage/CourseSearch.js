@@ -1,5 +1,5 @@
 import React from 'react';
-import categories from './coursecategories.json';
+//import categories from './coursecategories.json';
 import courses from './courses.json';
 import enrolledcourses from './../dashboards/students/EnrolledCourses.json';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -10,6 +10,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import './CourseSearch.css';
 import CourseRow from './CourseRow.js';
+import axios from "axios";
+
 class CourseSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -17,7 +19,9 @@ class CourseSearch extends React.Component {
         this.coursecategory = '';
         this.coursecredits = '';
         this.state = {
-            startdate : '',enddate : ''
+            startdate: '', enddate: '',
+            categories: [],
+            courses:[]
         };
         this.credits = [1,2,3,4,5,6,7,8,9,10];
         this.handleCourseNameChange = this.handleCourseNameChange.bind(this);
@@ -26,7 +30,6 @@ class CourseSearch extends React.Component {
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
-        
     }
     handleOnSubmit(event)
     {
@@ -37,6 +40,7 @@ class CourseSearch extends React.Component {
             enrolledcourses_sessionids.push(course.sessionId);
 
         });
+        
 
         var courseNameFilter = this.coursename;
         var courseCategoryFilter = this.coursecategory;
@@ -44,44 +48,46 @@ class CourseSearch extends React.Component {
         var courseStartDateFilter = this.state.startdate == '' ? '' : this.state.startdate;
         var courseEndDateFilter = this.state.enddate == '' ? '' : this.state.enddate;
        // alert(courseNameFilter)
-        courses.forEach((course) =>
+        //alert("onsubmit");
+        this.state.courses.map((course) =>
         {
-            let coursestartdate = new Date(course.start_date);
-            let courseenddate = new Date(course.end_date);
+            //alert(course.get('sessionId'));
+            let coursestartdate = course.get('start_date');
+            let courseenddate = course.get('end_date');
 
             // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
             // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
-            if (course.name.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
+            if (course.get('name').toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
                 return;
-            if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
+            if (courseCategoryFilter !== '' && course.get('category') !== courseCategoryFilter)
                 return;
 
-            if (courseCreditsFilter !== '' && course.credits != courseCreditsFilter)
+            if (courseCreditsFilter !== '' && course.get('credits') != courseCreditsFilter)
                 return;
             if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                        id={course.sessionId} course={course} />);
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                        id={course.get('sessionId')} course={course} />);
             }
             else if (courseStartDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
                         id={course.sessionId} course={course} />);
             }
             else if (courseEndDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
+                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
                         id={course.sessionId} course={course} />);
             }
             else {
-                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.sessionId)}
-                    id={course.sessionId} course={course} />);
+                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                    id={course.get('sessionId')} course={course} />);
             }
 
 
@@ -91,7 +97,8 @@ class CourseSearch extends React.Component {
 
         //alert(rows.length);
        // this.setState({ rows: rows });
-    //    alert(rows);
+        //alert(rows);
+        //console.log(rows);
         this.props.setResultRows(rows);
         event.preventDefault();
         event.stopPropagation();
@@ -132,11 +139,81 @@ class CourseSearch extends React.Component {
     
     
   
+    componentDidMount() {
+
+        
+        var local_courses = [];
+        axios.get("/api/core/category/")
+            .then((res) =>
+            {
+                //console.log(res.data);
+                this.setState({ categories: res.data })
+                //console.log(this.state.categories);
+                }
+            )
+            .catch((err) => console.log(err));
+        axios.get("/api/core/sessions/")
+            .then(res1 => {
+                // just grab the first 5 links
+                const course_sessions_data = res1.data.results
+                //console.log(course_sessions_data);
+                // NESTED AXIOS CALLS
+                course_sessions_data.forEach(coursesession => {
+                    //console.log("course:" + coursesession.course);
+                    //console.log("tot_seats:" + coursesession.tot_seats);
+                    //console.log("rem_seats:" + coursesession.rem_seats);
+                    //console.log("start_date:" + coursesession.start_date);
+                    //console.log("start_date:" +  coursesession.end_date);
+                    var local_course = new Map();
+                    local_course.set('sessionId', coursesession.id);
+
+                    local_course.set('tot_seats',coursesession.tot_seats);
+                    local_course.set('rem_seats', coursesession.rem_seats);
+                    local_course.set('start_date', new Date(coursesession.start_date));
+                    local_course.set('end_date', new Date(coursesession.end_date));
+                    local_course.set('courseId', coursesession.course);
+                    axios.get("/api/core/courses/" + coursesession.course + "/")
+                        .then(res2 => {
+                            //console.log(res2.data);
+                            local_course.set('credits', res2.data.credit);
+                            local_course.set('duration', res2.data.duration);
+
+                            local_course.set('name', res2.data.name);
+                            const course_category_id = res2.data.category
+                            //console.log("course name: " + course_name);
+                            //console.log("category id:" + course_category_id);
+                            
+                            axios.get("/api/core/category/" + course_category_id + "/")
+                                .then(res3 => {
+                                    //console.log(res3.data);
+                                    const course_category = res3.data.name
+                                    //console.log("category:" + course_category);
+                                    local_course.set('category', course_category);
+                                    //console.log(local_course);
+                                    local_courses.push(local_course);
+                                })
+
+                        })
+
+                        .catch(err => {
+                            console.log(err);
+                        });
+                })
+                //console.log(local_courses);
+                this.setState({ courses: local_courses });
+                console.log(this.state.courses);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        
+    }
+
 
     
     render() {
         const categorynames = [];
-        categories.map((category) => categorynames.push(category.name));
+        this.state.categories.map((category) => categorynames.push(category.name));
             
      
        

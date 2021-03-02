@@ -2,11 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\public",
+    "\\public\\data",
+    "\\public\\img",
     "\\src",
     "\\src\\components",
     "\\src\\components\\common",
-    "\\src\\components\\dashboards"
+    "\\src\\components\\coursepage",
+    "\\src\\components\\dashboards",
+    "\\src\\components\\dashboards\\students"
   ],
-  "SelectedNode": "\\src\\components\\common\\fetchJSON.js",
+  "SelectedNode": "\\src\\components\\coursepage\\CourseTableWithPagination.js",
   "PreviewInSolutionExplorer": false
 }

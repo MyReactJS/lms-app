@@ -13,7 +13,7 @@ class CourseRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            remainingseats: this.props.course.rem_seats,
+            remainingseats: this.props.course.get('rem_seats'),
             modalshow: false,
             modaltitle: '',
             modalbody: ''
@@ -21,6 +21,8 @@ class CourseRow extends React.Component {
 
         this.onCourseLinkClick = this.onCourseLinkClick.bind(this);
         this.setRemainingSeats = this.setRemainingSeats.bind(this);
+        this.GetFormattedDate = this.GetFormattedDate.bind(this);
+
     }
     setRemainingSeats(rem_seats) {
 
@@ -45,14 +47,26 @@ class CourseRow extends React.Component {
         });
         
     };
+   
 
+ GetFormattedDate(date) {
+
+     var dd = String(date.getDate()).padStart(2, '0');
+     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+     var yyyy = date.getFullYear();
+
+     date = mm + '/' + dd + '/' + yyyy;
+     return date;
+}
     render() {
         const course = this.props.course;
+        console.log(course);
+        console.log(course.get('end_date'));
         var todayDate = new Date();
         var disabled = false;
         var enrolled = false;
-        var courseEndDate = new Date(course.end_date);
-        var courseStartDate = new Date(course.start_date);
+        var courseEndDate = course.get('end_date');
+        var courseStartDate = course.get('start_date');
 
         let toggleOnLabel = "Enroll";
         let toggleOffLabel = "UnEnroll";
@@ -64,19 +78,19 @@ class CourseRow extends React.Component {
             enrolled = true;
         }
 
-        else if (course.rem_seats == 0 || (courseStartDate < todayDate))
+        else if (course.get('rem_seats') == 0 || (courseStartDate < todayDate))
             disabled = true;
         //console.log("toggleOnLabel:" + toggleOnLabel);
         return (
             <tr id={this.props.id} className={disabled==true?"table-secondary":"table-light"
     } disabled={disabled ? true : false}>
-                <td >{course.courseId}</td>
-                <td >{course.sessionId}</td>
-                <td >{course.category}</td>
+                <td >{course.get('courseId')}</td>
+                <td >{course.get('sessionId')}</td>
+                <td >{course.get('category')}</td>
                 <td>
 
                     <Button size="lg" onClick={this.onCourseLinkClick}
-                         variant = "link" > { course.name }</Button>
+                         variant = "link" > { course.get('name') }</Button>
                    <ModalComponent
                 show={this.state.modalshow}
                 title={this.state.modaltitle}
@@ -88,10 +102,10 @@ class CourseRow extends React.Component {
                
                 </td>      
 
-                <td>{course.start_date}</td>
-                <td>{course.end_date}</td>
-                <td>{course.duration}</td>
-                <td>{course.credits}</td>
+                <td>{this.GetFormattedDate(course.get('start_date'))}</td>
+                <td>{this.GetFormattedDate(course.get('end_date'))}</td>
+                <td>{course.get('duration')}</td>
+                <td>{course.get('credits')}</td>
                 <td>{this.state.remainingseats} </td>
                 <td> <ToggleButton disabled={disabled} enrolled={enrolled} toggleOnLabel={toggleOnLabel}
                     toggleOffLabel={toggleOffLabel} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>

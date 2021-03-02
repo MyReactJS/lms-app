@@ -73,18 +73,48 @@ class Login extends React.Component {
         e.preventDefault();
     }
     handleSubmit = (e) => {
+        var apiBaseUrl = "http://localhost:8000/api/authentication/";
+        var self = this;
         var payload = {
             "email": this.state.email,
             "password": this.state.password,
             "role": this.state.UserType
         }
 
-        axios.get('data/login.json')
-            .then((res) => {
-                console.log(res.data);
-            }).catch((err) => {
-                console.log(err);
+        axios.get(apiBaseUrl + 'login/', payload)
+            .then(function (response) {
+
+                self.setState({ users: response.data });
+                setUserSession(response.data[0].id, response.data[0].name, payload.role,
+                    response.data[0].city, response.data[0].email, response.data[0].phone);
+                
+                if (response.status === 200) {
+                    console.log("Login successfull");
+                    console.log(this.state.users);
+                    if (payload.role === "student") {
+                        self.props.history.push('/dashboardS');
+                    }
+                    else
+                        if (payload.role === "faculty") {
+                            self.props.history.push('/dashboardF');
+                        }
+
+
+                }
+                else if (response.data.code === 204)
+                {
+                    console.log("emailid and pwd  do not match");
+                    //alert("emailid and pwd  do not match")
+                }
+                else
+                {
+                    console.log("User does not exists");
+                    //alert("User does not exist");
+                }
             })
+            .catch(function (error) {
+                console.log(error);
+            });
         this.validateField();
         e.preventDefault();
         e.stopPropagation();
@@ -92,8 +122,8 @@ class Login extends React.Component {
         if (this.state.formValid == true)
         {
             setUserAuthenticationStatus(true);
-            setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
-                payload.email, "1234567890");
+            //setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
+           //     payload.email, "1234567890");
            
             this.setState({
                 modalshow: true,

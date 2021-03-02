@@ -75,28 +75,56 @@ class HomePage extends React.Component {
         e.preventDefault();
     }
     handleSubmit = (e) => {
+        var apiBaseUrl = "http://localhost:8000/api/authentication/";
+        var self = this;
         var payload = {
             "email": this.state.email,
             "password": this.state.password,
             "role": this.state.UserType
         }
+        console.log("login submit");
+        console.log(payload);
+        axios.post(apiBaseUrl + 'login/', payload)
+            .then(function (response) {
+                console.log("got the user");
+                self.setState({ users: response.data });
+                setUserSession(response.data[0].id, response.data[0].name, response.data[0].dob, payload.role,
+                    response.data[0].city, response.data[0].email, response.data[0].phone);
+                console.log("status: " + response.status);
+                if (response.status === 200) {
+                    console.log("Login successfull");
+                    //console.log(this.state.users);
+                    if (payload.role === "student") {
+                        self.props.history.push('/dashboardS');
+                    }
+                    else
+                        if (payload.role === "faculty") {
+                            self.props.history.push('/dashboardF');
+                        }
 
-        axios.get('data/login.json')
-            .then((res) => {
-                console.log(res.data);
-            }).catch((err) => {
-                console.log(err);
+
+                }
+                else if (response.data.code === 204) {
+                    console.log("emailid and pwd  do not match");
+                    //alert("emailid and pwd  do not match")
+                }
+                else {
+                    console.log("User does not exists");
+                    //alert("User does not exist");
+                }
             })
+            .catch(function (error) {
+                console.log(error);
+            });
         this.validateField();
         e.preventDefault();
         e.stopPropagation();
 
-        if (this.state.formValid == true)
-        {
+        if (this.state.formValid == true) {
             setUserAuthenticationStatus(true);
-            setUserSession(12, "Rajeswari Subramanian", "01/01/1990",payload.role, "Chennai",
-                payload.email, "1234567890");
-           
+            //setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
+            //     payload.email, "1234567890");
+
             this.setState({
                 modalshow: true,
                 modaltitle: 'Login',
@@ -104,9 +132,9 @@ class HomePage extends React.Component {
 
             });
 
-          //  alert("modal open");
+            //  alert("modal open");
 
-           
+
 
         }
         

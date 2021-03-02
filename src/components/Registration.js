@@ -4,6 +4,7 @@ import { FormErrors } from './FormErrors';
 import { withRouter } from "react-router-dom";
 import { setUserSession } from './Common.js';
 import DatePicker from "react-datepicker";
+import axios from "axios";
 
 //import { setUserAuthenticationStatus } from './Common.js';
 import Container from 'react-bootstrap/Container'
@@ -15,11 +16,12 @@ class Registration extends React.Component {
         super(props);
         this.state = {
             name: '',
+            dob:'',
             email: '',
             password: '',
             address: '',
             city: '',
-            pincode: '',
+            pin: '',
             phone: '',
             role: 'student',
             
@@ -32,6 +34,20 @@ class Registration extends React.Component {
         }
         this.handleDOBChange = this.handleDOBChange.bind(this);
         this.handleSignClick = this.handleSignClick.bind(this);
+        this.GetFormattedDate = this.handleSignClick.bind(this);
+    }
+    GetFormattedDate(date)
+    {
+        alert(date);
+        console.log(date);
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+
+        date = yyyy + '-' + mm + '-' + dd;
+        alert(date);
+        console.log(date);
+        return date;
     }
     handleChange = (e) => {
         this.setState({
@@ -40,7 +56,7 @@ class Registration extends React.Component {
     }
     handleSignClick(e) {
         this.props.history.push('/login');
-        e.preventDefault();
+        //e.preventDefault();
     }
 
     validateField(fieldName, value) {
@@ -88,37 +104,60 @@ class Registration extends React.Component {
     }
 
     handleSubmit = (e) => {
-     //   var apiBaseUrl = "http://localhost:8000/api/authentication/";
-       //    var self = this;
+        var apiBaseUrl = "http://127.0.0.1:8000/api/authentication/";
+        var self = this;
+        
         var user = {
             "name": this.state.name,
-            "dob":this.state.dob,
+            "dob": this.GetFormattedDate(this.state.dob),
             "email": this.state.email,
             "password": this.state.password,
             "phone": this.state.phone,
             "address": this.state.address,
             "city": this.state.city,
-            "role": this.state.role,
-            "pincode": this.state.pincode,
+            "role": this.state.role.toLowerCase(),
+            "pin": this.state.pincode,
         }
-        var addr = this.state.address + ' ' + this.state.city + ' ' + this.state.pincode;
+        var addr = this.state.address + ' ' + this.state.city + ' ' + this.state.pin;
         console.log(user);   
         setUserSession(1, this.state.name,this.state.dob, this.state.role, addr, this.state.email, this.state.phone);
-        //this.props.setUserAuthenticationStatus(true);
-       // alert("After Registration:" + );
-        //alert(this.state.role);
-        if (this.state.role == 'student')
-            
-            this.props.history.push('/dashboardS');
-        else
-            this.props.history.push('/dashboardF');
+       
+        axios.post(apiBaseUrl + 'registration/', user)
+            .then(function (response) {
+                console.log(response);
+                if (response.status === 201) {
+                    //alert("Registration successfull.Login Again");
+                    console.log("Registration successfull");
+                    if (self.state.role == 'student')
+
+                        self.props.history.push('/dashboardS');
+                    else
+                        self.props.history.push('/dashboardF');
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                else if (response.data.code === 204) {
+                    console.log("invalid data");
+                    alert("invalid data")
+                }
+                else {
+                    console.log("User  exists");
+                    alert("User  exist");
+                }
+
+            })
+            .catch(function (error) {
+                console.log("")
+                console.log(error);
+            });
+        
 
                
-        e.preventDefault();
-        e.stopPropagation();
+       
 
     }
     handleDOBChange(dob) {
+        
         this.setState({ dob: dob });
     }
     render() {
