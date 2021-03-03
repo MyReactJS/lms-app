@@ -18,14 +18,14 @@ class HomePage extends React.Component {
             email: '',
             password: '',
             UserType: 'student',
-            RegisterUserType: 'student',
-            formErrors: { email: '', password: '' },
+            formErrors: { credentials: '', email: '', password: '' },
+            credentialsValid: true,
             emailValid: false,
             passwordValid: false,
             formValid: false,
             modalshow: false,
             modaltitle: '',
-             modalbody: ''
+            modalbody: ''
         }
     }
 
@@ -43,28 +43,9 @@ class HomePage extends React.Component {
         })
     }
 
-    validateField() {
-        let fieldValidationErrors = this.state.formErrors;
-        let emailValid = this.state.emailValid;
-        let passwordValid = this.state.passwordValid;
+    
 
-        
-        emailValid = this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-        passwordValid = this.state.password.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '' : ' is too short';
-                
-        this.setState({
-            formErrors: fieldValidationErrors,
-            emailValid: emailValid,
-            passwordValid: passwordValid
-        }, this.validateForm);
- 
-    }
-
-    validateForm() {
-        this.setState({ formValid: this.state.emailValid && this.state.passwordValid },() => { console.log(this.state.formValid) });
-    }
+    
 
     errorClass(error) {
         return (error.length === 0 ? '' : 'has-error');
@@ -75,73 +56,119 @@ class HomePage extends React.Component {
         e.preventDefault();
     }
     handleSubmit = (e) => {
-        var apiBaseUrl = "http://localhost:8000/api/authentication/";
-        var self = this;
-        var payload = {
-            "email": this.state.email,
-            "password": this.state.password,
-            "role": this.state.UserType
-        }
-        var pwd = this.state.password;
-        console.log("login submit");
-        console.log(payload);
-        axios.post(apiBaseUrl + 'login/', payload)
-            .then(function (response) {
-                console.log("got the user");
-                self.setState({ users: response.data });
-                console.log("pwd:" + pwd);
-                setUserSession(response.data[0].id, response.data[0].name, pwd,response.data[0].dob, payload.role,
-                    response.data[0].city, response.data[0].email, response.data[0].phone);
-                console.log("status: " + response.status);
-                if (response.status === 200) {
-                    console.log("Login successfull");
-                    //console.log(this.state.users);
-                    if (payload.role === "student") {
-                        self.props.history.push('/dashboardS');
+
+        //clean api
+        let self = this;
+        let fieldValidationErrors = this.state.formErrors;
+        fieldValidationErrors.credentials = '';
+        this.setState({
+            formErrors: fieldValidationErrors,
+            credentialsValid: true
+        },() => {
+                console.log(this.state.credentialsValid);
+                this.validateField();
+               
+                
+            });
+           
+        if (this.state.formValid == true)
+        {
+            //alert("before api call");
+            var apiBaseUrl = "http://localhost:8000/api/authentication/";
+            let loginstatus = false;
+            var payload = {
+                "email": this.state.email,
+                "password": this.state.password,
+                "role": this.state.UserType
+            }
+            //var payload = JSONParser().parse(data)
+
+            var pwd = this.state.password;
+            console.log("login submit");
+            console.log(payload);
+            axios.post(apiBaseUrl + 'login/',
+                payload
+            )
+                .then(function (response) {
+                    //alert(response.status);
+                    if (response.status === 200) {
+                       // alert("login successful")
+                        console.log("Login successfull");
+
+                        //this.setState({ users: response.data });
+                        console.log("pwd:" + pwd);
+                        setUserSession(response.data[0].id, response.data[0].name, pwd, response.data[0].dob, payload.role,
+                            response.data[0].city, response.data[0].email, response.data[0].phone);
+                        console.log("status: " + response.status);
+                        loginstatus = true;
+
+
                     }
-                    else
-                        if (payload.role === "faculty") {
-                            self.props.history.push('/dashboardF');
-                        }
+                    else if (response.status == 204) {
+                       // alert("fail")
+                        loginstatus = false;
+                        //this.setState({ formErrors: "bad credentials" });
+                        //console.log(response.message);
+                        //alert(response.message)
+                    }
+                    else {
+                        console.log(response.status);
+
+                    }
+                })
+                .then(() => {
+                    console.log("loginstatus:" + loginstatus);
+
+                    if (loginstatus == false) {
+                        //alert("insdie login failue");
+                        console.log('inside login failue');
+                        let fieldValidationErrors = this.state.formErrors;
+                        fieldValidationErrors.credentials = ' mismatch';
+                        this.setState({
+                            credentialsValid: false,
+                            formErrors: fieldValidationErrors
+                        }, this.validateForm);
+                        console.log(this.state.formErrors);
+
+                    }
+                    else {
+                        console.log('inside login success');
+                        //console.log(self.state.formErrors);
+                        this.showModel();
+                            //.then(() => {
+
+                            //    if (payload.role === "student") {
+                            //        self.props.history.push('/dashboardS');
+                            //    }
+                            //    else
+                            //        if (payload.role === "faculty") {
+                            //            self.props.history.push('/dashboardF');
+                            //        }
+
+                            //});
+                    }
 
 
-                }
-                else if (response.data.code === 204) {
-                    console.log("emailid and pwd  do not match");
-                    //alert("emailid and pwd  do not match")
-                }
-                else {
-                    console.log("User does not exists");
-                    //alert("User does not exist");
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        this.validateField();
-        e.preventDefault();
-        e.stopPropagation();
 
-        if (this.state.formValid == true) {
-            setUserAuthenticationStatus(true);
-            //setUserSession(12, "Rajeswari Subramanian", payload.role, "Chennai",
-            //     payload.email, "1234567890");
+                });
 
-            this.setState({
-                modalshow: true,
-                modaltitle: 'Login',
-                modalbody: 'Login Successful !!!',
-
-            });
-
-            //  alert("modal open");
-
-
-
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
         }
-        
+            
+        }
+
+    showModel = () => {
+        this.setState({
+            modalshow: true,
+            modaltitle: 'Login',
+            modalbody: 'Login Successful !!!',
+
+        })
     }
-   
     handleConfirmModalClose = (fromModal) => {
         //alert(fromModal.msg);
 
@@ -154,13 +181,31 @@ class HomePage extends React.Component {
         else
             this.props.history.push('/dashboardF');
     };
+    validateField() {
+        let fieldValidationErrors = this.state.formErrors;
+        let emailValid = this.state.emailValid;
+        let passwordValid = this.state.passwordValid;
+        //let credentialsValid = this.state.credentialsValid;
 
+        emailValid = this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        passwordValid = this.state.password.length >= 6;
+        fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+        //fieldValidationErrors.credentials = credentialsValid ? '' : 'mismatch';
+        this.setState({
+            formErrors: fieldValidationErrors,
+            emailValid: emailValid,
+            //credentialsValid: credentialsValid,
+            passwordValid: passwordValid
+        }, this.validateForm);
+
+    }
+    validateForm() {
+        this.setState({ formValid: this.state.credentialsValid && this.state.emailValid && this.state.passwordValid }, () => { console.log(this.state.formValid) });
+    }
     render() {
         return (
-           
-               
-                
-                  
+                            
                 <div className='App-body'>
             <div className="loginContainer">
                 <div className="login-menu">
