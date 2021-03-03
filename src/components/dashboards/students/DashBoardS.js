@@ -19,7 +19,18 @@ class DashBoardS extends React.Component {
         const profile = getUser();
         var userid = profile.id
         //console.log("userid:" + userid);
-        axios.get("/api/core/enrolledsessions/?enrolledby=" + userid)
+       // axios.get("/api/core/enrolledsessions/?enrolledby=" + userid)
+         axios.get('/api/core/myenrolledsessions/',
+             {
+                 // Axios looks for the `auth` option, and, if it is set, formats a
+                 // basic auth header for you automatically.
+
+                 auth: {
+                     username: profile.email,
+                     password: profile.password
+                 }
+             }
+         )
             .then(res1 => {
                 // just grab the first 5 links
                 const enrolled_course_sessions_data = res1.data.results
