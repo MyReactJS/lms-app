@@ -82,13 +82,15 @@ class HomePage extends React.Component {
             "password": this.state.password,
             "role": this.state.UserType
         }
+        var pwd = this.state.password;
         console.log("login submit");
         console.log(payload);
         axios.post(apiBaseUrl + 'login/', payload)
             .then(function (response) {
                 console.log("got the user");
                 self.setState({ users: response.data });
-                setUserSession(response.data[0].id, response.data[0].name, response.data[0].dob, payload.role,
+                console.log("pwd:" + pwd);
+                setUserSession(response.data[0].id, response.data[0].name, pwd,response.data[0].dob, payload.role,
                     response.data[0].city, response.data[0].email, response.data[0].phone);
                 console.log("status: " + response.status);
                 if (response.status === 200) {

@@ -3,6 +3,7 @@ export const getUser = () => {
     const userStr = [];
     userStr.id = sessionStorage.getItem('id');
     userStr.name = sessionStorage.getItem('user');
+    userStr.password = sessionStorage.getItem('password');
     userStr.dob = sessionStorage.getItem('dob');
     userStr.type = sessionStorage.getItem('usertype');
     userStr.address = sessionStorage.getItem('useraddress');
@@ -27,9 +28,10 @@ export const removeUserSession = () => {
 }
 
 // set the token and user from the session storage
-export const setUserSession = (id, name,dob, type,address, email, phonenum) => {
+export const setUserSession = (id, name,password,dob, type,address, email, phonenum) => {
     sessionStorage.setItem('id', id);
     sessionStorage.setItem('user', name);
+    sessionStorage.setItem('password', password);
     sessionStorage.setItem('dob', dob);
     sessionStorage.setItem('usertype', type);
     sessionStorage.setItem('useraddress', address);

@@ -86,7 +86,8 @@ class Login extends React.Component {
             .then(function (response) {
 
                 self.setState({ users: response.data });
-                setUserSession(response.data[0].id, response.data[0].name, response.data[0].type, response.data[0].address,
+                setUserSession(response.data[0].id, response.data[0].name, this.state.password,null,
+                    response.data[0].type, response.data[0].address,
                     response.data[0].email, response.data[0].phonenum);
                 
                 if (response.status === 200) {

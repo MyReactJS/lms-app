@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import './CourseSearch.css';
 import CourseRow from './CourseRow.js';
 import axios from "axios";
+import { getUser } from './../Common.js';
 
 class CourseSearch extends React.Component {
     constructor(props) {
@@ -21,8 +22,12 @@ class CourseSearch extends React.Component {
         this.state = {
             startdate: '', enddate: '',
             categories: [],
-            courses:[]
+            courses: [],
+            enrolledcourses: [],
+            enrolledcourses_sessionids:[],
+            
         };
+        
         this.credits = [1,2,3,4,5,6,7,8,9,10];
         this.handleCourseNameChange = this.handleCourseNameChange.bind(this);
         this.handleCourseCategoryChange = this.handleCourseCategoryChange.bind(this);
@@ -35,11 +40,11 @@ class CourseSearch extends React.Component {
     {
         //alert("onsubmit-start");
         var rows = [];
-        var enrolledcourses_sessionids = [];
-        enrolledcourses.forEach((course) => {
-            enrolledcourses_sessionids.push(course.sessionId);
+        //var enrolledcourses_sessionids = [];
+       // enrolledcourses.forEach((course) => {
+       //     enrolledcourses_sessionids.push(course.sessionId);
 
-        });
+       // });
         
 
         var courseNameFilter = this.coursename;
@@ -54,7 +59,7 @@ class CourseSearch extends React.Component {
             //alert(course.get('sessionId'));
             let coursestartdate = course.get('start_date');
             let courseenddate = course.get('end_date');
-
+            const todayDate = new Date();
             // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
             // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
             if (course.get('name').toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
@@ -68,25 +73,29 @@ class CourseSearch extends React.Component {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                    rows.push(<CourseRow
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
                         id={course.get('sessionId')} course={course} />);
             }
             else if (courseStartDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (coursestartdate >= courseStartDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                    rows.push(<CourseRow
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
                         id={course.sessionId} course={course} />);
             }
             else if (courseEndDateFilter !== '') {
                 //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
                 //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
                 if (courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                    rows.push(<CourseRow
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
                         id={course.sessionId} course={course} />);
             }
             else {
-                rows.push(<CourseRow disabled={enrolledcourses_sessionids.includes(course.get('sessionId'))}
+                rows.push(<CourseRow
+                    enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
                     id={course.get('sessionId')} course={course} />);
             }
 
@@ -138,10 +147,13 @@ class CourseSearch extends React.Component {
     }
     
     
-  
+    
     componentDidMount() {
 
-        
+        const profile = getUser();
+        var userid = profile.id;
+        var password = profile.password;
+
         var local_courses = [];
         axios.get("/api/core/category/")
             .then((res) =>
@@ -152,11 +164,39 @@ class CourseSearch extends React.Component {
                 }
             )
             .catch((err) => console.log(err));
+        //*************************************************************
+        axios.get('/api/core/myenrolledsessions/',
+            {
+                // Axios looks for the `auth` option, and, if it is set, formats a
+                // basic auth header for you automatically.
+                
+                auth: {
+                    username: profile.email,
+                    password: password
+                }
+            }
+        )
+            .then(res1 => {
+                var enrolledids = [];
+                var course_enrolled_sessions_data=res1.data.results;
+                course_enrolled_sessions_data.forEach(enrolledsession => {
+                    enrolledids.push(enrolledsession.course);
+                })
+                this.setState({ enrolledcourses_sessionids: enrolledids })
+                console.log(this.state.enrolledcourses_sessionids);
+            })
+            .catch(function (error) {
+                console.log("")
+                console.log(error);
+            });
+
+
+        //****************************************************************
         axios.get("/api/core/sessions/")
             .then(res1 => {
-                // just grab the first 5 links
+             
                 const course_sessions_data = res1.data.results
-                //console.log(course_sessions_data);
+                console.log(course_sessions_data);
                 // NESTED AXIOS CALLS
                 course_sessions_data.forEach(coursesession => {
                     //console.log("course:" + coursesession.course);

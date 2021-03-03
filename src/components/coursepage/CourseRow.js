@@ -62,23 +62,23 @@ class CourseRow extends React.Component {
         const course = this.props.course;
         console.log(course);
         console.log(course.get('end_date'));
-        var todayDate = new Date();
+        const todayDate = new Date();
         var disabled = false;
         var enrolled = false;
         var courseEndDate = course.get('end_date');
         var courseStartDate = course.get('start_date');
 
-        let toggleOnLabel = "Enroll";
-        let toggleOffLabel = "UnEnroll";
+     
         //console.log(courseEndDate < todayDate);
 
-        if (this.props.disabled == true) {
+        
+        if (this.props.enrolled == true) {
 
-            disabled = true;
             enrolled = true;
-        }
 
-        else if (course.get('rem_seats') == 0 || (courseStartDate < todayDate))
+        }
+        
+         if (course.get('rem_seats') == 0 || (courseStartDate < todayDate))
             disabled = true;
         //console.log("toggleOnLabel:" + toggleOnLabel);
         return (
@@ -107,8 +107,8 @@ class CourseRow extends React.Component {
                 <td>{course.get('duration')}</td>
                 <td>{course.get('credits')}</td>
                 <td>{this.state.remainingseats} </td>
-                <td> <ToggleButton disabled={disabled} enrolled={enrolled} toggleOnLabel={toggleOnLabel}
-                    toggleOffLabel={toggleOffLabel} sessionid={course.get('sessionId')} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>
+                <td> <ToggleButton disabled={disabled} enrolled={enrolled} 
+                     sessionid={course.get('sessionId')} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>
                 
             </tr>
         )

@@ -3,21 +3,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ModalComponent from './ModalComponent.js';
 import axios from "axios";
 import { getUser } from './../Common.js';
-//ReactDOM.render(<ToggleButton />, document.getElementById('root'));
-//
-//
-import CourseEnrollConfirmModel from './../coursepage/CourseEnrollConfirmModel.js';
+
 class ToggleButton extends React.Component {
     constructor(props) {
         super(props);
-       // console.log("inside toggleOnLabel:" + this.props.toggleOnLabel);
+       
         this.state = {
-            isToggleOn: true,
+            isUnEnrolled: true,
             modalshow: false,
             modaltitle: '',
             modalbody: '',
-            ToggleOnLabel: this.props.toggleOnLabel,
-            ToggleOffLabel: this.props.toggleOffLabel
+            remainingseats: this.props.remainingseats,
+            currentLabel:'',
         };
       
 
@@ -31,21 +28,28 @@ class ToggleButton extends React.Component {
             modalshow: false
         });
     };
+    enrollCourse() {
+
+    }
+    
     handleClick(event) {
-        console.log("before:" + this.props.remainingseats);
+        console.log("before:" + this.state.remainingseats);
         //alert(event.target.value);
-        var updatesuccess = false;
+        let updatesuccess = false;
         const profile = getUser();
         var userid = profile.id;
-        var remseats = this.props.remainingseats;
+        var password = profile.password;
+        var remseats = this.state.remainingseats;
         var sessionid = this.props.sessionid;
         var apiBaseUrl = "http://127.0.0.1:8000/api/core/";
         var self = this;
-        if (this.state.isToggleOn) {
+        //alert(profile.email);
+        //alert(profile.password);
+        if (this.state.isUnEnrolled) {
             
             //********enroll********
             
-         
+           // alert("Perform Enroll");
 
             var payload = {
                 "enrolled_by": userid,
@@ -61,7 +65,7 @@ class ToggleButton extends React.Component {
                     // basic auth header for you automatically.
                     auth: {
                         username: profile.email,
-                        password: 'student123#'
+                        password: password
                     }
                 }
                 )
@@ -84,7 +88,7 @@ class ToggleButton extends React.Component {
                                 // basic auth header for you automatically.
                                 auth: {
                                     username: profile.email,
-                                    password: 'student123#'
+                                    password: password
                                 }
                             }
                         )
@@ -110,7 +114,9 @@ class ToggleButton extends React.Component {
                     console.log(error);
                 });
             if (updatesuccess = true) {
-                this.props.setRemainingSeats(this.props.remainingseats - 1);
+                this.setState({ remainingseats: this.state.remainingseats - 1 }, () =>  {
+                    this.props.setRemainingSeats(this.state.remainingseats)
+                });
                 this.setState({
                     modalshow: true,
                     modaltitle: 'Enrollment',
@@ -123,7 +129,7 @@ class ToggleButton extends React.Component {
         else {
             //********un-enroll********
             
-           
+            //alert("perform UnEnroll");
             var payload = {
                 "enrolled_by": userid,
                 "course": sessionid
@@ -142,7 +148,7 @@ class ToggleButton extends React.Component {
                     },
                     auth: {
                         username: profile.email,
-                        password: 'student123#'
+                        password: password
                     }
                 }
             )
@@ -158,7 +164,7 @@ class ToggleButton extends React.Component {
                             // basic auth header for you automatically.
                             auth: {
                                 username: profile.email,
-                                password: 'student123#'
+                                password: password
                             }
                         })
                         .then(function (response) {
@@ -179,7 +185,7 @@ class ToggleButton extends React.Component {
                                         // basic auth header for you automatically.
                                         auth: {
                                             username: profile.email,
-                                            password: 'student123#'
+                                            password: password
                                         }
                                     }
                                 )
@@ -223,33 +229,53 @@ class ToggleButton extends React.Component {
             
         }
         this.setState(state => ({
-            isToggleOn: !state.isToggleOn
+            isUnEnrolled: !state.isUnEnrolled
 
         }));
         console.log("After:" + this.props.remainingseats);
         event.stopPropagation();
         event.preventDefault();
     }
-    
+    componentDidMount()
+    {
+        if (this.props.enrolled && this.props.disabled) //enrolled & course is inprogress or completed- label=enrolled; disabled=true
+        {
+            this.setState({ isUnEnrolled:false,currentLabel: 'Enrolled' });
+           
+        }
+        else if (this.props.disabled)
+            this.setState({ isUnEnrolled:true,currentLabel:'Enroll' }); //not enrolled & course is inprogress or completed -label=enroll; disabled=true
+        else if (this.props.enrolled) 
+            this.setState({ isUnEnrolled:false,currentLabel:"UnEnroll" }); //enrolled & course not started; label - en-enroll; disabled=false; can be un-enrolled
+
+    }
     render() {
         let button = null;
-        //console.log("inside render: " + this.state.ToggleOnLabel);
-        if (this.props.enrolled)
-
+        if (this.props.enrolled && this.props.disabled)            
+                button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled>
+                    {this.state.currentLabel}</button> </div>
+        else if (this.props.disabled)
+        
             
-                button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
-                    Enrolled</button>
-            </div>
-        else if (this.props.disabled) {
+            button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled>
+                {this.state.currentLabel}</button> </div>
+        
+        else if (this.props.enrolled) 
 
-            
-            button = <div> <button type="button" onClick={this.handleClick} className="btn btn-secondary btn-block" disabled={this.props.disabled}>
-                    Enroll</button>
+            button = <div> <button type="button" onClick={this.handleClick} className="btn btn-success btn-block" >
+                {this.state.isUnEnrolled ? "Enroll" : "UnEnroll"}</button>
+                <ModalComponent
+                    show={this.state.modalshow}
+                    title={this.state.modaltitle}
+                    body={this.state.modalbody}
+
+                    onClick={this.handleConfirmModalClose}
+                    onHide={this.handleConfirmModalClose} />
             </div>
-        }
+        
         else {
-            button = <div> <button type="button" onClick={this.handleClick} className={this.state.isToggleOn ? "btn btn-primary btn-block" : "btn btn-success btn-block"} disabled={this.props.disabled}>
-                {this.state.isToggleOn ? this.state.ToggleOnLabel : this.state.ToggleOffLabel}</button>
+            button = <div> <button type="button" onClick={this.handleClick} className={this.state.isUnEnrolled ? "btn btn-primary btn-block" : "btn btn-success btn-block"} >
+                {this.state.isUnEnrolled ? "Enroll" : "UnEnroll"}</button>
             <ModalComponent
                 show={this.state.modalshow}
                 title={this.state.modaltitle}
