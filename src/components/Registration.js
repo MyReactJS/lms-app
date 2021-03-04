@@ -120,7 +120,8 @@ class Registration extends React.Component {
         }
         var addr = this.state.address + ' ' + this.state.city + ' ' + this.state.pin;
         console.log(user);   
-        setUserSession(1, this.state.name,this.state.dob, this.state.role, addr, this.state.email, this.state.phone);
+        setUserSession(1, this.state.name, this.state.password, this.state.dob,
+            this.state.role, addr, this.state.email, this.state.phone);
        
         axios.post(apiBaseUrl + 'registration/', user)
             .then(function (response) {
