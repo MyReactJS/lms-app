@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { setUserSession } from './Common.js';
 import DatePicker from "react-datepicker";
 import axios from "axios";
+import ModalComponent from './common/ModalComponent.js';
 
 //import { setUserAuthenticationStatus } from './Common.js';
 import Container from 'react-bootstrap/Container'
@@ -31,6 +32,11 @@ class Registration extends React.Component {
             passwordValid: false,
             phonevalid: false,
             formValid: false,
+            regsuccess:false,
+            modalshow: false,
+            modaltitle: '',
+            modalbody: ''
+
         }
         this.handleDOBChange = this.handleDOBChange.bind(this);
         this.handleSignClick = this.handleSignClick.bind(this);
@@ -60,6 +66,7 @@ class Registration extends React.Component {
     }
 
     validateField(fieldName, value) {
+        console.log("validateField");
         let fieldValidationErrors = this.state.formErrors;
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
@@ -86,6 +93,7 @@ class Registration extends React.Component {
             passwordValid: passwordValid,
             phonevalid: phonevalid
         }, this.validateForm);
+        console.log("formValid" + this.state.formValid)
     }
 
     validateForm() {
@@ -102,7 +110,15 @@ class Registration extends React.Component {
         this.setState({ [name]: value },
             () => { this.validateField(name, value) });
     }
+    showModel = () => {
+        console.log("inside showmodel");
+        this.setState({
+            modalshow: true,
+            modaltitle: 'Registration',
+            modalbody: 'Registration Successful !!!',
 
+        }, () => { console.log(this.state.modalshow) })
+    }
     handleSubmit = (e) => {
         var apiBaseUrl = "http://127.0.0.1:8000/api/authentication/";
         var self = this;
@@ -122,20 +138,16 @@ class Registration extends React.Component {
         console.log(user);   
         setUserSession(1, this.state.name, this.state.password, this.state.dob,
             this.state.role, addr, this.state.email, this.state.phone);
-       
+        var registionsuccess = false;
         axios.post(apiBaseUrl + 'registration/', user)
             .then(function (response) {
                 console.log(response);
                 if (response.status === 201) {
                     //alert("Registration successfull.Login Again");
-                    console.log("Registration successfull");
-                    if (self.state.role == 'student')
+                    console.log("Registration successfull....");
+                    registionsuccess = true;
 
-                        self.props.history.push('/dashboardS');
-                    else
-                        self.props.history.push('/dashboardF');
-                    e.preventDefault();
-                    e.stopPropagation();
+
                 }
                 else if (response.data.code === 204) {
                     console.log("invalid data");
@@ -147,11 +159,34 @@ class Registration extends React.Component {
                 }
 
             })
+            .then(() => {
+                console.log(registionsuccess);
+                if (registionsuccess) {
+                    console.log("inside");
+                  //  this.setState({ regsuccess: true }, () => {
+                  //      console.log('befor model')
+                   // });
+                     //   this.showModel()
+                    alert("Registration Successful");
+                    if (this.state.role === "student") {
+                                   this.props.history.push('/dashboardS');
+                                }
+                               else
+                                  {
+                                       this.props.history.push('/dashboardF');
+                                   }
+                      
+                   
+
+                }
+            })
             .catch(function (error) {
                 console.log("")
                 console.log(error);
             });
         
+        e.preventDefault();
+        e.stopPropagation();
 
                
        
@@ -161,6 +196,18 @@ class Registration extends React.Component {
         
         this.setState({ dob: dob });
     }
+    handleConfirmModalClose = (fromModal) => {
+        alert(fromModal.msg);
+
+        this.setState({
+            modalshow: false
+        });
+         alert("modal close");
+        if (this.state.UserType == 'student')
+            this.props.history.push('/dashboardS');
+        else
+            this.props.history.push('/dashboardF');
+    };
     render() {
         return (
                
@@ -232,11 +279,18 @@ class Registration extends React.Component {
                                         </div>
                                     
                                           
-                                       
+                                        {!this.state.regsuccess ?
                                             <div className='error-message' >
-                                               <FormErrors formErrors={this.state.formErrors} />
+                                                <FormErrors formErrors={this.state.formErrors} />
                                             </div>
-                                       
+                                            :
+                                            <ModalComponent
+                                                show={this.state.modalshow}
+                                                title={this.state.modaltitle}
+                                                body={this.state.modalbody}
+                                                onClick={this.handleConfirmModalClose}
+                                                onHide={this.handleConfirmModalClose} />
+                                            }
                        
                                     </form>
 
