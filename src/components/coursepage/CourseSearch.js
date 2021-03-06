@@ -25,8 +25,7 @@ class CourseSearch extends React.Component {
             courses: [],
             enrolledcourses: [],
             enrolledcourses_sessionids: [],
-            enrolled:[],
-            remainingseats:[],       
+                 
         };
         
         this.credits = [1,2,3,4,5,6,7,8,9,10];
@@ -52,58 +51,46 @@ class CourseSearch extends React.Component {
         var courseCreditsFilter = this.coursecredits;
         var courseStartDateFilter = this.state.startdate == '' ? '' : this.state.startdate;
         var courseEndDateFilter = this.state.enddate == '' ? '' : this.state.enddate;
-    
-        this.state.courses.map((course) =>
+
+        this.state.courses.forEach((course) =>
         {
            
             //alert(course.get('sessionId'));
-            let coursestartdate = course.get('start_date');
-            let courseenddate = course.get('end_date');
+            let coursestartdate = new Date(course.start_date);
+            let courseenddate = new Date(course.end_date);
             const todayDate = new Date();
            
-            if (course.get('name').toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
+            if (course.coursename.toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
                 return;
-            if (courseCategoryFilter !== '' && course.get('category') !== courseCategoryFilter)
+            if (courseCategoryFilter !== '' && course.category !== courseCategoryFilter)
                 return;
 
-            if (courseCreditsFilter !== '' && course.get('credits') != courseCreditsFilter)
+            if (courseCreditsFilter !== '' && course.credit!= courseCreditsFilter)
                 return;
             if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
                 
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
-                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
-                        setRemainingSeats={this.setRemainingSeats}
-                        setEnrolled={this.setEnrolled}
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}            
                         course={course} />);
             }
             else if (courseStartDateFilter !== '') {
               
                 if (coursestartdate >= courseStartDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
-                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
-                        setRemainingSeats={this.setRemainingSeats}
-                        setEnrolled={this.setEnrolled}
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                         course={course} />);
             }
             else if (courseEndDateFilter !== '') {
              
                 if (courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
-                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
-                        setRemainingSeats={this.setRemainingSeats}
-                        setEnrolled={this.setEnrolled}
+                        enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                          course={course} />);
             }
             else {
                 rows.push(<CourseRow
-                    enrolled={this.state.enrolled.get(course.get('sessionId'))}
-                    rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
-                    setRemainingSeats={this.setRemainingSeats}
-                    setEnrolled={this.setEnrolled}
+                    enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                     course={course} />);
             }
 
@@ -184,7 +171,7 @@ class CourseSearch extends React.Component {
                 var enrolledids = [];
                 var course_enrolled_sessions_data = res1.data.results;
                 course_enrolled_sessions_data.forEach(enrolledsession => {
-                    enrolledids.push(enrolledsession.course);
+                    enrolledids.push(enrolledsession.sessionid);
                 })
                 this.setState({ enrolledcourses_sessionids: enrolledids })
                 console.log(this.state.enrolledcourses_sessionids);
@@ -197,52 +184,8 @@ class CourseSearch extends React.Component {
                     .then(res1 => {
 
                         const course_sessions_data = res1.data.results
-                        console.log(course_sessions_data);
-                        // NESTED AXIOS CALLS
-                        course_sessions_data.forEach(coursesession => {
-                          
-                            var local_course = new Map();
-                            local_course.set('sessionId', coursesession.id);
-
-                            local_course.set('tot_seats', coursesession.tot_seats);
-                            local_course.set('rem_seats', coursesession.rem_seats);
-                            local_remainingseats.set(coursesession.id, coursesession.rem_seats);
-                            local_course.set('start_date', new Date(coursesession.start_date));
-                            local_course.set('end_date', new Date(coursesession.end_date));
-                            local_course.set('courseId', coursesession.course);
-                            axios.get("/api/core/courses/" + coursesession.course + "/")
-                                .then(res2 => {
-                                    //console.log(res2.data);
-                                    local_course.set('credits', res2.data.credit);
-                                    local_course.set('duration', res2.data.duration);
-
-                                    local_course.set('name', res2.data.name);
-                                    const course_category_id = res2.data.category
-                                    //console.log("course name: " + course_name);
-                                    //console.log("category id:" + course_category_id);
-
-                                    axios.get("/api/core/category/" + course_category_id + "/")
-                                        .then(res3 => {
-                                            //console.log(res3.data);
-                                            const course_category = res3.data.name
-                                            //console.log("category:" + course_category);
-                                            local_course.set('category', course_category);
-                                            //console.log(local_course);
-                                            local_enrolled.set(local_course.get('sessionId'),
-                                                this.state.enrolledcourses_sessionids.includes(local_course.get('sessionId')));
-                                            local_courses.push(local_course);
-                                        })
-
-                                })
-
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        })
-                        console.log(local_enrolled);
-                        console.log(local_remainingseats);
-                        this.setState({ courses: local_courses, enrolled: local_enrolled, remainingseats:local_remainingseats});
-                        console.log(this.state.courses);
+                        this.setState({ courses: course_sessions_data }, () => { console.log(courses)});
+                       
                     })
             })
             .catch(err => {

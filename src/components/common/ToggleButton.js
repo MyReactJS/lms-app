@@ -14,7 +14,7 @@ class ToggleButton extends React.Component {
             modaltitle: '',
             modalbody: '',
      
-            remainingseats: this.props.remainingseats,
+           remainingseats: this.props.remainingseats,
            enrolled: this.props.enrolled,
             
             
