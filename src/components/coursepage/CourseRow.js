@@ -13,22 +13,25 @@ class CourseRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            remainingseats: this.props.course.get('rem_seats'),
+         
+            rem_seats: this.props.course.get('rem_seats'),
             modalshow: false,
             modaltitle: '',
             modalbody: ''
         };
 
         this.onCourseLinkClick = this.onCourseLinkClick.bind(this);
-        this.setRemainingSeats = this.setRemainingSeats.bind(this);
+     
         this.GetFormattedDate = this.GetFormattedDate.bind(this);
 
     }
-    setRemainingSeats(rem_seats) {
 
-        this.setState({ remainingseats: rem_seats });
-        
+    setRemainingSeats = ( rem_seats) => {
+
+        this.setState({ rem_seats: rem_seats }, () => { console.log(this.state.rem_seats) });
+
     }
+    
     onCourseLinkClick() {
         //this.props.history.push('/coursedetails');
 
@@ -48,7 +51,7 @@ class CourseRow extends React.Component {
         
     };
    
-
+   
  GetFormattedDate(date) {
 
      var dd = String(date.getDate()).padStart(2, '0');
@@ -57,11 +60,12 @@ class CourseRow extends React.Component {
 
      date = mm + '/' + dd + '/' + yyyy;
      return date;
-}
+    }
+ 
     render() {
         const course = this.props.course;
-        console.log(course);
-        console.log(course.get('end_date'));
+       // console.log(course);
+        //console.log(course.get('end_date'));
         const todayDate = new Date();
         var disabled = false;
         var enrolled = false;
@@ -71,10 +75,11 @@ class CourseRow extends React.Component {
      
         //console.log(courseEndDate < todayDate);
 
-        
+        //console.log(this.props.enrolled);
         if (this.props.enrolled == true) {
 
             enrolled = true;
+           // console.log(enrolled);
 
         }
         
@@ -106,9 +111,10 @@ class CourseRow extends React.Component {
                 <td>{this.GetFormattedDate(course.get('end_date'))}</td>
                 <td>{course.get('duration')}</td>
                 <td>{course.get('credits')}</td>
-                <td>{this.state.remainingseats} </td>
-                <td> <ToggleButton disabled={disabled} enrolled={enrolled} 
-                     sessionid={course.get('sessionId')} remainingseats={this.state.remainingseats} setRemainingSeats={this.setRemainingSeats} /> </td>
+                <td>{this.state.rem_seats} </td>
+                <td> <ToggleButton disabled={disabled} enrolled={enrolled}
+                    sessionid={course.get('sessionId')} remainingseats={this.props.rem_seats}
+                    setRemainingSeats={this.setRemainingSeats} /> </td>
                 
             </tr>
         )

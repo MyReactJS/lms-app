@@ -24,8 +24,9 @@ class CourseSearch extends React.Component {
             categories: [],
             courses: [],
             enrolledcourses: [],
-            enrolledcourses_sessionids:[],
-            
+            enrolledcourses_sessionids: [],
+            enrolled:[],
+            remainingseats:[],       
         };
         
         this.credits = [1,2,3,4,5,6,7,8,9,10];
@@ -35,16 +36,15 @@ class CourseSearch extends React.Component {
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
+       
     }
+
+   
     handleOnSubmit(event)
     {
-        //alert("onsubmit-start");
+        
         var rows = [];
-        //var enrolledcourses_sessionids = [];
-       // enrolledcourses.forEach((course) => {
-       //     enrolledcourses_sessionids.push(course.sessionId);
-
-       // });
+      
         
 
         var courseNameFilter = this.coursename;
@@ -52,16 +52,15 @@ class CourseSearch extends React.Component {
         var courseCreditsFilter = this.coursecredits;
         var courseStartDateFilter = this.state.startdate == '' ? '' : this.state.startdate;
         var courseEndDateFilter = this.state.enddate == '' ? '' : this.state.enddate;
-       // alert(courseNameFilter)
-        //alert("onsubmit");
+    
         this.state.courses.map((course) =>
         {
+           
             //alert(course.get('sessionId'));
             let coursestartdate = course.get('start_date');
             let courseenddate = course.get('end_date');
             const todayDate = new Date();
-            // console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-            // console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+           
             if (course.get('name').toLowerCase().indexOf(courseNameFilter.toLowerCase()) === -1) //if name filter applied
                 return;
             if (courseCategoryFilter !== '' && course.get('category') !== courseCategoryFilter)
@@ -70,44 +69,48 @@ class CourseSearch extends React.Component {
             if (courseCreditsFilter !== '' && course.get('credits') != courseCreditsFilter)
                 return;
             if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+                
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
-                        id={course.get('sessionId')} course={course} />);
+                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
+                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
+                        setRemainingSeats={this.setRemainingSeats}
+                        setEnrolled={this.setEnrolled}
+                        course={course} />);
             }
             else if (courseStartDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+              
                 if (coursestartdate >= courseStartDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
-                        id={course.sessionId} course={course} />);
+                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
+                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
+                        setRemainingSeats={this.setRemainingSeats}
+                        setEnrolled={this.setEnrolled}
+                        course={course} />);
             }
             else if (courseEndDateFilter !== '') {
-                //console.log("courseStartDateFilter - table=" + courseStartDateFilter);
-                //console.log("courseEndDateFilter - table=" + courseEndDateFilter);
+             
                 if (courseenddate <= courseEndDateFilter)
                     rows.push(<CourseRow
-                        enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
-                        id={course.sessionId} course={course} />);
+                        enrolled={this.state.enrolled.get(course.get('sessionId'))}
+                        rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
+                        setRemainingSeats={this.setRemainingSeats}
+                        setEnrolled={this.setEnrolled}
+                         course={course} />);
             }
             else {
                 rows.push(<CourseRow
-                    enrolled={this.state.enrolledcourses_sessionids.includes(course.get('sessionId'))}
-                    id={course.get('sessionId')} course={course} />);
+                    enrolled={this.state.enrolled.get(course.get('sessionId'))}
+                    rem_seats={this.state.remainingseats.get(course.get('sessionId'))}
+                    setRemainingSeats={this.setRemainingSeats}
+                    setEnrolled={this.setEnrolled}
+                    course={course} />);
             }
 
 
         }
         );
-       // alert("onsubmit-end");
-
-        //alert(rows.length);
-       // this.setState({ rows: rows });
-        //alert(rows);
-        //console.log(rows);
+       
         this.props.setResultRows(rows);
         event.preventDefault();
         event.stopPropagation();
@@ -146,7 +149,8 @@ class CourseSearch extends React.Component {
         event.preventDefault();
     }
     
-    
+ 
+
     
     componentDidMount() {
 
@@ -155,21 +159,21 @@ class CourseSearch extends React.Component {
         var password = profile.password;
 
         var local_courses = [];
+        var local_enrolled = new Map();
+        var local_remainingseats = new Map();
         axios.get("/api/core/category/")
             .then((res) =>
             {
-                //console.log(res.data);
+               
                 this.setState({ categories: res.data })
-                //console.log(this.state.categories);
+                
                 }
             )
             .catch((err) => console.log(err));
         //*************************************************************
         axios.get('/api/core/myenrolledsessions/',
             {
-                // Axios looks for the `auth` option, and, if it is set, formats a
-                // basic auth header for you automatically.
-                
+            
                 auth: {
                     username: profile.email,
                     password: password
@@ -178,70 +182,68 @@ class CourseSearch extends React.Component {
         )
             .then(res1 => {
                 var enrolledids = [];
-                var course_enrolled_sessions_data=res1.data.results;
+                var course_enrolled_sessions_data = res1.data.results;
                 course_enrolled_sessions_data.forEach(enrolledsession => {
                     enrolledids.push(enrolledsession.course);
                 })
                 this.setState({ enrolledcourses_sessionids: enrolledids })
                 console.log(this.state.enrolledcourses_sessionids);
             })
-            .catch(function (error) {
-                console.log("")
-                console.log(error);
-            });
+            .then(() => {
 
 
-        //****************************************************************
-        axios.get("/api/core/sessions/")
-            .then(res1 => {
-             
-                const course_sessions_data = res1.data.results
-                console.log(course_sessions_data);
-                // NESTED AXIOS CALLS
-                course_sessions_data.forEach(coursesession => {
-                    //console.log("course:" + coursesession.course);
-                    //console.log("tot_seats:" + coursesession.tot_seats);
-                    //console.log("rem_seats:" + coursesession.rem_seats);
-                    //console.log("start_date:" + coursesession.start_date);
-                    //console.log("start_date:" +  coursesession.end_date);
-                    var local_course = new Map();
-                    local_course.set('sessionId', coursesession.id);
+                //****************************************************************
+                axios.get("/api/core/sessions/")
+                    .then(res1 => {
 
-                    local_course.set('tot_seats',coursesession.tot_seats);
-                    local_course.set('rem_seats', coursesession.rem_seats);
-                    local_course.set('start_date', new Date(coursesession.start_date));
-                    local_course.set('end_date', new Date(coursesession.end_date));
-                    local_course.set('courseId', coursesession.course);
-                    axios.get("/api/core/courses/" + coursesession.course + "/")
-                        .then(res2 => {
-                            //console.log(res2.data);
-                            local_course.set('credits', res2.data.credit);
-                            local_course.set('duration', res2.data.duration);
+                        const course_sessions_data = res1.data.results
+                        console.log(course_sessions_data);
+                        // NESTED AXIOS CALLS
+                        course_sessions_data.forEach(coursesession => {
+                          
+                            var local_course = new Map();
+                            local_course.set('sessionId', coursesession.id);
 
-                            local_course.set('name', res2.data.name);
-                            const course_category_id = res2.data.category
-                            //console.log("course name: " + course_name);
-                            //console.log("category id:" + course_category_id);
-                            
-                            axios.get("/api/core/category/" + course_category_id + "/")
-                                .then(res3 => {
-                                    //console.log(res3.data);
-                                    const course_category = res3.data.name
-                                    //console.log("category:" + course_category);
-                                    local_course.set('category', course_category);
-                                    //console.log(local_course);
-                                    local_courses.push(local_course);
+                            local_course.set('tot_seats', coursesession.tot_seats);
+                            local_course.set('rem_seats', coursesession.rem_seats);
+                            local_remainingseats.set(coursesession.id, coursesession.rem_seats);
+                            local_course.set('start_date', new Date(coursesession.start_date));
+                            local_course.set('end_date', new Date(coursesession.end_date));
+                            local_course.set('courseId', coursesession.course);
+                            axios.get("/api/core/courses/" + coursesession.course + "/")
+                                .then(res2 => {
+                                    //console.log(res2.data);
+                                    local_course.set('credits', res2.data.credit);
+                                    local_course.set('duration', res2.data.duration);
+
+                                    local_course.set('name', res2.data.name);
+                                    const course_category_id = res2.data.category
+                                    //console.log("course name: " + course_name);
+                                    //console.log("category id:" + course_category_id);
+
+                                    axios.get("/api/core/category/" + course_category_id + "/")
+                                        .then(res3 => {
+                                            //console.log(res3.data);
+                                            const course_category = res3.data.name
+                                            //console.log("category:" + course_category);
+                                            local_course.set('category', course_category);
+                                            //console.log(local_course);
+                                            local_enrolled.set(local_course.get('sessionId'),
+                                                this.state.enrolledcourses_sessionids.includes(local_course.get('sessionId')));
+                                            local_courses.push(local_course);
+                                        })
+
                                 })
 
+                                .catch(err => {
+                                    console.log(err);
+                                });
                         })
-
-                        .catch(err => {
-                            console.log(err);
-                        });
-                })
-                //console.log(local_courses);
-                this.setState({ courses: local_courses });
-                console.log(this.state.courses);
+                        console.log(local_enrolled);
+                        console.log(local_remainingseats);
+                        this.setState({ courses: local_courses, enrolled: local_enrolled, remainingseats:local_remainingseats});
+                        console.log(this.state.courses);
+                    })
             })
             .catch(err => {
                 console.log(err);
