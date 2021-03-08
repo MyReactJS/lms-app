@@ -1,17 +1,16 @@
+import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getUser } from './../Common.js';
+import CourseRow from './CourseRow.js';
 //import categories from './coursecategories.json';
 import courses from './courses.json';
-import enrolledcourses from './../dashboards/students/EnrolledCourses.json';
-import 'bootstrap/dist/css/bootstrap.css';
-import DatePicker from "react-datepicker";
-import Form from 'react-bootstrap/Form';
-import "react-datepicker/dist/react-datepicker.css";
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import './CourseSearch.css';
-import CourseRow from './CourseRow.js';
-import axios from "axios";
-import { getUser } from './../Common.js';
 
 class CourseSearch extends React.Component {
     constructor(props) {
@@ -35,12 +34,13 @@ class CourseSearch extends React.Component {
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
-       
+        this.fetchData = this.fetchData.bind(this);
     }
 
    
     handleOnSubmit(event)
     {
+        this.fetchData();
         
         var rows = [];
       
@@ -132,28 +132,24 @@ class CourseSearch extends React.Component {
     }
     
  
-
-    
-    componentDidMount() {
-
+    fetchData() {
         const profile = getUser();
 
         var password = profile.password;
 
- 
+
         axios.get("/api/core/category/")
-            .then((res) =>
-            {
-               
+            .then((res) => {
+
                 this.setState({ categories: res.data })
-                
-                }
+
+            }
             )
             .catch((err) => console.log(err));
         //*************************************************************
         axios.get('/api/core/myenrolledsessions/',
             {
-            
+
                 auth: {
                     username: profile.email,
                     password: password
@@ -177,13 +173,18 @@ class CourseSearch extends React.Component {
                     .then(res1 => {
 
                         const course_sessions_data = res1.data.results
-                        this.setState({ courses: course_sessions_data }, () => { console.log(courses)});
-                       
+                        this.setState({ courses: course_sessions_data }, () => { console.log(courses) });
+
                     })
             })
             .catch(err => {
                 console.log(err);
             });
+    }
+    
+    componentDidMount() {
+
+        this.fetchData();
         
     }
 
@@ -192,7 +193,7 @@ class CourseSearch extends React.Component {
     render() {
         const categorynames = [];
         this.state.categories.map((category) => categorynames.push(category.name));
-            
+        const today = new Date();
      
        
         return (
@@ -246,11 +247,11 @@ class CourseSearch extends React.Component {
                                     <Form.Row>
                                         <Col>
                                             <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursestartdate">Course StartDate:&nbsp;&nbsp;&nbsp;&nbsp;</Form.Label>
-                                            <DatePicker selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker minDate={today} selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                         <Col>
                                             <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="courseenddate">Course EndDate: &nbsp;&nbsp;&nbsp;&nbsp; </Form.Label>
-                                            <DatePicker className="d-flex justify-content-center" className="d-flex justify-content-center"selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
+                                            <DatePicker minDate={today} className="d-flex justify-content-center" className="d-flex justify-content-center"selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
                                         </Col>
                                        
                                     </Form.Row>

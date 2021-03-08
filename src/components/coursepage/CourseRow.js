@@ -13,7 +13,7 @@ class CourseRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-         
+                
             rem_seats: this.props.course.rem_seats,
             modalshow: false,
             modaltitle: '',
@@ -50,7 +50,10 @@ class CourseRow extends React.Component {
         });
         
     };
-   
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.course.id != prevProps.course.id)
+            this.setState({ rem_seats: this.props.course.rem_seats }, () => { });
+    }
    
  GetFormattedDate(date) {
 
