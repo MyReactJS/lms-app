@@ -13,8 +13,7 @@ class ToggleButton extends React.Component {
             modalshow: false,
             modaltitle: '',
             modalbody: '',
-     
-           remainingseats: this.props.remainingseats,
+            //remainingseats: this.props.remainingseats,
            enrolled: this.props.enrolled,
             
             
@@ -39,7 +38,7 @@ class ToggleButton extends React.Component {
         const profile = getUser();
         var userid = profile.id;
         var password = profile.password;
-        var remseats = this.state.remainingseats;
+        var remseats = this.props.remainingseats;
         var sessionid = this.props.sessionid;
         var apiBaseUrl = "http://127.0.0.1:8000/api/core/";
         var self = this;
@@ -112,9 +111,9 @@ class ToggleButton extends React.Component {
                     console.log(error);
                 });
             if (updatesuccess = true) {
-                console.log(this.state.remainingseats);
-                this.setState({ remainingseats: this.state.remainingseats - 1 }, () => {
-                    this.props.setRemainingSeats(this.state.remainingseats )
+                this.setState({  enrolled:!this.state.enrolled }, () => {
+                    this.props.setRemainingSeats(this.props.remainingseats-1);
+                    this.props.setEnrolled(this.state.enrolled);
                 });
                 
                 this.setState({
@@ -215,8 +214,9 @@ class ToggleButton extends React.Component {
                 });
             
             if (updatesuccess = true) {
-                this.setState({ remainingseats: this.state.remainingseats + 1 }, () => {
-                    this.props.setRemainingSeats(this.state.remainingseats)
+                this.setState({  enrolled: !this.state.enrolled }, () => {
+                    this.props.setRemainingSeats(this.props.remainingseats+1);
+                    this.props.setEnrolled(this.state.enrolled);
                 });
                 this.setState({
                     modalshow: true,
@@ -241,7 +241,13 @@ class ToggleButton extends React.Component {
     }
     
    
-   
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.sessionid != prevProps.sessionid) {
+            //alert(this.props.sessionid);
+            //this.setState({ enrolled: this.props.enrolled }, () => { });
+        }
+
+    }
 
     render() {
         let button = null;
