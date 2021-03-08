@@ -15,7 +15,6 @@ class CourseRow extends React.Component {
         this.state = {
                 
             rem_seats: this.props.course.rem_seats,
-            enrolled: this.props.enrolled,
             modalshow: false,
             modaltitle: '',
             modalbody: ''
@@ -30,11 +29,6 @@ class CourseRow extends React.Component {
     setRemainingSeats = ( rem_seats) => {
 
         this.setState({ rem_seats: rem_seats }, () => { console.log(this.state.rem_seats) });
-
-    }
-    setEnrolled = (enrolled) => {
-
-        this.setState({ enrolled: enrolled }, () => { console.log(this.state.enrolled) });
 
     }
     
@@ -57,12 +51,8 @@ class CourseRow extends React.Component {
         
     };
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.course.id != prevProps.course.id) {
-            this.setState({
-                rem_seats: this.props.course.rem_seats,
-                enrolled:this.props.enrolled}, () => { });
-        }
-            
+        if (this.props.course.id != prevProps.course.id)
+            this.setState({ rem_seats: this.props.course.rem_seats }, () => { });
     }
    
  GetFormattedDate(date) {
@@ -81,12 +71,20 @@ class CourseRow extends React.Component {
         //console.log(course.get('end_date'));
         const todayDate = new Date();
         var disabled = false;
-        
+        var enrolled = false;
         var courseEndDate = new Date(course.end_date);
         var courseStartDate = new Date(course.start_date);
 
      
-       
+        //console.log(courseEndDate < todayDate);
+
+        //console.log(this.props.enrolled);
+        if (this.props.enrolled == true) {
+
+            enrolled = true;
+           // console.log(enrolled);
+
+        }
         
          if (course.rem_seats == 0 || (courseStartDate < todayDate))
             disabled = true;
@@ -117,9 +115,8 @@ class CourseRow extends React.Component {
                 <td>{course.duration}</td>
                 <td>{course.credit}</td>
                 <td>{this.state.rem_seats} </td>
-                <td> <ToggleButton disabled={disabled} enrolled={this.state.enrolled}
+                <td> <ToggleButton disabled={disabled} enrolled={enrolled}
                     sessionid={course.id} remainingseats={this.state.rem_seats}
-                    setEnrolled={this.setEnrolled}
                     setRemainingSeats={this.setRemainingSeats} /> </td>
                 
             </tr>
