@@ -208,19 +208,17 @@ class CourseSearch extends React.Component {
                                 <Form>
                                     <Form.Row >
 
-                                            <Form.Label column="lg" lg={1} htmlFor="coursename">Course Name:</Form.Label>
-                                            <Col>
-                                            <Form.Control className="d-flex justify-content-center"  lg={3}type="text" id="coursename" name="coursename"
+                                        <Col lg="5"  className="d-flex justify-content-left">
+                                            <Form.Label column="d-flex justify-content-center" column="lg"   htmlFor="coursename">Course Name:</Form.Label>
+
+                                            <Form.Control className="d-flex justify-content-center"  type="text" id="coursename" name="coursename"
                                                     placeholder="React JS" onBlur={this.handleCourseNameChange} />
-                                            </Col>    
+                                         </Col>    
                                         
                                       
-                                        <Col as="div">
-                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursecategory">Course Category: </Form.Label>
-                                        </Col>
-                                        <Col className="d-flex justify-content-center" >
-
-                                            <Form.Control className="d-flex justify-content-center" size="lg"  lg={3}  id="coursecategory" name="coursecategory" as="select" onChange={this.handleCourseCategoryChange}>
+                                        <Col lg="5" className="d-flex justify-content-left">
+                                            <Form.Label className="d-flex justify-content-center" column="lg" htmlFor="coursecategory">Course Category: </Form.Label>
+                                            <Form.Control className="d-flex justify-content-center" id="coursecategory" name="coursecategory" as="select" label="Course Category:" onChange={this.handleCourseCategoryChange}>
                                                 <option></option>
                                                 {categorynames.map((category) =>
                                                     <option>{category}</option>
@@ -230,11 +228,11 @@ class CourseSearch extends React.Component {
                                                
                                            </Col>
                                            
-                                            <Col>
+                                        <Col lg="2" className="d-flex justify-content-left">
                                             <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursecredits">Course Credits: </Form.Label>
-                                        </Col>
-                                        <Col className="d-flex justify-content-center" >
-                                                <Form.Control className="d-flex justify-content-center" size="lg" lg={2} id="coursecredits" name="coursecredits" onChange={this.handleCourseCreditsChange} as="select">
+                                     
+                                   
+                                                <Form.Control className="d-flex justify-content-center" id="coursecredits" name="coursecredits" onChange={this.handleCourseCreditsChange} as="select">
                                                 <option></option>
                                                 {this.credits.map((credit) =>
                                                     <option>{credit}</option>
@@ -245,15 +243,15 @@ class CourseSearch extends React.Component {
                                        
                                     </Form.Row>
                                     <Form.Row>
-                                        <Col>
-                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="coursestartdate">Course StartDate:&nbsp;&nbsp;&nbsp;&nbsp;</Form.Label>
-                                            <DatePicker minDate={today} selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
+                                        <Col className="d-flex justify-content-left">
+                                            <Form.Label className="d-flex justify-content-center" column="lg"  htmlFor="coursestartdate">Course StartDate:&nbsp;&nbsp;&nbsp;&nbsp;</Form.Label>
+                                            <DatePicker lg={2} column="lg"  minDate={today} className="d-flex justify-content-center customDatePickerWidth"  selected={this.state.startdate} onChange={this.handleStartDateChange} name="coursestartdate" dateFormat="MM/dd/yyyy" />
+                                        </Col >
+                                        <Col  className="d-flex justify-content-left">
+                                            <Form.Label className="d-flex justify-content-center" column="lg"  htmlFor="courseenddate">Course EndDate: &nbsp;&nbsp;&nbsp;&nbsp; </Form.Label>
+                                            <DatePicker lg={2} column="lg"  minDate={today} className="d-flex justify-content-center customDatePickerWidth"   selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
                                         </Col>
-                                        <Col>
-                                            <Form.Label className="d-flex justify-content-center" column="lg" lg={1} htmlFor="courseenddate">Course EndDate: &nbsp;&nbsp;&nbsp;&nbsp; </Form.Label>
-                                            <DatePicker minDate={today} className="d-flex justify-content-center" className="d-flex justify-content-center"selected={this.state.enddate} onChange={this.handleEndDateChange} name="courseenddate" dateFormat="MM/dd/yyyy" />
-                                        </Col>
-                                       
+                                      
                                     </Form.Row>
                                     <Form.Row>
                                         <Col>
@@ -261,7 +259,10 @@ class CourseSearch extends React.Component {
                                         </Col>
                                         <Col>
                                             <Button variant="secondary" className="btn-class-sec  col-md-6" type="cancel">Cancel</Button>
-                                        </Col></Form.Row>
+                                        </Col>
+
+                                        
+                                    </Form.Row>
                                 </Form>
 
                                    

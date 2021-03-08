@@ -13,6 +13,13 @@
 select {
     width:auto;
 }
+.customDatePickerWidth,
+.customDatePickerWidth > div.react-datepicker-wrapper,
+.customDatePickerWidth > div > div.react-datepicker__input-container
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+    max-width: 100%;
+    font-size:larger;
+}
 input[type="submit"] {
     width: 240px;
     height: 35px;
