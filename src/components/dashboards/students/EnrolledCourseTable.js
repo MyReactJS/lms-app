@@ -19,10 +19,10 @@ class EnrolledCourseTable extends React.Component {
         console.log('rows.length:' + this.props.enrolled_courses.length);
 
         this.props.enrolled_courses.map((course) => {
-            console.log(course);
+            //console.log(course);
             rows.push(<EnrolledCourseRow course={course} />);
         });
-        console.log('rows.length:' + rows.length);
+       // console.log('rows.length:' + rows.length);
         var recCount = rows.length;
         return (
            

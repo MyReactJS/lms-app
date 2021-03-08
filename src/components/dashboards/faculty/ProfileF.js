@@ -10,14 +10,8 @@ class ProfileF extends React.Component
    
 
     render() {
-        //const fname = profile.firstName;
-        //const lname = profile.lastName;
-        //const email = profile.email;
-        //const name = fname + ' ' + lname;
-        //const phonenum = profile.phoneNumbers[0].number;
-        const profile = getUser();
-        //const fname = profile.firstName;
-        //const lname = profile.lastName;
+       const profile = getUser();
+        
         const email = profile.email;
         const name = profile.name;
         const phonenum = profile.phonenum.substring(0, 3) + "- " + profile.phonenum.substring(3, 6) + "- " + profile.phonenum.substring(6);

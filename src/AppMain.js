@@ -14,6 +14,8 @@ import FilterCourseTable from './components/coursepage/FilterCourseTable.js';
 import HomeLayoutRoute from './HomeLayout.js';
 import RegistrationLayoutRoute from './RegistrationLayout.js';
 import HomePage from './components/HomePage.js';
+import ModuleTable from './components/modules/moduleTable.js';
+import StudentsPage from './components/students/StudentsPage.js';
 class AppMain extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,9 @@ class AppMain extends React.Component {
                     <DashboardRoute path="/course" component={FilterCourseTable} />
                     <HomeLayoutRoute path="/logout" component={HomePage} />
                     <DashboardRoute path="/aboutus" component={Contact} />
+                    <DashboardRoute path="/modules" component={ModuleTable} />
+                    <DashboardRoute path="/students" component={StudentsPage} />
+                    
 
 
                 </switch>

@@ -111,22 +111,17 @@ class CourseSearch extends React.Component {
 
     handleEndDateChange(sdate) 
     {
-        this.setState({ enddate: sdate });
-        
+        this.setState({ enddate: sdate });        
        
     }
      handleCourseNameChange (event) 
     {
-
          this.coursename = event.target.value;
          event.preventDefault();
-
     }
     handleCourseCategoryChange(event)
     {
-        this.coursecategory = event.target.value;
-
-        
+        this.coursecategory = event.target.value;        
         event.preventDefault();
 
     }
@@ -142,12 +137,10 @@ class CourseSearch extends React.Component {
     componentDidMount() {
 
         const profile = getUser();
-        var userid = profile.id;
+
         var password = profile.password;
 
-        var local_courses = [];
-        var local_enrolled = new Map();
-        var local_remainingseats = new Map();
+ 
         axios.get("/api/core/category/")
             .then((res) =>
             {

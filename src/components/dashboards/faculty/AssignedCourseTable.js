@@ -6,18 +6,17 @@ class AssignedCourseTable extends React.Component {
     constructor(props) {
         super(props);
        
-        this.tot_classes = 0;
-        
-        assignedCourses.forEach((course) => {
-            
-            this.tot_classes = this.tot_classes + 1;
-        });
-        this.props.setTotalClasses(this.tot_classes);
+       
+    }
+    onViewModuleClick = (event) => {
+
+        this.props.onViewModuleClick(event);
+
     }
     render() {
         const rows = [];
-        assignedCourses.forEach((course) => {
-            rows.push(<AssignedCourseRow course={course} />);
+        this.props.assignedCourses.forEach((course) => {
+            rows.push(<AssignedCourseRow course={course} history={this.props.history} />);
             
         });
         var recCount = rows.length;
@@ -42,6 +41,8 @@ class AssignedCourseTable extends React.Component {
                                                 <th scope="col">EndDate</th>
                                                 <th scope="col">Credits</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Modules</th>
+                                                <th scope="col">Evaluations</th>
                                             </tr>
                                         </thead>
                                         <tbody>

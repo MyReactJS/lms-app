@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { setUserSession } from './Common';
-import MyCarousel from './common/Carousel.js';
+
 import { FormErrors } from './FormErrors';
 import axios from 'axios';
 import { setUserAuthenticationStatus } from './Common';
@@ -33,8 +33,7 @@ class HomePage extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({ [name]: value });
-
-        //    () => { this.validateField(name, value) });
+   
     }
 
     onValueChange = (e) => {
@@ -44,9 +43,6 @@ class HomePage extends React.Component {
     }
 
     
-
-    
-
     errorClass(error) {
         return (error.length === 0 ? '' : 'has-error');
     }
@@ -73,7 +69,6 @@ class HomePage extends React.Component {
            
         if (this.state.formValid == true)
         {
-            //alert("before api call");
             var apiBaseUrl = "http://localhost:8000/api/authentication/";
             let loginstatus = false;
             var payload = {
@@ -81,7 +76,6 @@ class HomePage extends React.Component {
                 "password": this.state.password,
                 "role": this.state.UserType
             }
-            //var payload = JSONParser().parse(data)
 
             var pwd = this.state.password;
             console.log("login submit");
@@ -90,13 +84,12 @@ class HomePage extends React.Component {
                 payload
             )
                 .then(function (response) {
-                    //alert(response.status);
                     if (response.status === 200) {
-                       // alert("login successful")
                         console.log("Login successfull");
 
-                        //this.setState({ users: response.data });
                         console.log("pwd:" + pwd);
+                        console.log(response);
+                        console.log(response.data[0]);
                         setUserSession(response.data[0].id, response.data[0].name, pwd, response.data[0].dob, payload.role,
                             response.data[0].city, response.data[0].email, response.data[0].phone);
                         console.log("status: " + response.status);
@@ -104,12 +97,11 @@ class HomePage extends React.Component {
 
 
                     }
-                    else if (response.status == 204) {
-                       // alert("fail")
+                    else if (response.status == 204)
+                    {
+                       
                         loginstatus = false;
-                        //this.setState({ formErrors: "bad credentials" });
-                        //console.log(response.message);
-                        //alert(response.message)
+                 
                     }
                     else {
                         console.log(response.status);
@@ -120,7 +112,6 @@ class HomePage extends React.Component {
                     console.log("loginstatus:" + loginstatus);
 
                     if (loginstatus == false) {
-                        //alert("insdie login failue");
                         console.log('inside login failue');
                         let fieldValidationErrors = this.state.formErrors;
                         fieldValidationErrors.credentials = ' mismatch';
@@ -133,19 +124,8 @@ class HomePage extends React.Component {
                     }
                     else {
                         console.log('inside login success');
-                        //console.log(self.state.formErrors);
                         this.showModel();
-                            //.then(() => {
-
-                            //    if (payload.role === "student") {
-                            //        self.props.history.push('/dashboardS');
-                            //    }
-                            //    else
-                            //        if (payload.role === "faculty") {
-                            //            self.props.history.push('/dashboardF');
-                            //        }
-
-                            //});
+           
                     }
 
 
@@ -170,12 +150,12 @@ class HomePage extends React.Component {
         })
     }
     handleConfirmModalClose = (fromModal) => {
-        //alert(fromModal.msg);
+       
 
         this.setState({
             modalshow: false
         });
-       // alert("modal close");
+       
         if (this.state.UserType == 'student')
             this.props.history.push('/dashboardS');
         else

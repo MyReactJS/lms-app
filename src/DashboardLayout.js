@@ -22,7 +22,13 @@ const DashboardLayout = ({ children, ...rest }) => {
                         :
                             <li ><a href="/dashboardF">DashBoard</a></li>
                     }
-                        <li ><a href="/course">Courses</a></li>
+                    {
+                        usertype == 'student' ?
+                            <li ><a href="/course">Courses</a></li>
+                            :
+                            <li> <a href="/students">Students</a></li>
+                            
+                    }   
                       
                         <li ><a href="/logout">Log Out</a></li>
 
