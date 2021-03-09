@@ -1,0 +1,13 @@
+.card-deck .card {
+    max-width: calc(30% - 30px);
+
+}
+.card-deck {
+    @include media-breakpoint-only(lg) {
+        column-count: 3;
+    }
+
+    @include media-breakpoint-only(xs) {
+        column-count: 1;
+    }
+}

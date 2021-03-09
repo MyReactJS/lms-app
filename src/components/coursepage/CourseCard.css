@@ -1,0 +1,21 @@
+td, th {
+    font-size: small;
+    font-weight: bold;
+}
+
+    td > button {
+        font-size: small;
+        font-weight: bold;
+    }
+ p, button, .list-group-item {
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-weight: 700;
+font-size:12px;
+
+}
+
+h3 {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}

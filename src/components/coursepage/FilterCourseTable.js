@@ -5,6 +5,7 @@ import CourseFilter from './CourseFilter.js';
 import { withRouter } from "react-router-dom";
 import CourseTableWithPagination from './CourseTableWithPagination.js';
 import CourseTableWithoutPagination from './CourseTableWithoutPagination.js';
+import CourseTableWithoutPaginationWithCard from './CourseTableWithoutPaginationWithCard.js';
 class FilterCourseTable extends React.Component {
     constructor(props) {
         super(props);
@@ -37,7 +38,7 @@ class FilterCourseTable extends React.Component {
 
                     <CourseSearch setCourseStartDateFilter={this.setStartDateRangeFilter}
                         setCourseEndDateFilter={this.setEndDateRangeFilter} setResultRows={this.setResultRows} />
-                    <CourseTableWithoutPagination rows={this.state.rows} />;
+                    <CourseTableWithoutPaginationWithCard rows={this.state.rows} />;
                 </div>
             );
         

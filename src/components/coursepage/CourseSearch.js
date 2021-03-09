@@ -11,7 +11,7 @@ import CourseRow from './CourseRow.js';
 //import categories from './coursecategories.json';
 import courses from './courses.json';
 import './CourseSearch.css';
-
+import CourseCard from './CourseCard.js';
 class CourseSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -70,26 +70,26 @@ class CourseSearch extends React.Component {
             if (courseStartDateFilter !== '' && courseEndDateFilter !== '') {
                 
                 if (coursestartdate >= courseStartDateFilter && courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow
+                    rows.push(<CourseCard
                         enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}            
                         course={course} />);
             }
             else if (courseStartDateFilter !== '') {
               
                 if (coursestartdate >= courseStartDateFilter)
-                    rows.push(<CourseRow
+                    rows.push(<CourseCard
                         enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                         course={course} />);
             }
             else if (courseEndDateFilter !== '') {
              
                 if (courseenddate <= courseEndDateFilter)
-                    rows.push(<CourseRow
+                    rows.push(<CourseCard
                         enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                          course={course} />);
             }
             else {
-                rows.push(<CourseRow
+                rows.push(<CourseCard
                     enrolled={this.state.enrolledcourses_sessionids.includes(course.id)}  
                     course={course} />);
             }

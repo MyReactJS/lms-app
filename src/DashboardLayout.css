@@ -67,12 +67,13 @@ ul.menu-header li {
 
 
 .site-nav {
-    grid-column: 1;
+
     grid-row: 2 / span 5;
     margin: 0;
     padding: .5em;
     background-color: #05144f;
     border-radius: .2em;
+    width:120px;
 }
 
 .mainnav {
@@ -82,11 +83,11 @@ ul.menu-header li {
     align-items: center;
 }
 
-    .mainnav > li {
-        list-style-type: none;
-    }
+.mainnav > li {
+    list-style-type: none;
+}
 
-        .mainnav > li > a {
+        .mainnav > li > a, .mainnav > li >span {
             color: white;
             text-decoration: none;
             display: block;

@@ -2,6 +2,9 @@ import React from 'react';
 //import enrolledCourses from './EnrolledCourses.json';
 
 import EnrolledCourseRow from './EnrolledCourseRow.js';
+import EnrolledCourseCard from './EnrolledCourseCard.js';
+import CardDeck from 'react-bootstrap/CardDeck'
+
 import './EnrolledCourseTable.css';
 
 class EnrolledCourseTable extends React.Component {
@@ -20,10 +23,31 @@ class EnrolledCourseTable extends React.Component {
 
         this.props.enrolled_courses.map((course) => {
             //console.log(course);
-            rows.push(<EnrolledCourseRow course={course} />);
+            rows.push(<EnrolledCourseCard course={course} />);
         });
-       // console.log('rows.length:' + rows.length);
+
         var recCount = rows.length;
+        var finalrows = [];
+        if (recCount != 0) {
+            var j = 0;
+            for (var i = 0; i < recCount; i = i + 3) {
+                j = recCount < (i + 3) ? recCount : (i + 3);
+                finalrows.push(
+
+                    <CardDeck >
+
+
+                        {rows.slice(i, j)};
+
+                            </CardDeck>
+
+
+                )
+            }
+
+
+        }
+
         return (
            
                     <div className="row">
@@ -34,21 +58,9 @@ class EnrolledCourseTable extends React.Component {
                             {
                                 recCount == 0 ?
                                     <h2 className='noCourse'> No Courses </h2> :
-                                    <table className="table table-bordered table-hover">
-                                        <thead >
-                                            <tr className="bg-primary">
-                                                <th scope="col">Course Id</th>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">StartDate</th>
-                                                <th scope="col">EndDate</th>
-                                                <th scope="col">Credits</th>
-                                                <th scope="col">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {rows}
-                                        </tbody></table>
+                                   
+                                            finalrows
+                                       
                             }
                                 </div>
                             </div>

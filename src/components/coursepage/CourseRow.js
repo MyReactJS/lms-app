@@ -74,18 +74,11 @@ class CourseRow extends React.Component {
         var enrolled = false;
         var courseEndDate = new Date(course.end_date);
         var courseStartDate = new Date(course.start_date);
-
-     
-        //console.log(courseEndDate < todayDate);
-
-        //console.log(this.props.enrolled);
-        if (this.props.enrolled == true) {
-
+        if (this.props.enrolled == true)
             enrolled = true;
-           // console.log(enrolled);
+          
 
-        }
-        
+               
          if (course.rem_seats == 0 || (courseStartDate < todayDate))
             disabled = true;
         //console.log("toggleOnLabel:" + toggleOnLabel);
