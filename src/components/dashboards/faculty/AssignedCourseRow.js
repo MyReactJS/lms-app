@@ -11,11 +11,14 @@ class AssignedCourseRow extends React.Component {
         this.onViewEvluationClick = this.onViewEvluationClick.bind(this);
     }
 
-    onViewModuleClick = (event) => {
+    onViewModuleClick = (event,courseid) => {
 
-        alert("module");
-        this.props.history.push('/modules');
-        event.preventDefault();
+        //alert("module");
+        this.props.history.push({
+            pathname: '/modules',
+            "courseid": courseid,
+        });
+       event.preventDefault();
 
     }
     onViewEvluationClick(event) {
@@ -56,7 +59,7 @@ class AssignedCourseRow extends React.Component {
                         <td>Not Started</td>
                 }
                
-               <td> <Button size="lg" onClick={this.onViewModuleClick}
+                <td> <Button size="lg" onClick={(e) => { this.onViewModuleClick(e, course.courseid) }}
                     variant="link" > View</Button> </td>
                 <td> <Button size="lg" onClick={this.onViewEvluationClick}
                     variant="link" > View </Button> </td>

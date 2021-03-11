@@ -1,16 +1,116 @@
 import React from 'react';
 import StudentRow from './StudentRow.js';
+import axios from "axios";
+import { getUser } from './../Common.js';
 class StudentTable extends React.Component {
     constructor(props) {
         super(props);
-       
-       
+        this.fetchStudents = this.fetchStudents.bind(this);
+        this.state = {
+            
+            //sessionid:this.props.sessionid,
+            students: [],
+        }
     }
- 
+    fetchStudents() {
+
+        //alert("fetch students");
+        console.log("fetch students");
+                 var students = []
+        if (this.state.sessionid == null)
+            return
+        const profile = getUser();
+        var password = profile.password;
+
+        //alert("fetch students:" + this.state.sessionid);
+        axios.get('/api/core/enrolledsessions/',
+            {
+
+                params: {
+                    sessionid: this.state.sessionid,
+                },
+                auth: {
+                    username: profile.email,
+                    password: password
+                }
+            }
+        )
+            .then(res1 => {
+
+                console.log(res1.data.results);
+                var enrolledsession_data = res1.data.results;
+                enrolledsession_data.forEach(session => {
+                    var studentid = session.studentid;
+                    axios.get('/api/core/students/' + studentid + '/',
+                        {
+
+                            auth: {
+                                username: profile.email,
+                                password: password
+                            }
+                        }
+                    )
+                        .then(res2 => {
+                            const student = res2.data;
+                            //console.log(student);
+                            students.push(student);
+
+                        }).
+                        then(() => {
+                            console.log(students);
+                            console.log("completed");
+
+                            this.students = students;
+                            this.setState({
+                                students: students
+                            }, () => console.log(this.state.students));
+
+                        })
+                })
+
+
+            })
+
+            .catch(err => {
+                //alert(err);
+                console.log(err);
+            });
+
+    }
+
+    componentDidMount() {
+       // alert("componentDidMount");
+        //alert(this.props.sessionid);
+        this.fetchStudents();
+    }
+    componentDidUpdate(prevProps) {
+        if (this.props.sessionid != prevProps.sessionid) {
+            this.setState({ sessionid: this.props.sessionid }, () => {
+                //alert("componentDidUpdate:" + this.state.sessionid);
+                this.fetchStudents();
+            }
+            );
+        }
+    }
+    //shouldComponentUpdate(nextProps) {
+      //  if (this.props.sessionid != nextProps.sessionid) {
+      //      return true;
+     //   }
+     //   return false;
+  //  }
     render() {
-        const rows = this.props.rows;
+        var rows = [];
+
        
-        var recCount = rows.length;
+        //console.log("inside rendering");
+        //console.log(this.state.students);
+        
+        this.state.students.forEach((student) => {
+            console.log(student);
+            rows.push(<StudentRow student={student} />);
+        });
+        console.log(rows);
+        let recCount = rows.length;
         return (
 
             <div className="row">
@@ -33,8 +133,7 @@ class StudentTable extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {rows}
-                                        </tbody></table>
+                                            {rows}                                        </tbody></table>
                             }
                         </div>
                     </div>

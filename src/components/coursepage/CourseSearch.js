@@ -24,6 +24,7 @@ class CourseSearch extends React.Component {
             courses: [],
             enrolledcourses: [],
             enrolledcourses_sessionids: [],
+            searchdisabled:false,
                  
         };
         
@@ -35,11 +36,18 @@ class CourseSearch extends React.Component {
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        this.handleOnCancel = this.handleOnCancel.bind(this);
     }
 
-   
+    handleOnCancel(event) {
+        this.setState({ searchdisabled: !this.state.searchdisabled, }, () => {
+            this.props.setResultRows([])});
+        event.preventDefault();
+        event.stopPropagation();
+    }
     handleOnSubmit(event)
     {
+        this.setState({ searchdisabled: !this.state.searchdisabled }, () => { });
         this.fetchData();
         
         var rows = [];
@@ -255,10 +263,10 @@ class CourseSearch extends React.Component {
                                     </Form.Row>
                                     <Form.Row>
                                         <Col>
-                                            <Button  onClick={this.handleOnSubmit} variant="primary" className="btn-class col-md-6" type="submit">Search</Button>
+                                            <Button onClick={this.handleOnSubmit} variant="primary" className="btn-class col-md-6" type="submit" disabled={this.state.searchdisabled}>Search</Button>
                                         </Col>
                                         <Col>
-                                            <Button variant="secondary" className="btn-class-sec  col-md-6" type="cancel">Cancel</Button>
+                                            <Button onClick={this.handleOnCancel} variant="secondary" className="btn-class-sec  col-md-6" type="cancel" disabled={!this.state.searchdisabled}>Clear</Button>
                                         </Col>
 
                                         

@@ -7,19 +7,24 @@ class ModuleRow extends React.Component {
         super(props);
 
        
-        this.onViewTopicClick = this.onViewTopicClick.bind(this);
+   
         this.onAddTopicClick = this.onAddTopicClick.bind(this);
     }
-    onViewTopicClick(event)
-    {
-
+    onViewTopicClick = (event, moduleid) => { 
+    
+        //alert("module");
+        this.props.history.push({
+            pathname: '/topics',
+            "moduleid": moduleid,
+        });
+        event.preventDefault();
     }
     onAddTopicClick(event) {
 
     }
   
     render() {
-        const module = this.props.module;
+        const module = this.props.module
        
         return (
             <tr className="table-light">
@@ -27,7 +32,7 @@ class ModuleRow extends React.Component {
                 <td >{module.name}</td>
                
 
-                <td> <Button size="lg" onClick={this.onViewTopicClick}
+                <td> <Button size="lg" onClick={(e) => { this.onViewTopicClick(e, module.id) }}
                     variant="link" > View</Button> </td>
                 <td> <Button size="lg" onClick={this.onAddTopicClick}
                     variant="link" > Add </Button> </td>

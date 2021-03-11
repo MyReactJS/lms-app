@@ -73,10 +73,20 @@ class CourseCard extends React.Component {
         var enrolled = false;
         var courseEndDate = new Date(course.end_date);
         var courseStartDate = new Date(course.start_date);
-        if (this.props.enrolled == true)
+        if (this.props.enrolled == true && (courseStartDate < todayDate)) {
             enrolled = true;
-        if (course.rem_seats == 0 || (courseStartDate < todayDate))
             disabled = true;
+        }
+        else if (this.props.enrolled == true && (courseStartDate > todayDate)) {
+            enrolled = true;
+            disabled = false;
+        }
+        else if (this.props.enrolled == false && (course.rem_seats == 0 || (courseStartDate < todayDate)))
+        {
+            disabled = true;
+            enrolled = false;
+        }
+        
         return (
        
             <Card border="primary"  style={{ width: '18rem' }}>

@@ -15,6 +15,7 @@ import HomeLayoutRoute from './HomeLayout.js';
 import RegistrationLayoutRoute from './RegistrationLayout.js';
 import HomePage from './components/HomePage.js';
 import ModuleTable from './components/modules/moduleTable.js';
+import TopicTable from './components/topics/TopicTable.js';
 import StudentsPage from './components/students/StudentsPage.js';
 class AppMain extends React.Component {
     constructor(props) {
@@ -38,6 +39,8 @@ class AppMain extends React.Component {
                     <HomeLayoutRoute path="/logout" component={HomePage} />
                     <DashboardRoute path="/aboutus" component={Contact} />
                     <DashboardRoute path="/modules" component={ModuleTable} />
+                    <DashboardRoute path="/topics" component={TopicTable} />
+
                     <DashboardRoute path="/students" component={StudentsPage} />
                     
 

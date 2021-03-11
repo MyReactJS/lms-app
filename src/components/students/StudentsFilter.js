@@ -17,20 +17,21 @@ class StudentsFilter extends React.Component {
     
     handleCourseSessionChange(event)
     {
+        //alert(this.props.sessions.get(event.target.value));
         this.props.setCourseSession(this.props.sessions.get(event.target.value));
-        event.preventDefault();
+        //event.preventDefault();
     }
   
     
    
 
     render() {
-        console.log(this.props.sessions);
+       // console.log(this.props.sessions);
         var sessionsdetails = [];
         for (const [key, value] of this.props.sessions.entries()) {
             sessionsdetails.push(<option> {key} </option>);
         }
-        console.log(sessionsdetails);
+        //console.log(sessionsdetails);
         return (
             <div id="content">
                 <div className="row">

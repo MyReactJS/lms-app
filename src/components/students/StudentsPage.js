@@ -15,9 +15,10 @@ class StudentsPage extends React.Component {
        
             sessionid: null,
             sessions: new Map(),
+            students:[],
 		}
         this.setCourseSession = this.setCourseSession.bind(this);
-        this.fetchStudents = this.fetchStudents.bind(this);
+       
         this.getData();
 
     }
@@ -54,91 +55,42 @@ class StudentsPage extends React.Component {
             })
 
             .catch(err =>
-               {alert(err);
+               {//alert(err);
                 console.log(err);
             });
 
+    }
+    componentDidMount()
+     {
+
+     
+           
+    }
+   componentDidUpdate(prevState) {
+       if (this.state.sessionid != prevState.sessionid) {
+           //alert("not same");
+           //this.fetchStudents();
+       }
     }
     setCourseSession(sid) {
-        this.setState({ sessionid: sid }, () => { console.log(this.state.sessionid) });
-    }
-    async fetchStudents(){
-    
-        var students = []
-        if (this.state.sessionid == null)
-            this.students = [];
-        const profile = getUser();
-        var password = profile.password;
-    
-       
-        await axios.get('/api/core/enrolledsessions/',
-            {
-                params: {
-                    sessionid: this.state.sessionid,
-                },
-                auth: {
-                    username: profile.email,
-                    password: password
-                }
-            }
-        )
-            .then(res1 => {
-                
-                console.log(res1.data.results);
-                var enrolledsession_data = res1.data.results;
-                enrolledsession_data.forEach(session =>
-                {
-                    var studentid = session.studentid;
-                    axios.get('/api/core/students/' + studentid +'/',
-                        {
-                            
-                            auth: {
-                                username: profile.email,
-                                password: password
-                            }
-                        }
-                    )
-                        .then(res2 => {
-                            const student = res2.data;
-                            //console.log(student);
-                            students.push(student);
-
-                        })
-                })
-              
-
-            }).
-            then( ()=>
-                {
-                console.log(students);
-                console.log("completed");
-                
-                this.students = students;
-                return students;
-			})
-
-            .catch(err => {
-                alert(err);
-                console.log(err);
-            });
+        this.setState({ sessionid: sid }, () => {
+            console.log(this.state.sessionid);
+            //this.fetchStudents();
+        });
         
-	}
+        
+    }
+     
 
     render() {
-        var st = [];
-        if (this.state.sessionid!=null)
-             st=this.fetchStudents();
-        console.log("inside rendering");
-        console.log(st);
-        var rows = [];
-       
+      
         return (
            
             <div>
 
                 <StudentsFilter sessions={this.state.sessions}
                         setCourseSession={this.setCourseSession}  />
-                <StudentsTable rows={rows} />;
+                <StudentsTable sessionid={this.state.sessionid} />;
             </div>
        
 
